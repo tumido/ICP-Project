@@ -9,7 +9,7 @@ using namespace std;
  */
 MazeCard::MazeCard()
 {
-    this->type = "-";
+    this->_type = "-";
 }
 
 /**
@@ -19,7 +19,7 @@ MazeCard::MazeCard()
 MazeCard::MazeCard(string type)
 {
     this->initPath();
-    this->type = type;
+    this->_type = type;
     this->setPath(type);
 }
 
@@ -54,6 +54,26 @@ void MazeCard::turnRight()
         this->path[i + 1] = this->path[i];
     }
     this->path[0] = tmp;
+}
+
+string MazeCard::type()
+{
+    return this->_type;
+}
+
+int MazeCard::getTreasure()
+{
+    return this->_treasureId;
+}
+
+void MazeCard::setTreasure(int id)
+{
+    this->_treasureId = id;
+}
+
+bool MazeCard::isTreasure()
+{
+    return this->_treasureId > - 1;
 }
 
 /**

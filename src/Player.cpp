@@ -21,14 +21,14 @@ void Player::setName(string name)
     this->_name = name;
 }
 
-void Player::getTreasure()
+int Player::getTreasure()
 {
-
+    return this->_treasureId;
 }
 
-void Player::setNewTreasure(Treasure tr)
+void Player::setNewTreasure(int tr)
 {
-    this->_treasure = tr;
+    this->_treasureId = tr;
     this->_score++;
 }
 

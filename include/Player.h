@@ -14,8 +14,8 @@ class Player
         Player(string name);
         virtual ~Player();
         void setName(string name);
-        void getTreasure();
-        void setNewTreasure(Treasure tr);
+        int getTreasure();
+        void setNewTreasure(int id);
         int getScore();
         int row();
         int col();
@@ -23,7 +23,7 @@ class Player
     protected:
     private:
          string _name;
-         Treasure _treasure;
+         int _treasureId;
          int _row;
          int _col;
          int _score = 0;

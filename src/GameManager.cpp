@@ -41,6 +41,7 @@ bool GameManager::startGame()
 {
     if (this->_playerCount >= 2) {
         this->_board = MazeBoard(this->_size);
+        this->generateTreasures();
         this->_started = true;
     }
     return this->_started;
@@ -77,7 +78,10 @@ bool GameManager::movePlayer(int r, int c)
         auto moves = this->getMoves();
         if (PathFinder::containsField(mf, moves)) {
             this->_players[this->getActiveIndex()].setLocation(mf.row(), mf.col());
-            //TODO: Check Treasure
+            if(mf.getCard().getTreasure() == this->getActive().getTreasure()) {
+                int newId = this->takeTreasure();
+                this->_players[this->getActiveIndex()].setNewTreasure(newId);
+            }
             this->nextPlayer();
             return true;
         }
@@ -110,4 +114,43 @@ int GameManager::getActiveIndex()
 Player GameManager::getActive()
 {
     return this->_players[this->getActiveIndex()];
+}
+
+bool GameManager::setTreasureCount(int n)
+{
+    if (n == 24 || n == 12) {
+        this->_treasureCount = n;
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool GameManager::save(string fname)
+{
+    return false;
+}
+
+bool GameManager::load(string fname)
+{
+    return false;
+}
+
+void GameManager::generateTreasures()
+{
+    this->_treasureIds = vector<int>();
+    for (int i = 0; i < this->_treasureCount; i++) {
+        this->_treasureIds.push_back(i);
+    }
+}
+
+int GameManager::takeTreasure()
+{
+    if (this->_treasureIds.size() > 0) {
+        int id = this->_treasureIds.back();
+        this->_treasureIds.pop_back();
+        return id;
+    } else {
+        return -1;
+    }
 }
