@@ -26,12 +26,12 @@ class GameManager
         bool setTreasureCount(int n);
         bool save(string fname);
         bool load(string fname);
+        vector<Player> getAllPlayers();
     protected:
     private:
         MazeBoard _board;
         void nextPlayer();
-        Player _players[4];
-        int _playerCount = 0;
+        vector<Player> _players;
         int _activePlayer = 0;
         int _size = 7;
         bool _started = false;

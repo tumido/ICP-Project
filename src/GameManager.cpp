@@ -10,36 +10,58 @@ GameManager::~GameManager()
     //dtor
 }
 
+
+/**
+ * Adds player to the game
+ *
+ * @param name Player's name
+ */
 bool GameManager::addPlayer(string name)
 {
-    if (this->_playerCount < 4) {
-        this->_players[this->_playerCount] = Player(name);
-        this->_playerCount++;
+    if (this->_players.size() < 4) {
+        this->_players.push_back(Player(name));
         return true;
     } else {
         return false;
     }
 }
 
+/**
+ * Removes player from the game
+ *
+ * @param name Player's name
+ */
 bool GameManager::remPlayer(string name)
 {
     return false;
 }
 
+/**
+ * Returns size of the board
+ * default value is 7
+ */
 int GameManager::getSize()
 {
     return this->_size;
 }
 
+/**
+ * Nastaví velikost hrací plochy
+ *
+ * @param n Size of board, value should be between 5 and 11
+ */
 void GameManager::setSize(int n)
 {
     if (n <= 5 && n <= 11 && n % 2 == 1)
         this->_size = n;
 }
 
+/**
+ * Starts the game
+ */
 bool GameManager::startGame()
 {
-    if (this->_playerCount >= 2) {
+    if (this->_players.size() >= 2) {
         this->_board = MazeBoard(this->_size);
         this->generateTreasures();
         this->_started = true;
@@ -47,11 +69,17 @@ bool GameManager::startGame()
     return this->_started;
 }
 
+/**
+ * Restarts the game
+ */
 void GameManager::restartGame()
 {
     this->_board.newGame();
 }
 
+/**
+ * Returns vector with all possible moves
+ */
 vector<MazeField> GameManager::getMoves()
 {
     Player active = this->getActive();
@@ -59,6 +87,12 @@ vector<MazeField> GameManager::getMoves()
     return PathFinder::possibleMoves(mf, this->_board);
 }
 
+/**
+ * Moves card
+ *
+ * @param r Row index
+ * @param c Column index
+ */
 bool GameManager::moveCard(int r, int c)
 {
     MazeField field = this->_board.get(r, c);
@@ -71,6 +105,12 @@ bool GameManager::moveCard(int r, int c)
     }
 }
 
+/**
+ * Moves player to different field
+ *
+ * @param r Row index
+ * @param c Column index
+ */
 bool GameManager::movePlayer(int r, int c)
 {
     MazeField mf = this->_board.get(r, c);
@@ -89,6 +129,9 @@ bool GameManager::movePlayer(int r, int c)
     return false;
 }
 
+/**
+ * Reverts last move
+ */
 bool GameManager::undo()
 {
     if (this->_actions.size() > 0) {
@@ -101,21 +144,35 @@ bool GameManager::undo()
     }
 }
 
+/**
+ * Sets next player as active
+ */
 void GameManager::nextPlayer()
 {
-    this->_activePlayer = (this->_activePlayer + 1) % 4;
+    this->_activePlayer = (this->_activePlayer + 1) % this->_players.size();
 }
 
+/**
+ * Returns index of the active player
+ */
 int GameManager::getActiveIndex()
 {
     return this->_activePlayer;
 }
 
+/**
+ * Returns active player
+ */
 Player GameManager::getActive()
 {
     return this->_players[this->getActiveIndex()];
 }
 
+/**
+ * Sets treasure count
+ *
+ * @param n New treasure count
+ */
 bool GameManager::setTreasureCount(int n)
 {
     if (n == 24 || n == 12) {
@@ -126,16 +183,37 @@ bool GameManager::setTreasureCount(int n)
     }
 }
 
+/**
+ * Saves current game to file
+ *
+ * @param fname File name
+ */
 bool GameManager::save(string fname)
 {
     return false;
 }
 
+/**
+ * Loads game from file
+ *
+ * @param fname File name
+ */
 bool GameManager::load(string fname)
 {
     return false;
 }
 
+/**
+ * Returns vector of Player
+ */
+vector<Player> GameManager::getAllPlayers()
+{
+    return this->_players;
+}
+
+/**
+ * Generates new treasures
+ */
 void GameManager::generateTreasures()
 {
     this->_treasureIds = vector<int>();
@@ -144,6 +222,9 @@ void GameManager::generateTreasures()
     }
 }
 
+/**
+ * Takes treasure from deck
+ */
 int GameManager::takeTreasure()
 {
     if (this->_treasureIds.size() > 0) {
