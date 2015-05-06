@@ -1,7 +1,7 @@
 # VARIABLES
 #---------------------------------------------------------------------
 CPP = g++
-CPPFLAGS = -std=c++11 -pedantic -Wall -Werror
+CPPFLAGS = -std=c++11 -pedantic -Wall -Werror -g
 PROGS = client_cli # client_gui
 
 
