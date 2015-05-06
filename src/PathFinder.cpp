@@ -17,7 +17,7 @@ vector<MazeField> PathFinder::possibleMoves(MazeField field,
             PathFinder::containsField(curr, stackField))) {
             ret.push_back(curr);
             auto near = PathFinder::getNear(field, board);
-            for (int i = 0; i < near.size(); i++) {
+            for (unsigned int i = 0; i < near.size(); i++) {
                 if (PathFinder::fieldsConnected(curr, near[i]) &&
                     !PathFinder::containsField(near[i], ret)) {
                     stackField.push_back(near[i]);
@@ -25,6 +25,7 @@ vector<MazeField> PathFinder::possibleMoves(MazeField field,
             }
         }
     }
+    return ret;
 }
 
 /**
@@ -56,7 +57,7 @@ bool PathFinder::fieldsConnected(MazeField current,
 bool PathFinder::containsField(MazeField field,
                                vector<MazeField> fields)
 {
-    for (int i = 0; i < fields.size(); i++) {
+    for (unsigned int i = 0; i < fields.size(); i++) {
         if (fields[i].col() == field.col() &&
             fields[i].row() == field.row()) {
             return true;

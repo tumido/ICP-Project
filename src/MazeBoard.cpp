@@ -37,7 +37,7 @@ void MazeBoard::newGame()
 {
     int lenFields = this->_fields.size();
     vector<MazeCard> cards = GameGenerator::generateCards(lenFields);
-    for (int i; i < lenFields; i++) {
+    for (int i = 0; i < lenFields; i++) {
         this->_fields[i].putCard(cards[i]);
     }
     this->_freeCard = GameGenerator::generateCard();
@@ -48,7 +48,7 @@ void MazeBoard::newGame()
  */
 MazeField MazeBoard::get(int r, int c)
 {
-    int index = c + r * this->rowLen;
+    unsigned int index = c + r * this->rowLen;
     if (this->_fields.size() > index)
         return this->_fields[index];
     else
