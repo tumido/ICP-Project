@@ -18,9 +18,8 @@ GameManager::~GameManager()
  */
 bool GameManager::addPlayer(string name)
 {
-    if (this->_playerCount < 4) {
-        this->_players[this->_playerCount] = Player(name);
-        this->_playerCount++;
+    if (this->_players.size() < 4) {
+        this->_players.push_back(Player(name));
         return true;
     } else {
         return false;
@@ -62,7 +61,7 @@ void GameManager::setSize(int n)
  */
 bool GameManager::startGame()
 {
-    if (this->_playerCount >= 2) {
+    if (this->_players.size() >= 2) {
         this->_board = MazeBoard(this->_size);
         this->generateTreasures();
         this->_started = true;
@@ -150,7 +149,7 @@ bool GameManager::undo()
  */
 void GameManager::nextPlayer()
 {
-    this->_activePlayer = (this->_activePlayer + 1) % 4;
+    this->_activePlayer = (this->_activePlayer + 1) % this->_players.size();
 }
 
 /**
@@ -202,6 +201,14 @@ bool GameManager::save(string fname)
 bool GameManager::load(string fname)
 {
     return false;
+}
+
+/**
+ * Returns vector of Player
+ */
+vector<Player> GameManager::getAllPlayers()
+{
+    return this->_players;
 }
 
 /**
