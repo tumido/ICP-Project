@@ -11,13 +11,13 @@ all: objects $(PROGS)
 
 objects:
 	$(MAKE) -C src
-	$(CPP) -shared -fPIC -o core.so build/*.o
+	$(CPP) -shared -fPIC -o build/core.so build/*.o
 
-client_cli: client_cli.cpp core.so
-	$(CPP) $(CPPFLAGS) $^ -o ../$@
+client_cli: src/client_cli.cpp build/core.so
+	$(CPP) $(CPPFLAGS) $^ -o $@
 
-client_gui: client_gui.cpp
-	$(CPP) $(CPPFLAGS) $< -o ../$@
+client_gui: src/client_gui.cpp build/core.so
+	$(CPP) $(CPPFLAGS) $< -o $@
 
 
 # PHONY
