@@ -23,7 +23,9 @@ MazeBoard::~MazeBoard()
 }
 
 /**
- * Vytvoøí hrací plochu o velikosti n
+ * Creates maze board
+ *
+ * @param n size of board
  */
 MazeBoard MazeBoard::createMazeBoard(int n)
 {
@@ -31,7 +33,7 @@ MazeBoard MazeBoard::createMazeBoard(int n)
 }
 
 /**
- * vytvoøí novou hrací plochu
+ * Creates new game
  */
 void MazeBoard::newGame()
 {
@@ -44,7 +46,10 @@ void MazeBoard::newGame()
 }
 
 /**
- * Vrací políèko na pozici [r, c]
+ * Return maze field located at [r, c]
+ *
+ * @param r Row index
+ * @param c Column index
  */
 MazeField MazeBoard::get(int r, int c)
 {
@@ -56,7 +61,7 @@ MazeField MazeBoard::get(int r, int c)
 }
 
 /**
- * Vrací volný kámen.
+ * Returns free card
  */
 MazeCard MazeBoard::getFreeCard()
 {
@@ -64,29 +69,33 @@ MazeCard MazeBoard::getFreeCard()
 }
 
 /**
- * Provede se vložení políèka na pozici políèka mf.
+ * Inserts card to MazeField
+ *
+ * @param mf MazeCard to which the card will be inserted
  */
 void MazeBoard::shift(MazeField mf)
 {
     MazeCard tmpCard = mf.getCard();
-    // dolù ve sloupci C
+    //down
     int bound = this->rowLen - 1;
     if (mf.row() == 0 && mf.col() % 2 == 1) {
         this->shiftDown(mf.col());
-    //nahorù ve sloupci C
+    //up
     } else if (mf.row() == bound && mf.col() % 2 == 1) {
         shiftUp(mf.col());
-    //doprava na øádku R
+    //right
     } else if (mf.col() == 0 && mf.row() % 2 == 1) {
         shiftRight(mf.row());
-    //doleva na øádku R
+    //left
     } else if (mf.row() == bound && mf.col() % 2 == 1) {
         shiftLeft(mf.row());
     }
 }
 
 /**
- * Posune urèitý sloupec dolù
+ * Shifts column down
+ *
+ * @param c Column index
  */
 void MazeBoard::shiftDown(int c)
 {
@@ -101,7 +110,9 @@ void MazeBoard::shiftDown(int c)
 }
 
 /**
- * Posune urèitý sloupec nahorù
+ * Shifts column up
+ *
+ * @param c Column index
  */
 void MazeBoard::shiftUp(int c)
 {
@@ -116,7 +127,9 @@ void MazeBoard::shiftUp(int c)
 }
 
 /**
- * Posune urèitý øádek doprava
+ * Shifts row to the right
+ *
+ * @param r Row index
  */
 void MazeBoard::shiftRight(int r)
 {
@@ -131,7 +144,9 @@ void MazeBoard::shiftRight(int r)
 }
 
 /**
- * Posune urèitý øádek doleva
+ * Shifts row to the left
+ *
+ * @param r Row index
  */
 void MazeBoard::shiftLeft(int r)
 {
@@ -146,7 +161,10 @@ void MazeBoard::shiftLeft(int r)
 }
 
 /**
- * Ziska kamen z urciteho policka
+ * Returns card located at [r, c]
+ *
+ * @param r Row index
+ * @param c Column index
  */
 MazeCard MazeBoard::getCard(int r, int c)
 {
@@ -154,7 +172,11 @@ MazeCard MazeBoard::getCard(int r, int c)
 }
 
 /**
- * Vlozi kamen na urcite policko
+ * Places card at [r, c]
+ *
+ * @param r Row index
+ * @param c Column index
+ * @param card Card to insert
  */
 void MazeBoard::putCard(int r, int c, MazeCard card)
 {
