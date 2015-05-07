@@ -13,7 +13,7 @@ MazeField::~MazeField()
 }
 
 /**
- * Øádek
+ * Returns Row index
  */
 int MazeField::row()
 {
@@ -21,7 +21,7 @@ int MazeField::row()
 }
 
 /**
- * Sloupec
+ * Returns Column index
  */
  int MazeField::col()
  {
@@ -29,7 +29,7 @@ int MazeField::row()
  }
 
 /**
- * Navrátí aktuální kartu
+ * Returns card, that is on field
  */
 MazeCard MazeField::getCard()
 {
@@ -37,7 +37,7 @@ MazeCard MazeField::getCard()
 }
 
 /**
- * Vloží hrací kámen na políèko
+ * Places card on field
  */
 void MazeField::putCard(MazeCard c)
 {
