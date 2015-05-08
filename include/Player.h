@@ -16,6 +16,7 @@ class Player
         void setName(string name);
         int getTreasure();
         void setNewTreasure(int id);
+        void resetTreasure(int id);
         int getScore();
         int row();
         int col();

@@ -46,7 +46,7 @@ int GameManager::getSize()
 }
 
 /**
- * Nastaví velikost hrací plochy
+ * Sets size of board
  *
  * @param n Size of board, value should be between 5 and 11
  */
@@ -98,6 +98,7 @@ bool GameManager::moveCard(int r, int c)
     MazeField field = this->_board.get(r, c);
     if (field.row() > -1) {
         this->_board.shift(field);
+        this->fixPlayerPositions(r, c);
         this->_actions.push_back(Action(Action::TYPE::MOVE_CARD, r, c));
         return true;
     } else {
@@ -117,10 +118,18 @@ bool GameManager::movePlayer(int r, int c)
     if (mf.row() > -1) {
         auto moves = this->getMoves();
         if (PathFinder::containsField(mf, moves)) {
+            int p_row = this->_players[this->getActiveIndex()].row();
+            int p_col = this->_players[this->getActiveIndex()].col();
+            this->_actions.push_back(Action(Action::TYPE::MOVE_PLAYER, p_row, p_col));
             this->_players[this->getActiveIndex()].setLocation(mf.row(), mf.col());
             if(mf.getCard().getTreasure() == this->getActive().getTreasure()) {
+                int oldId = mf.getCard().getTreasure();
                 int newId = this->takeTreasure();
                 this->_players[this->getActiveIndex()].setNewTreasure(newId);
+                if (this->getActive().getScore() >= this->_treasureCount / this->_players.size()) {
+                    this->_won = true;
+                }
+                this->_actions.push_back(Action(Action::TYPE::TAKE_TREASURE, newId, oldId));
             }
             this->nextPlayer();
             return true;
@@ -136,8 +145,11 @@ bool GameManager::undo()
 {
     if (this->_actions.size() > 0) {
         Action toRevert = this->_actions.back();
-        this->_actions.pop_back();
-        //TODO:
+        if (toRevert.type() == Action::TYPE::MOVE_PLAYER) {
+            this->revertPlayer(toRevert);
+        } else {
+            this->revertCard(toRevert);
+        }
         return true;
     } else {
         return false;
@@ -150,6 +162,14 @@ bool GameManager::undo()
 void GameManager::nextPlayer()
 {
     this->_activePlayer = (this->_activePlayer + 1) % this->_players.size();
+}
+
+/**
+ * Sets previous player as activeÄ›
+ */
+void GameManager::previousPlayer()
+{
+    this->_activePlayer = (this->_activePlayer + this->_players.size() - 1) % this->_players.size();
 }
 
 /**
@@ -220,6 +240,7 @@ void GameManager::generateTreasures()
     for (int i = 0; i < this->_treasureCount; i++) {
         this->_treasureIds.push_back(i);
     }
+    random_shuffle(this->_treasureIds.begin(), this->_treasureIds.end());
 }
 
 /**
@@ -233,5 +254,99 @@ int GameManager::takeTreasure()
         return id;
     } else {
         return -1;
+    }
+}
+
+/**
+ * Adjusts players on mazeboard
+ *
+ * @param r Row index
+ * @param c Column index
+ */
+void GameManager::fixPlayerPositions(int r, int c)
+{
+    for (unsigned int i = 0; i < this->_players.size(); i++)
+        this->fixPlayerPosition(r, c, i);
+}
+
+/**
+ * Adjusts player's position
+ *
+ * @param r Row index
+ * @param c Column index
+ * @param id Player's index
+ */
+void GameManager::fixPlayerPosition(int r, int c, int id)
+{
+    int lim = this->_size - 1;
+    int current_row = this->_players[id].row();
+    int current_col = this->_players[id].col();
+
+    if (this->_players[id].row() == r && r != 0 && r != lim) {
+        if (c == 0) {
+            this->_players[id].setLocation(this->fixPositionBounds(current_row + 1), current_col);
+        } else if (c == lim) {
+            this->_players[id].setLocation(this->fixPositionBounds(current_row - 1), current_col);
+        }
+    } else if (this->_players[id].col() == c && c != 0 && c != lim) {
+        if (r == 0) {
+            this->_players[id].setLocation(current_row, this->fixPositionBounds(current_col + 1));
+        } else if (r == lim) {
+            this->_players[id].setLocation(current_row, this->fixPositionBounds(current_col - 1));
+        }
+    }
+}
+
+/**
+ * Adjusts position to stay inside MazeBoard
+ *
+ * @param i Index
+ */
+int GameManager::fixPositionBounds(int i)
+{
+    return (i + this->_size) % this->_size;
+}
+
+/**
+ * Reverts card move
+ */
+void GameManager::revertCard(Action action)
+{
+    int c = action.col();
+    int r = action.row();
+    int lim = this->_size - 1;
+
+    if (c == 0) {
+        c = lim;
+    } else if (c == lim) {
+        c = 0;
+    }
+
+    if (r == 0) {
+        r = lim;
+    } else if (r == lim) {
+        r = 0;
+    }
+
+    this->_actions.pop_back();
+    this->_actions.pop_back();
+}
+
+/**
+ * Reverts player move
+ */
+void GameManager::revertPlayer(Action action)
+{
+    this->previousPlayer();
+    if (action.type() == Action::TYPE::TAKE_TREASURE) {
+        this->_players[this->getActiveIndex()].resetTreasure(action.col());
+        this->_treasureIds.push_back(action.row());
+        this->nextPlayer();
+        this->_actions.pop_back();
+        this->revertPlayer(this->_actions.back());
+    } else {
+        this->movePlayer(action.row(), action.col());
+        this->_actions.pop_back();
+        this->_actions.pop_back();
     }
 }

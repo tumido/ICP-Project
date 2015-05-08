@@ -1,7 +1,10 @@
 #include "../include/PathFinder.h"
 
 /**
- * Zjistovani moznych tahu pro konkrétního hrace
+ * Returns vector of all possible moves for the current player
+ *
+ * @param field Current field
+ * @param board Game board
  */
 vector<MazeField> PathFinder::possibleMoves(MazeField field,
                                             MazeBoard board)
@@ -29,7 +32,10 @@ vector<MazeField> PathFinder::possibleMoves(MazeField field,
 }
 
 /**
- * Zjisteni jestli jsou spolu karty na dvou polich primo propojeny
+ * Checks whether cards are directly connected to each other
+ *
+ * @param current Field no.1
+ * @param next Field no.2
  */
 bool PathFinder::fieldsConnected(MazeField current,
                                  MazeField next)
@@ -52,7 +58,10 @@ bool PathFinder::fieldsConnected(MazeField current,
 }
 
 /**
- * Zjisteni jestli je dane pole obsazeno ve vektoru.
+ * Checks whether the field is contained in the vector
+ *
+ * @param field Current field
+ * @param fields Vector of fields
  */
 bool PathFinder::containsField(MazeField field,
                                vector<MazeField> fields)
@@ -66,6 +75,12 @@ bool PathFinder::containsField(MazeField field,
     return false;
 }
 
+/**
+ * Returns vector of all fields, that are next to the current one
+ *
+ * @param field Current field
+ * @param board Game board
+ */
 vector<MazeField> PathFinder::getNear(MazeField field,
                                       MazeBoard board)
 {

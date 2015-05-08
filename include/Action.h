@@ -5,7 +5,7 @@
 class Action
 {
     public:
-        enum TYPE { MOVE_PLAYER, MOVE_CARD };
+        enum TYPE { MOVE_PLAYER, MOVE_CARD, TAKE_TREASURE };
         Action(enum TYPE type, int r, int c);
         virtual ~Action();
         int row();

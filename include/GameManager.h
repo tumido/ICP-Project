@@ -1,6 +1,8 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
+#include <algorithm>
+
 #include "Action.h"
 #include "MazeBoard.h"
 #include "PathFinder.h"
@@ -27,10 +29,13 @@ class GameManager
         bool save(string fname);
         bool load(string fname);
         vector<Player> getAllPlayers();
+        bool isWon();
     protected:
     private:
         MazeBoard _board;
+        bool _won = false;
         void nextPlayer();
+        void previousPlayer();
         vector<Player> _players;
         int _activePlayer = 0;
         int _size = 7;
@@ -40,6 +45,11 @@ class GameManager
         void generateTreasures();
         int takeTreasure();
         vector<int> _treasureIds;
+        void fixPlayerPositions(int r, int c);
+        void fixPlayerPosition(int r, int c, int id);
+        int fixPositionBounds(int i);
+        void revertCard(Action action);
+        void revertPlayer(Action action);
 };
 
 #endif // GAMEMANAGER_H

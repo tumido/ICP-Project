@@ -182,3 +182,33 @@ void MazeBoard::putCard(int r, int c, MazeCard card)
 {
     return this->get(r,c).putCard(card);
 }
+
+/**
+ * Sets treasure to card
+ *
+ * @param r Row index
+ * @param c Column index
+ * @param id Treasure Id
+ */
+void MazeBoard::placeTreasure(int r, int c, int id)
+{
+    this->getCard(r, c).setTreasure(id);
+}
+
+/**
+ * Places treasures to the board
+ *
+ * @param treasures Vector of treasure Ids.
+ */
+void MazeBoard::placeTreasures(vector<int> treasures)
+{
+    vector<MazeField> fields(this->_fields);
+    random_shuffle(fields.begin(), fields.end());
+    while(treasures.size() > 0) {
+        auto treasure = treasures.back();
+        treasures.pop_back();
+        MazeField mf = fields.back();
+        fields.pop_back();
+        this->placeTreasure(mf.row(), mf.col(), treasure);
+    }
+}

@@ -11,7 +11,7 @@ GameGenerator::~GameGenerator()
 }
 
 /**
- * Generátor kamene
+ * Generates card
  */
 MazeCard GameGenerator::generateCard()
 {
@@ -33,7 +33,9 @@ MazeCard GameGenerator::generateCard()
 }
 
 /**
- * Generátor více kamenù
+ * Generates cards
+ *
+ * @param n Count
  */
 vector<MazeCard> GameGenerator::generateCards(int n)
 {

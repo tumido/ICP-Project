@@ -4,17 +4,14 @@
 
 using namespace std;
 
-/**
- *
- */
 MazeCard::MazeCard()
 {
     this->_type = "-";
 }
 
 /**
- * Kontruktor
- * @param["type"] Typ vytváøeného kamene
+ * Constructor
+ * @param type Type of the card
  */
 MazeCard::MazeCard(string type)
 {
@@ -29,7 +26,9 @@ MazeCard::~MazeCard()
 }
 
 /**
- * Vytvoøení nové instance MazeCard
+ * Creates new instance of MazeCard
+ *
+ * @param type Type of the card
  */
 MazeCard MazeCard::create(string type)
 {
@@ -37,7 +36,9 @@ MazeCard MazeCard::create(string type)
 }
 
 /**
- * Kontrola možnosti východu
+ * Controls if there's path
+ *
+ * @param dir Path direction
  */
 bool MazeCard::canGo(MazeCard::CANGO dir)
 {
@@ -45,7 +46,7 @@ bool MazeCard::canGo(MazeCard::CANGO dir)
 }
 
 /**
- * Pootoèení kamene o 90 stupòù doprava
+ * Turns card to right
  */
 void MazeCard::turnRight()
 {
@@ -56,28 +57,42 @@ void MazeCard::turnRight()
     this->path[0] = tmp;
 }
 
+/**
+ * Returns the type of a card
+ */
 string MazeCard::type()
 {
     return this->_type;
 }
 
+/**
+ * Returns treasure Id, -1 if there's none
+ */
 int MazeCard::getTreasure()
 {
     return this->_treasureId;
 }
 
+/**
+ * Sets treasure
+ *
+ * @param id Treasure Id
+ */
 void MazeCard::setTreasure(int id)
 {
     this->_treasureId = id;
 }
 
+/**
+ * Checks whether there's a treasure on the card.
+ */
 bool MazeCard::isTreasure()
 {
     return this->_treasureId > - 1;
 }
 
 /**
- * Explicitní inicializace pole východù z kamene
+ * Explicit initialization of the path array
  */
 void MazeCard::initPath()
 {
@@ -86,8 +101,9 @@ void MazeCard::initPath()
 }
 
 /**
- * Nastaví výchozí hodnoty smìru cesty na kamenu
- * @param["type"] Typ kamene
+ * Sets path from the card
+ *
+ * @param type Card type
  */
 void MazeCard::setPath(string type)
 {
