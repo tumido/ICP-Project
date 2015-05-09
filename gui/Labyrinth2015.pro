@@ -4,13 +4,15 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TEMPLATE = app
 TARGET = labyrinth2015_gui
+QMAKE_CXXFLAGS += -std=c++11 -fPIC
 
 DEPENDPATH += . ..
 INCLUDEPATH += . ..
-LIB += ../build/core.so
+LIBS += ../build/core.a
 
 SOURCES += ../src/gui/client_gui.cpp \
-        ../src/gui/LabyrinthQt.cpp
+        ../src/gui/LabyrinthQt.cpp \
+    ../src/core/GameManager.cpp
 
 HEADERS += ../include/LabyrinthQt.h \
          ../include/ui_LabyrinthQt.h

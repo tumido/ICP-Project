@@ -1,20 +1,22 @@
 #ifndef UI_LABYRINTHQT_H
 #define UI_LABYRINTHQT_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QGridLayout>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
-#include <QtGui/QMainWindow>
-#include <QtGui/QMenu>
-#include <QtGui/QMenuBar>
-#include <QtGui/QStatusBar>
-#include <QtGui/QToolBar>
-#include <QtGui/QGraphicsView>
-#include <QtGui/QGraphicsScene>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QGridLayout>
+#include <QHeaderView>
+#include <QLabel>
+#include <QMainWindow>
+#include <QMenu>
+#include <QMenuBar>
+#include <QStatusBar>
+#include <QToolBar>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QListWidget>
+#include <QListWidgetItem>
 
 
 
@@ -34,8 +36,8 @@ public:
     QLabel *WelcomeText;
     QMenuBar *menuBar;
     QMenu *menuGame;
-    QToolBar *mainToolBar;
     QStatusBar *statusBar;
+    QListWidget * listWidget;
 
     void setupUi(QMainWindow *LabyrinthQt)
     {
@@ -74,9 +76,6 @@ public:
         menuGame = new QMenu(menuBar);
         menuGame->setObjectName(QString::fromUtf8("menuGame"));
         LabyrinthQt->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(LabyrinthQt);
-        mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
-        LabyrinthQt->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(LabyrinthQt);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
         LabyrinthQt->setStatusBar(statusBar);
@@ -88,6 +87,7 @@ public:
         menuGame->addSeparator();
         menuGame->addAction(actionExit);
 
+        listWidget= new QListWidget;
         retranslateUi(LabyrinthQt);
 
         QMetaObject::connectSlotsByName(LabyrinthQt);
@@ -95,14 +95,13 @@ public:
 
     void retranslateUi(QMainWindow *LabyrinthQt)
     {
-        LabyrinthQt->setWindowTitle(QApplication::translate("LabyrinthQt", "Labyrinth 2015", 0, QApplication::UnicodeUTF8));
-        actionNew_game->setText(QApplication::translate("LabyrinthQt", "New game", 0, QApplication::UnicodeUTF8));
-        actionLoad_map->setText(QApplication::translate("LabyrinthQt", "Load map", 0, QApplication::UnicodeUTF8));
-        actionSave_map->setText(QApplication::translate("LabyrinthQt", "Save map", 0, QApplication::UnicodeUTF8));
-        actionExit->setText(QApplication::translate("LabyrinthQt", "Exit", 0, QApplication::UnicodeUTF8));
-        WelcomeText->setText(QApplication::translate("LabyrinthQt", "Welcome to the Labyrinth game\n"
-"To start a new game press \"Game\" -> \"New game\"", 0, QApplication::UnicodeUTF8));
-        menuGame->setTitle(QApplication::translate("LabyrinthQt", "Game", 0, QApplication::UnicodeUTF8));
+        LabyrinthQt->setWindowTitle("Labyrinth 2015");
+        actionNew_game->setText("New game");
+        actionLoad_map->setText("Load map");
+        actionSave_map->setText("Save map");
+        actionExit->setText("Exit");
+        WelcomeText->setText("Welcome to the Labyrinth game\nTo start a new game press \"Game\" -> \"New game\"");
+        menuGame->setTitle("Game");
     } // retranslateUi
 
 };

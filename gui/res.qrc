@@ -10,5 +10,9 @@
         <file alias="1100">res/1100.png</file>
         <file alias="1101">res/1101.png</file>
         <file alias="1110">res/1110.png</file>
+        <file>res/player1.png</file>
+        <file>res/player2.png</file>
+        <file>res/player3.png</file>
+        <file>res/player4.png</file>
     </qresource>
 </RCC>

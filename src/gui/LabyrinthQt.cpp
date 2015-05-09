@@ -7,6 +7,7 @@ LabyrinthQt::LabyrinthQt(QWidget *parent) :
     ui(new Ui::LabyrinthQt)
 {
     ui->setupUi(this);
+    game = new GameManager();
 
     connect(ui->actionNew_game, SIGNAL(triggered()), this, SLOT(onActionNewGame()));
     connect(ui->actionLoad_map, SIGNAL(triggered()), this, SLOT(onActionLoad()));
@@ -68,30 +69,68 @@ bool LabyrinthQt::prepareGame()
     // Parse data
     if (settings.exec() != QDialog::Accepted)
         return false;
+
+    delete game;
+    game = new GameManager;
     for(int i = 0; i < MAX_PLAYERS; i++)
     {
         if (i < MIN_PLAYERS && players[i]->text() == "")
             players[i]->setText(QString("Player%1").arg(i + 1));
         qDebug() << "Player name set to " << players[i]->text();
         // add players to Game
+        if (!game->addPlayer(players[i]->text().toStdString()))
+        {
+            QMessageBox::critical(this,"Labyrinth 2015","Failed to add player");
+            return false;
+        }
     }
     // setup the game
-    qDebug() << "Board size set to " << size->value();
-    qDebug() << "Treasure count is " << treasure->itemData(treasure->currentIndex()).toInt();
+    game->setSize(size->value());
+    qDebug() << "Board size: input: " << size->value() << " internal: " << game->getSize();
+    game->setTreasureCount(treasure->itemData(treasure->currentIndex()).toInt());
+    qDebug() << "Treasure count: input: " << treasure->itemData(treasure->currentIndex()).toInt();
+
     return true;
 }
 
+void LabyrinthQt::drawBoard()
+{
+    int r,c;
+    for (r=0; r < game->getSize(); r++)
+        for (c=0; c < game->getSize(); c++)
+        {
+            QPixmap * tile = new QPixmap(QString(":/res/%1").arg(QString::fromStdString(game->getCardPath(r,c))));
+            QGraphicsPixmapItem * tileItem = ui->graphicsScene->addPixmap(*tile);
+            tileItem->setPos(r * (tile->width() + 5),c * (tile->height() + 5));
+        }
+    qDebug() << "Map shown " << QString("%1 x %2").arg(r).arg(c);
+
+
+    vector<Player> players = game->getAllPlayers();
+    for (unsigned i=0; i< players.size(); i++)
+    {
+        QPixmap * tile = new QPixmap(QString(":/res/player%1").arg(i));
+        QGraphicsPixmapItem * tileItem = ui->graphicsScene->addPixmap(*tile);
+        tileItem->setPos(players[i].row() * tile->width(), players[i].col() * tile->height());
+        qDebug() << players[i].row() << players[i].col();
+    }
+
+    return;
+}
+
+
 void LabyrinthQt::startGame()
 {
-    for (int r=0; r<3; r++)
-        for (int c=0; c<3; c++)
-        {
-            QPixmap * tile = new QPixmap(":/res/0110");
-            QGraphicsPixmapItem * tileItem = ui->graphicsScene->addPixmap(*tile);
-            tileItem->setPos(r * tile->width(),c * tile->height());
-            qDebug() << "Tile added to" << r << " " << c;
-        }
-    return;
+    this->game->startGame();
+    this->drawBoard();
+
+    vector<std::string> players = game->getNames();
+    for (unsigned i=0; i< players.size(); i++)
+    {
+        QListWidgetItem * entry = new QListWidgetItem(ui->listWidget);
+        entry->setText(QString("Player%1: %2").arg(i + 1).arg(QString::fromStdString(players[i])));
+        ui->listWidget->addItem(entry);
+    }
 }
 
 void LabyrinthQt::onActionExit()
@@ -102,13 +141,13 @@ void LabyrinthQt::onActionExit()
 void LabyrinthQt::onActionNewGame()
 {
     // Shows the pregame setting window
-    bool ok = this->prepareGame();
-    if (!ok)
+    if (!this->prepareGame())
         return;
     // removes the WelcomeText
     ui->gridLayout->removeWidget(ui->WelcomeText);
     delete ui->WelcomeText;
-    ui->gridLayout->addWidget(ui->graphicsView);
+    ui->gridLayout->addWidget(ui->graphicsView, 0, 0);
+    ui->gridLayout->addWidget(ui->listWidget, 0,1);
 
     // Starts game itself
     this->startGame();
