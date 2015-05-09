@@ -66,6 +66,7 @@ public:
         graphicsScene = new QGraphicsScene;
         graphicsView = new QGraphicsView;
         graphicsView->setScene(graphicsScene);
+        graphicsView->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
 
         gridLayout->addWidget(WelcomeText, 0, 1, 1, 1);
 
@@ -88,6 +89,7 @@ public:
         menuGame->addAction(actionExit);
 
         listWidget= new QListWidget;
+        listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
         retranslateUi(LabyrinthQt);
 
         QMetaObject::connectSlotsByName(LabyrinthQt);

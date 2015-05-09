@@ -52,6 +52,7 @@ bool LabyrinthQt::prepareGame()
     QSpinBox * size = new QSpinBox(&settings);
     size->setRange(BOARD_MIN, BOARD_MAX);
     size->setValue(BOARD_DEFAULT);
+    size->setSingleStep(2);
     form2.addRow(QString("Board size:"), size);
 
     // Add treasure count
@@ -72,12 +73,17 @@ bool LabyrinthQt::prepareGame()
 
     delete game;
     game = new GameManager;
+    delete ui->listWidget;
+    ui->listWidget= new QListWidget;
+    ui->listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
     for(int i = 0; i < MAX_PLAYERS; i++)
     {
         if (i < MIN_PLAYERS && players[i]->text() == "")
             players[i]->setText(QString("Player%1").arg(i + 1));
         qDebug() << "Player name set to " << players[i]->text();
         // add players to Game
+        if (players[i]->text() == "")
+            continue;
         if (!game->addPlayer(players[i]->text().toStdString()))
         {
             QMessageBox::critical(this,"Labyrinth 2015","Failed to add player");
@@ -105,7 +111,6 @@ void LabyrinthQt::drawBoard()
         }
     qDebug() << "Map shown " << QString("%1 x %2").arg(r).arg(c);
 
-
     vector<Player> players = game->getAllPlayers();
     for (unsigned i=0; i< players.size(); i++)
     {
@@ -122,6 +127,7 @@ void LabyrinthQt::drawBoard()
 void LabyrinthQt::startGame()
 {
     this->game->startGame();
+    this->setWindowState(Qt::WindowMaximized);
     this->drawBoard();
 
     vector<std::string> players = game->getNames();
