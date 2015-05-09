@@ -1,8 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Treasure.h"
-
 #include <string>
 
 using namespace std;

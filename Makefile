@@ -18,19 +18,19 @@ all: $(BUILD_FOLDER)/core.so $(PROGS)
 
 $(BUILD_FOLDER)/core.so:
 	$(MAKE) -C src
-	$(CPP) -shared -fPIC -o $@ $^
+	$(CPP) -shared -fPIC -o $@ $(BUILD_FOLDER)/*.o
 
 client_cli: $(SRC_FOLDER)/$(CLI_FOLDER)/client_cli.cpp $(BUILD_FOLDER)/core.so
 	$(CPP) $(CPPFLAGS) $^ -o $@
 
-client_gui: $(SRC_FOLDER)/$(GUI_FOLDER)/client_gui.cpp
-	cd $(GUI_FOLDER) && $(QMAKE) labyrinth2015.pro -r -spec linux-g++ CONFIG+=debug -o ../$(GUI_WORK_FOLDER)/Makefile
-	$(MAKE) CXX=$(CPP) -C $(GUI_WORK_FOLDER) -o $@
+client_gui: $(SRC_FOLDER)/$(GUI_FOLDER)/client_gui.cpp $(BUILD_FOLDER)/core.so
+	cd $(GUI_FOLDER) && $(QMAKE) Labyrinth2015.pro -r -spec linux-g++ CONFIG+=debug -o ../$(GUI_WORK_FOLDER)/Makefile
+	$(MAKE) CXX=$(CPP) -C $(GUI_WORK_FOLDER)
+	mv ./gui_build/labyrinth2015_gui client_gui
 
 # PHONY
 #---------------------------------------------------------------------
 .PHONY: clean
-.SILENT: clean
 clean:
 	rm -vf build/*.o build/*.so $(PROGS)
-	rm -r $(GUI_WORK_FOLDER)
+	rm -rv $(GUI_WORK_FOLDER)
