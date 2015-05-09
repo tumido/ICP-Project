@@ -16,7 +16,7 @@ class GameManager
         bool addPlayer(string name);
         bool remPlayer(string name);
         int  getSize();
-        void setSize(int n);
+        bool setSize(int n);
         bool startGame();
         void restartGame();
         vector<MazeField> getMoves();

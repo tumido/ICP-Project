@@ -50,10 +50,14 @@ int GameManager::getSize()
  *
  * @param n Size of board, value should be between 5 and 11
  */
-void GameManager::setSize(int n)
+bool GameManager::setSize(int n)
 {
-    if (n >= 5 && n <= 11 && n % 2 == 1)
+    if (n >= 5 && n <= 11 && n % 2 == 1) {
         this->_size = n;
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /**
