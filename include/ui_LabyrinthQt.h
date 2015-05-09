@@ -93,7 +93,6 @@ public:
 
         listWidget= new QListWidget;
         listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
-        listWidget->setSelectionMode(QAbstractItemView::NoSelection);
         retranslateUi(LabyrinthQt);
 
         QMetaObject::connectSlotsByName(LabyrinthQt);

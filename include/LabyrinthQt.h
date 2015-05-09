@@ -46,7 +46,6 @@ public:
     bool prepareGame();
     void drawBoard();
     void updateBoard();
-    void play();
 public slots:
     void onActionExit();
     void onActionNewGame();
@@ -55,6 +54,7 @@ public slots:
 
 protected:
     void mousePressEvent(QMouseEvent* e);
+    void DisableListClick(QEvent *event);
 
 private:
     Ui::LabyrinthQt *ui;
@@ -63,6 +63,8 @@ private:
     vector<QGraphicsItem*> verticalButtons;
     vector<QGraphicsItem*> tiles;
     vector<QGraphicsItem*> treasures;
+    vector<QGraphicsItem*> figures;
+    bool turnState;
 };
 
 #endif // LABYRINTHQT_H
