@@ -30,6 +30,7 @@ class GameManager
         bool load(string fname);
         vector<Player> getAllPlayers();
         bool isWon();
+        bool isStarted();
         MazeBoard getBoard();
         vector<string> getNames();
         string getCardPath(int r, int c);

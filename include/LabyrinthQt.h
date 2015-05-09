@@ -17,6 +17,7 @@
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 #include <QFileDialog>
+#include <QMouseEvent>
 
 #include "MazeCard.h"
 #include "GameManager.h"
@@ -44,6 +45,8 @@ public:
     void startGame();
     bool prepareGame();
     void drawBoard();
+    void updateBoard();
+    void play();
 public slots:
     void onActionExit();
     void onActionNewGame();
@@ -51,11 +54,14 @@ public slots:
     void onActionSave();
 
 protected:
-
+    void mousePressEvent(QMouseEvent* e);
 
 private:
     Ui::LabyrinthQt *ui;
     GameManager * game;
+    vector<QGraphicsItem*> horizontalButtons;
+    vector<QGraphicsItem*> verticalButtons;
+    vector<QGraphicsItem*> tiles;
 };
 
 #endif // LABYRINTHQT_H

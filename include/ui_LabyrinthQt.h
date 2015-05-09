@@ -67,7 +67,7 @@ public:
         mainView = new QGraphicsView;
         mainView->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
         cardView = new QGraphicsView;
-        cardView->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+        cardView->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred );
         cardScene = new QGraphicsScene;
         cardView->setScene(cardScene);
 

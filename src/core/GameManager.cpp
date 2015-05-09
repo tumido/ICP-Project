@@ -411,3 +411,7 @@ void GameManager::playerAutoPlacement()
     if (cnt > 3)
         this->_players[3].setLocation(lim, 0);
 }
+bool GameManager::isStarted()
+{
+    return _started;
+}

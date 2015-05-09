@@ -100,31 +100,96 @@ bool LabyrinthQt::prepareGame()
     return true;
 }
 
-void LabyrinthQt::drawBoard()
+void LabyrinthQt::updateBoard()
 {
-    int r,c;
-    QGraphicsScene * mainScene = new QGraphicsScene;
-    ui->mainView->setScene(mainScene);
-    for (r=0; r < game->getSize(); r++)
-        for (c=0; c < game->getSize(); c++)
+    QGraphicsScene * mainScene = ui->mainView->scene();
+    foreach (QGraphicsItem * tile, tiles)
+        mainScene->removeItem(tile);
+    tiles.clear();
+    for (int r=0; r < game->getSize(); r++)
+        for (int c=0; c < game->getSize(); c++)
         {
-            QPixmap * tile = new QPixmap(QString(":/res/%1").arg(QString::fromStdString(game->getCardPath(r,c))));
-            QGraphicsPixmapItem * tileItem = mainScene->addPixmap(*tile);
-            tileItem->setPos(r * (tile->width() + SPACING),c * (tile->height() + SPACING));
+            QPixmap tile = QPixmap(QString(":/res/%1").arg(QString::fromStdString(game->getCardPath(r,c))));
+            QGraphicsPixmapItem * tileItem = mainScene->addPixmap(tile);
+            tileItem->setPos(r * (tile.width() + SPACING),c * (tile.height() + SPACING));
+            tiles.push_back(tileItem);
+            if (game->isTreasure(r,c))
+            {
+                QPixmap tile = QPixmap(QString(":/res/treasure"));
+                QGraphicsPixmapItem * tileItem = mainScene->addPixmap(tile);
+                tileItem->setPos(r * (tile.width() + SPACING),c * (tile.height() + SPACING));
+            }
         }
-    qDebug() << "Map shown " << QString("%1 x %2").arg(r).arg(c);
-
     vector<Player> players = game->getAllPlayers();
     for (unsigned i=0; i < players.size(); i++)
     {
-        QPixmap * tile = new QPixmap(QString(":/res/player%1").arg(i+1));
-        QGraphicsPixmapItem * tileItem = mainScene->addPixmap(*tile);
-        tileItem->setPos(players[i].row() * (tile->width() + SPACING), players[i].col() * (tile->height() + SPACING));
+        QPixmap tile = QPixmap(QString(":/res/player%1").arg(i+1));
+        QGraphicsPixmapItem * tileItem = mainScene->addPixmap(tile);
+        tileItem->setPos(players[i].row() * (tile.width() + SPACING), players[i].col() * (tile.height() + SPACING));
         qDebug() << "Player possition set " << players[i].row() << players[i].col();
     }
-    //QPixmap freeCard = QPixmap(QString(":/res/%1").arg(QString::fromStdString(game->getBoard().getFreeCard())))
+    QPixmap freeCard = QPixmap(QString(":/res/%1").arg(QString::fromStdString(game->getFreeCard())));
+    ui->cardScene->addPixmap(freeCard);
+}
+
+void LabyrinthQt::drawBoard()
+{
+    QGraphicsScene * mainScene = new QGraphicsScene;
+    ui->mainView->setScene(mainScene);
+    this->updateBoard();
+    int r,c = game->getSize();
+    for (r=1; r < game->getSize(); r += 2)
+    {
+        QPixmap tile = QPixmap(QString(":/res/^"));
+        QGraphicsPixmapItem * tileItem = mainScene->addPixmap(tile);
+        tileItem->setOffset(r * (tile.width() + SPACING),c * (tile.height() + SPACING));
+        horizontalButtons.push_back(tileItem);
+        tile = QPixmap(QString(":/res/v"));
+        tileItem = mainScene->addPixmap(tile);
+        tileItem->setOffset(r * (tile.width() + SPACING), -(tile.width() + SPACING));
+        horizontalButtons.push_back(tileItem);
+    }
+    for (c=1; c < game->getSize(); c += 2)
+    {
+        QPixmap tile = QPixmap(QString(":/res/<"));
+        QGraphicsPixmapItem * tileItem = mainScene->addPixmap(tile);
+        tileItem->setOffset(r * (tile.width() + SPACING),c * (tile.height() + SPACING));
+        verticalButtons.push_back(tileItem);
+        tile = QPixmap(QString(":/res/>"));
+        tileItem = mainScene->addPixmap(tile);
+        tileItem->setOffset(-(tile.width() + SPACING), c * (tile.width() + SPACING));
+        verticalButtons.push_back(tileItem);
+    }
+    qDebug() << "Map shown " << QString("%1 x %2").arg(r).arg(c);
 
     return;
+}
+
+void LabyrinthQt::mousePressEvent(QMouseEvent *e)
+{
+    if (!game->isStarted())
+        return;
+    QPoint local_pt = ui->mainView->mapFromGlobal(e->globalPos());
+    QPointF img_coord_pt = ui->mainView->mapToScene(local_pt);
+    int max = game->getSize();
+    for(int i=0; i< horizontalButtons.size(); i++)
+    {
+        if (horizontalButtons[i]->contains(img_coord_pt))
+        {
+            qDebug() << "Button " << i << " for adding a card pressed";
+            game->moveCard(i < max/4 ? 0 : max-1, 2*i + 1);
+            break;
+        }
+    }
+    this->updateBoard();
+}
+
+void LabyrinthQt::play()
+{
+    return;
+    while (!game->isWon())
+    {
+    }
 }
 
 
@@ -141,6 +206,7 @@ void LabyrinthQt::startGame()
         entry->setText(QString("Player%1: %2").arg(i + 1).arg(QString::fromStdString(players[i])));
         ui->listWidget->addItem(entry);
     }
+    this->play();
 }
 
 void LabyrinthQt::onActionExit()
@@ -155,8 +221,7 @@ void LabyrinthQt::onActionNewGame()
         return;
     // removes the WelcomeText
     ui->gridLayout->removeWidget(ui->WelcomeText);
-    delete ui->WelcomeText;
-    ui->gridLayout->addWidget(ui->mainView, 0, 0);
+    ui->gridLayout->addWidget(ui->mainView,0,0, 0, 1);
     ui->gridLayout->addWidget(ui->listWidget, 0,1);
     ui->gridLayout->addWidget(ui->cardView,1,1);
 
