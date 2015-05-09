@@ -13,10 +13,10 @@ objects:
 	$(MAKE) -C src
 	$(CPP) -shared -fPIC -o build/core.so build/*.o
 
-client_cli: src/client_cli.cpp build/core.so
+# client_cli: src/cli/client_cli.cpp build/core.so
 	$(CPP) $(CPPFLAGS) $^ -o $@
 
-client_gui: src/client_gui.cpp build/core.so
+client_gui: src/gui/client_gui.cpp build/core.so
 	$(CPP) $(CPPFLAGS) $< -o $@
 
 
