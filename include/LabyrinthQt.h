@@ -12,6 +12,7 @@
 #include <QDialogButtonBox>
 #include <QDebug>
 #include <QPixmap>
+#include <QGraphicsPixmapItem>
 
 #include "../include/GameManager.h"
 #define MAX_PLAYERS 4

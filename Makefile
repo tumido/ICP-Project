@@ -2,7 +2,7 @@
 #---------------------------------------------------------------------
 CPP = g++
 CPPFLAGS = -std=c++11 -pedantic -Wall -Werror -g
-PROGS = client_cli # client_gui
+PROGS = client_cli  client_gui
 
 
 # RULES for programs
