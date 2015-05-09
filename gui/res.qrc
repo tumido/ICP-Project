@@ -1,5 +1,14 @@
 <RCC>
     <qresource prefix="/res">
+        <file alias="0011">res/0011.png</file>
+        <file alias="0101">res/0101.png</file>
         <file alias="0110">res/0110.png</file>
+        <file alias="0111">res/0111.png</file>
+        <file alias="1001">res/1001.png</file>
+        <file alias="1010">res/1010.png</file>
+        <file alias="1011">res/1011.png</file>
+        <file alias="1100">res/1100.png</file>
+        <file alias="1101">res/1101.png</file>
+        <file alias="1110">res/1110.png</file>
     </qresource>
 </RCC>
