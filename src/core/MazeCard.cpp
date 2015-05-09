@@ -92,6 +92,18 @@ bool MazeCard::isTreasure()
 }
 
 /**
+ * Returns string representing current path
+ */
+string MazeCard::getStringPath()
+{
+    string ret;
+    for (int i; i < 4; i++) {
+        ret += (this->path[i]) ? "1" : "0";
+    }
+    return ret;
+}
+
+/**
  * Explicit initialization of the path array
  */
 void MazeCard::initPath()

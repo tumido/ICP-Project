@@ -11,11 +11,12 @@ class Player
         Player();
         Player(string name);
         virtual ~Player();
+        string getName();
         void setName(string name);
         int getTreasure();
         void setNewTreasure(int id);
         void resetTreasure(int id);
-        int getScore();
+        unsigned int getScore();
         int row();
         int col();
         void setLocation(int r, int c);
@@ -25,7 +26,7 @@ class Player
          int _treasureId;
          int _row;
          int _col;
-         int _score = 0;
+         unsigned int _score = 0;
 };
 
 #endif // PLAYER_H

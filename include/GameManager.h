@@ -31,6 +31,9 @@ class GameManager
         vector<Player> getAllPlayers();
         bool isWon();
         MazeBoard getBoard();
+        vector<string> getNames();
+        string getCardPath(int r, int c);
+        bool isTreasure(int r, int c);
     protected:
     private:
         MazeBoard _board;
@@ -51,6 +54,7 @@ class GameManager
         int fixPositionBounds(int i);
         void revertCard(Action action);
         void revertPlayer(Action action);
+        void playerAutoPlacement();
 };
 
 #endif // GAMEMANAGER_H

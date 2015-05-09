@@ -19,6 +19,7 @@ class MazeCard
         int getTreasure();
         void setTreasure(int id);
         bool isTreasure();
+        string getStringPath();
     protected:
     private:
         string _type;

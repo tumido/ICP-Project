@@ -17,6 +17,14 @@ Player::~Player()
 }
 
 /**
+ * Returns player's name
+ */
+string Player::getName()
+{
+    return this->_name;
+}
+
+/**
  * Sets player name
  *
  * @param name Player's name
@@ -59,7 +67,7 @@ void Player::resetTreasure(int id)
 /**
  * Returns player's score
  */
-int Player::getScore()
+unsigned int Player::getScore()
 {
     return this->_score;
 }

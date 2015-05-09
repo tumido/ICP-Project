@@ -52,7 +52,7 @@ int GameManager::getSize()
  */
 void GameManager::setSize(int n)
 {
-    if (n <= 5 && n <= 11 && n % 2 == 1)
+    if (n >= 5 && n <= 11 && n % 2 == 1)
         this->_size = n;
 }
 
@@ -64,6 +64,7 @@ bool GameManager::startGame()
     if (this->_players.size() >= 2) {
         this->_board = MazeBoard(this->_size);
         this->generateTreasures();
+        this->playerAutoPlacement();
         this->_started = true;
     }
     return this->_started;
@@ -75,6 +76,7 @@ bool GameManager::startGame()
 void GameManager::restartGame()
 {
     this->_board.newGame();
+    this->playerAutoPlacement();
 }
 
 /**
@@ -232,6 +234,28 @@ vector<Player> GameManager::getAllPlayers()
 }
 
 /**
+ * Returns vector of player names
+ */
+vector<string> GameManager::getNames()
+{
+    vector<string> names;
+    for(unsigned int i = 0; i < this->_players.size(); i++)
+        names.push_back(this->_players[i].getName());
+    return names;
+}
+
+/**
+ * Returns string representing card's path
+ *
+ * @param r Row index
+ * @param c Column index
+ */
+string GameManager::getCardPath(int r, int c)
+{
+    return this->_board.get(r, c).getCard().getStringPath();
+}
+
+/**
  * Returns game board
  */
 MazeBoard GameManager::getBoard()
@@ -357,4 +381,21 @@ void GameManager::revertPlayer(Action action)
         this->_actions.pop_back();
         this->_actions.pop_back();
     }
+}
+
+/**
+ * Places players on default locations
+ */
+void GameManager::playerAutoPlacement()
+{
+    auto cnt = this->_players.size();
+    auto lim = this->_size - 1;
+    if (cnt > 0)
+        this->_players[0].setLocation(0, 0);
+    if (cnt > 1)
+        this->_players[1].setLocation(lim, lim);
+    if (cnt > 2)
+        this->_players[2].setLocation(0, lim);
+    if (cnt > 3)
+        this->_players[3].setLocation(lim, 0);
 }
