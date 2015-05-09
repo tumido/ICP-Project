@@ -1,4 +1,4 @@
-#include "../include/Action.h"
+#include "../../include/Action.h"
 
 Action::Action(TYPE type, int r, int c)
 {

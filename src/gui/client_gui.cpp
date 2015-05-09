@@ -1,4 +1,4 @@
-#include "../include/LabyrinthQt.h"
+#include "../../include/LabyrinthQt.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

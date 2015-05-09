@@ -1,4 +1,4 @@
-#include "../include/LabyrinthQt.h"
+#include "../../include/LabyrinthQt.h"
 #include "../include/ui_LabyrinthQt.h"
 
 
