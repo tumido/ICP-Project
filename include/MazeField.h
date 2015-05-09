@@ -11,6 +11,7 @@ class MazeField
         int row();
         int col();
         MazeCard getCard();
+        MazeCard *getCardP();
         void putCard(MazeCard c);
     protected:
     private:

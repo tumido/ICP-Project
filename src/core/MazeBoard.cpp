@@ -1,5 +1,7 @@
 #include "../../include/MazeBoard.h"
 
+#include <iostream>
+
 MazeBoard::MazeBoard()
 {
 
@@ -43,6 +45,7 @@ void MazeBoard::newGame()
         this->_fields[i].putCard(cards[i]);
     }
     this->_freeCard = GameGenerator::generateCard();
+    this->defaultCards();
 }
 
 /**
@@ -58,6 +61,21 @@ MazeField MazeBoard::get(int r, int c)
         return this->_fields[index];
     else
         return MazeField(-1,-1);
+}
+
+/**
+ * Returns reference to MazeField
+ *
+ * @param r Row index
+ * @param c Column index
+ */
+MazeField *MazeBoard::getP(int r, int c)
+{
+    unsigned int index = c + r * this->rowLen;
+    if (this->_fields.size() > index)
+        return &this->_fields[index];
+    else
+        return NULL;
 }
 
 /**
@@ -79,7 +97,7 @@ void MazeBoard::shift(MazeField mf)
     //down
     int bound = this->rowLen - 1;
     if (mf.row() == 0 && mf.col() % 2 == 1) {
-        this->shiftDown(mf.col());
+        shiftDown(mf.col());
     //up
     } else if (mf.row() == bound && mf.col() % 2 == 1) {
         shiftUp(mf.col());
@@ -102,10 +120,9 @@ void MazeBoard::shiftDown(int c)
     int bound = this->rowLen - 1;
     MazeCard tmpCard = this->getCard(bound, c);
     for (int row = bound; 0 < row; row--) {
-        MazeField curCard = this->get(row, c);
-        curCard.putCard(this->getCard(row - 1, c));
+        this->putCard(row, c, this->getCard(row - 1, c));
     }
-    this->get(0, c).putCard(this->_freeCard);
+    this->putCard(0, c, this->_freeCard);
     this->_freeCard = tmpCard;
 }
 
@@ -119,10 +136,9 @@ void MazeBoard::shiftUp(int c)
     int bound = this->rowLen - 1;
     MazeCard tmpCard = this->getCard(0, c);
     for (int row = 0; row < bound; row++) {
-        MazeField curCard = this->get(row, c);
-        curCard.putCard(this->getCard(row + 1, c));
+        this->putCard(row, c, this->getCard(row + 1, c));
     }
-    this->get(bound, c).putCard(this->_freeCard);
+    this->putCard(bound, c, this->_freeCard);
     this->_freeCard = tmpCard;
 }
 
@@ -136,10 +152,9 @@ void MazeBoard::shiftRight(int r)
     int bound = this->rowLen - 1;
     MazeCard tmpCard = this->getCard(r, bound);
     for (int col = 0; col < bound; col++) {
-        MazeField curCard = this->get(r, col);
-        curCard.putCard(this->getCard(r, col + 1));
+        this->putCard(r, col, this->getCard(r, col + 1));
     }
-    this->get(r, bound).putCard(this->_freeCard);
+    this->putCard(r, bound, this->_freeCard);
     this->_freeCard = tmpCard;
 }
 
@@ -153,10 +168,9 @@ void MazeBoard::shiftLeft(int r)
     int bound = this->rowLen - 1;
     MazeCard tmpCard = this->getCard(r, 0);
     for (int col = bound; col > 0; col--) {
-        MazeField curCard = this->get(r, col);
-        curCard.putCard(this->getCard(r, col - 1));
+        this->putCard(r, col, this->getCard(r, col - 1));
     }
-    this->get(r, 0).putCard(this->_freeCard);
+    this->putCard(r, 0, this->_freeCard);
     this->_freeCard = tmpCard;
 }
 
@@ -172,6 +186,17 @@ MazeCard MazeBoard::getCard(int r, int c)
 }
 
 /**
+ * Returns reference to card located at [r, c]
+ *
+ * @param r Row index
+ * @param c Column index
+ */
+MazeCard *MazeBoard::getCardP(int r, int c)
+{
+    return this->getP(r, c)->getCardP();
+}
+
+/**
  * Places card at [r, c]
  *
  * @param r Row index
@@ -180,7 +205,7 @@ MazeCard MazeBoard::getCard(int r, int c)
  */
 void MazeBoard::putCard(int r, int c, MazeCard card)
 {
-    return this->get(r,c).putCard(card);
+    return this->getP(r,c)->putCard(card);
 }
 
 /**
@@ -193,6 +218,34 @@ void MazeBoard::putCard(int r, int c, MazeCard card)
 void MazeBoard::placeTreasure(int r, int c, int id)
 {
     this->getCard(r, c).setTreasure(id);
+}
+
+/**
+ * Default cards
+ */
+void MazeBoard::defaultCards()
+{
+    auto bound = this->rowLen - 1;
+    MazeCard card("C");
+    this->getP(bound, bound)->putCard(card);
+    card.turnRight();
+    this->getP(0, bound)->putCard(card);
+    card.turnRight();
+    this->getP(0, 0)->putCard(card);
+    card.turnRight();
+    this->getP(bound, 0)->putCard(card);
+
+    MazeCard card2("F");
+    for (int i = 2; i < bound; i += 2) {
+        this->getP(i, bound)->putCard(card2);
+        card2.turnRight();
+        this->getP(0, i)->putCard(card2);
+        card2.turnRight();
+        this->getP(i, 0)->putCard(card2);
+        card2.turnRight();
+        this->getP(bound, i)->putCard(card2);
+        card2.turnRight();
+    }
 }
 
 /**

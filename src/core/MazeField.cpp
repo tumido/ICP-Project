@@ -37,6 +37,14 @@ MazeCard MazeField::getCard()
 }
 
 /**
+ * Returns reference to current card
+ */
+MazeCard *MazeField::getCardP()
+{
+    return &this->_cardL;
+}
+
+/**
  * Places card on field
  */
 void MazeField::putCard(MazeCard c)
