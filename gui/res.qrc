@@ -14,10 +14,10 @@
         <file alias="player2">res/player2.png</file>
         <file alias="player3">res/player3.png</file>
         <file alias="player4">res/player4.png</file>
-        <file alias="v">res/insertV.png</file>
-        <file alias="^">res/insert^.png</file>
-        <file alias="&lt;">res/insert&lt;.png</file>
-        <file alias=">">res/insert>.png</file>
         <file alias="treasure">res/treasure.png</file>
+        <file alias="^">res/insertD.png</file>
+        <file alias=">">res/insertL.png</file>
+        <file alias="&lt;">res/insertR.png</file>
+        <file alias="v">res/insertU.png</file>
     </qresource>
 </RCC>
