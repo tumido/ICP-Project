@@ -1,20 +1,20 @@
 #ifndef LABYRINTHQT_H
 #define LABYRINTHQT_H
 
-#include <QMainWindow>
-#include <QWidget>
-#include <QDialog>
-#include <QGroupBox>
-#include <QFormLayout>
-#include <QLineEdit>
-#include <QSpinBox>
-#include <QComboBox>
-#include <QDialogButtonBox>
-#include <QDebug>
-#include <QPixmap>
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QGraphicsPixmapItem>
+#include <QtGui/QMainWindow>
+#include <QtGui/QWidget>
+#include <QtGui/QDialog>
+#include <QtGui/QGroupBox>
+#include <QtGui/QFormLayout>
+#include <QtGui/QLineEdit>
+#include <QtGui/QSpinBox>
+#include <QtGui/QComboBox>
+#include <QtGui/QDialogButtonBox>
+#include <QtCore/QDebug>
+#include <QtGui/QPixmap>
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QGraphicsView>
+#include <QtGui/QGraphicsPixmapItem>
 
 //#include "GameManager.h"
 #define MAX_PLAYERS 4
