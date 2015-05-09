@@ -260,6 +260,14 @@ string GameManager::getCardPath(int r, int c)
 }
 
 /**
+ * Returns free card
+ */
+string GameManager::getFreeCard()
+{
+    return this->_board.getFreeCard().getStringPath();
+}
+
+/**
  * Returns game board
  */
 MazeBoard GameManager::getBoard()

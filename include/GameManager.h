@@ -33,6 +33,7 @@ class GameManager
         MazeBoard getBoard();
         vector<string> getNames();
         string getCardPath(int r, int c);
+        string getFreeCard();
         bool isTreasure(int r, int c);
     protected:
     private:
