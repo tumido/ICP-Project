@@ -31,8 +31,9 @@ public:
     QAction *actionExit;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
-    QGraphicsScene *graphicsScene;
-    QGraphicsView *graphicsView;
+    QGraphicsView *mainView;
+    QGraphicsView *cardView;
+    QGraphicsScene *cardScene;
     QLabel *WelcomeText;
     QMenuBar *menuBar;
     QMenu *menuGame;
@@ -63,10 +64,12 @@ public:
         WelcomeText->setEnabled(true);
         WelcomeText->setFrameShape(QFrame::NoFrame);
         WelcomeText->setAlignment(Qt::AlignCenter);
-        graphicsScene = new QGraphicsScene;
-        graphicsView = new QGraphicsView;
-        graphicsView->setScene(graphicsScene);
-        graphicsView->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
+        mainView = new QGraphicsView;
+        mainView->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
+        cardView = new QGraphicsView;
+        cardView->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+        cardScene = new QGraphicsScene;
+        cardView->setScene(cardScene);
 
         gridLayout->addWidget(WelcomeText, 0, 1, 1, 1);
 
@@ -90,6 +93,7 @@ public:
 
         listWidget= new QListWidget;
         listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
+        listWidget->setSelectionMode(QAbstractItemView::NoSelection);
         retranslateUi(LabyrinthQt);
 
         QMetaObject::connectSlotsByName(LabyrinthQt);

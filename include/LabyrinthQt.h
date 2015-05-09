@@ -16,6 +16,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
+#include <QFileDialog>
 
 #include "MazeCard.h"
 #include "GameManager.h"
@@ -27,6 +28,7 @@
 #define BOARD_MIN 5
 #define BOARD_MAX 11
 #define BOARD_DEFAULT 7
+#define SPACING 5
 
 namespace Ui {
 class LabyrinthQt;

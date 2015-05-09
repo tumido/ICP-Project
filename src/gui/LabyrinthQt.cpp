@@ -76,6 +76,7 @@ bool LabyrinthQt::prepareGame()
     delete ui->listWidget;
     ui->listWidget= new QListWidget;
     ui->listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
+    ui->listWidget->setSelectionMode(QAbstractItemView::NoSelection);
     for(int i = 0; i < MAX_PLAYERS; i++)
     {
         if (i < MIN_PLAYERS && players[i]->text() == "")
@@ -102,23 +103,26 @@ bool LabyrinthQt::prepareGame()
 void LabyrinthQt::drawBoard()
 {
     int r,c;
+    QGraphicsScene * mainScene = new QGraphicsScene;
+    ui->mainView->setScene(mainScene);
     for (r=0; r < game->getSize(); r++)
         for (c=0; c < game->getSize(); c++)
         {
             QPixmap * tile = new QPixmap(QString(":/res/%1").arg(QString::fromStdString(game->getCardPath(r,c))));
-            QGraphicsPixmapItem * tileItem = ui->graphicsScene->addPixmap(*tile);
-            tileItem->setPos(r * (tile->width() + 5),c * (tile->height() + 5));
+            QGraphicsPixmapItem * tileItem = mainScene->addPixmap(*tile);
+            tileItem->setPos(r * (tile->width() + SPACING),c * (tile->height() + SPACING));
         }
     qDebug() << "Map shown " << QString("%1 x %2").arg(r).arg(c);
 
     vector<Player> players = game->getAllPlayers();
-    for (unsigned i=0; i< players.size(); i++)
+    for (unsigned i=0; i < players.size(); i++)
     {
-        QPixmap * tile = new QPixmap(QString(":/res/player%1").arg(i));
-        QGraphicsPixmapItem * tileItem = ui->graphicsScene->addPixmap(*tile);
-        tileItem->setPos(players[i].row() * tile->width(), players[i].col() * tile->height());
-        qDebug() << players[i].row() << players[i].col();
+        QPixmap * tile = new QPixmap(QString(":/res/player%1").arg(i+1));
+        QGraphicsPixmapItem * tileItem = mainScene->addPixmap(*tile);
+        tileItem->setPos(players[i].row() * (tile->width() + SPACING), players[i].col() * (tile->height() + SPACING));
+        qDebug() << "Player possition set " << players[i].row() << players[i].col();
     }
+    //QPixmap freeCard = QPixmap(QString(":/res/%1").arg(QString::fromStdString(game->getBoard().getFreeCard())))
 
     return;
 }
@@ -131,7 +135,7 @@ void LabyrinthQt::startGame()
     this->drawBoard();
 
     vector<std::string> players = game->getNames();
-    for (unsigned i=0; i< players.size(); i++)
+    for (unsigned i=0; i < players.size(); i++)
     {
         QListWidgetItem * entry = new QListWidgetItem(ui->listWidget);
         entry->setText(QString("Player%1: %2").arg(i + 1).arg(QString::fromStdString(players[i])));
@@ -152,8 +156,9 @@ void LabyrinthQt::onActionNewGame()
     // removes the WelcomeText
     ui->gridLayout->removeWidget(ui->WelcomeText);
     delete ui->WelcomeText;
-    ui->gridLayout->addWidget(ui->graphicsView, 0, 0);
+    ui->gridLayout->addWidget(ui->mainView, 0, 0);
     ui->gridLayout->addWidget(ui->listWidget, 0,1);
+    ui->gridLayout->addWidget(ui->cardView,1,1);
 
     // Starts game itself
     this->startGame();
@@ -161,10 +166,12 @@ void LabyrinthQt::onActionNewGame()
 
 void LabyrinthQt::onActionLoad()
 {
-    return;
+    QString filename = QFileDialog::getOpenFileName(this, "Load game");
+    game->load(filename.toStdString());
 }
 
 void LabyrinthQt::onActionSave()
 {
-    return;
+    QString filename = QFileDialog::getSaveFileName(this, "Save game");
+    game->save(filename.toStdString());
 }
