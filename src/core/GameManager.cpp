@@ -238,6 +238,14 @@ vector<Player> GameManager::getAllPlayers()
 }
 
 /**
+ * Checks whether the game was won.
+ */
+bool GameManager::isWon()
+{
+    return this->_won;
+}
+
+/**
  * Returns vector of player names
  */
 vector<string> GameManager::getNames()
@@ -265,6 +273,14 @@ string GameManager::getCardPath(int r, int c)
 string GameManager::getFreeCard()
 {
     return this->_board.getFreeCard().getStringPath();
+}
+
+/**
+ * Checks whether specified card contains treasure
+ */
+bool GameManager::isTreasure(int r, int c)
+{
+    return this->_board.get(r, c).getCard().isTreasure();
 }
 
 /**
