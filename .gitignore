@@ -2,3 +2,15 @@
 *.depend
 *.layout
 *.o
+*.3-pre1
+build-Labyrinth2015-Desktop_Qt_5_2_0_MinGW_32bit-Vydání/release/qrc_res.cpp
+build-Labyrinth2015-Desktop_Qt_5_2_0_MinGW_32bit-Vydání/release/moc_LabyrinthQt.cpp
+*.Release
+build-Labyrinth2015-Desktop_Qt_5_2_0_MinGW_32bit-Vydání/object_script.labyrinth2015_gui.Debug
+*.Debug
+build-Labyrinth2015-Desktop_Qt_5_2_0_MinGW_32bit-Vydání/Makefile
+build-Labyrinth2015-Desktop_Qt_5_2_0_MinGW_32bit-Ladění/Makefile
+gui/Labyrinth2015.pro
+*.user
+gui/Labyrinth2015.pro.user
+*.user
