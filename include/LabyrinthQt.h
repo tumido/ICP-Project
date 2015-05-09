@@ -62,6 +62,7 @@ private:
     vector<QGraphicsItem*> horizontalButtons;
     vector<QGraphicsItem*> verticalButtons;
     vector<QGraphicsItem*> tiles;
+    vector<QGraphicsItem*> treasures;
 };
 
 #endif // LABYRINTHQT_H
