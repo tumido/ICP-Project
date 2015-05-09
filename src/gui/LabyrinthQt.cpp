@@ -1,5 +1,5 @@
 #include "../include/LabyrinthQt.h"
-#include "ui_LabyrinthQt.h"
+#include "../include/ui_LabyrinthQt.h"
 
 
 LabyrinthQt::LabyrinthQt(QWidget *parent) :

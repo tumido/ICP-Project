@@ -12,9 +12,11 @@
 #include <QDialogButtonBox>
 #include <QDebug>
 #include <QPixmap>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 
-//#include "../include/GameManager.h"
+//#include "GameManager.h"
 #define MAX_PLAYERS 4
 #define MIN_PLAYERS 2
 #define BOARD_MIN 5
