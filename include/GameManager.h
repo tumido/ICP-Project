@@ -30,6 +30,7 @@ class GameManager
         bool load(string fname);
         vector<Player> getAllPlayers();
         bool isWon();
+        MazeBoard getBoard();
     protected:
     private:
         MazeBoard _board;

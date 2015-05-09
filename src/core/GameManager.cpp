@@ -232,6 +232,14 @@ vector<Player> GameManager::getAllPlayers()
 }
 
 /**
+ * Returns game board
+ */
+MazeBoard GameManager::getBoard()
+{
+    return this->_board;
+}
+
+/**
  * Generates new treasures
  */
 void GameManager::generateTreasures()
