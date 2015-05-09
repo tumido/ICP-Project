@@ -50,11 +50,13 @@ bool MazeCard::canGo(MazeCard::CANGO dir)
  */
 void MazeCard::turnRight()
 {
-    bool tmp = this->path[DOWN];
+    bool newPath[4];
     for (int i = 0; i < 3; i++) {
-        this->path[i + 1] = this->path[i];
+        newPath[i + 1] = this->path[i];
     }
-    this->path[0] = tmp;
+    newPath[0] = this->path[3];
+    for (int i = 0; i < 4; i++)
+        this->path[i] = newPath[i];
 }
 
 /**

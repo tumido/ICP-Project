@@ -17,6 +17,7 @@ class MazeBoard
         static MazeBoard createMazeBoard(int n);
         void newGame();
         MazeField get(int r, int c);
+        MazeField *getP(int r, int c);
         MazeCard getFreeCard();
         void shift(MazeField mf);
         void placeTreasures(vector<int> treasure);
@@ -24,7 +25,9 @@ class MazeBoard
     private:
         MazeCard _freeCard;
         MazeCard getCard(int r, int c);
+        MazeCard *getCardP(int r, int c);
         void placeTreasure(int r, int c, int id);
+        void defaultCards();
         void putCard(int r, int c, MazeCard card);
         int rowLen;
         void shiftDown(int c);
