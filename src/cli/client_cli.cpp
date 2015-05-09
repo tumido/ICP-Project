@@ -1,7 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-#include "../include/GameManager.h"
+#include "../../include/GameManager.h"
 
 #define RETRY_LIMIT 100
 
