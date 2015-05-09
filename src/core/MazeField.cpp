@@ -1,4 +1,4 @@
-#include "../include/MazeField.h"
+#include "../../include/MazeField.h"
 
 MazeField::MazeField(int r, int c)
 {

@@ -1,4 +1,4 @@
-#include "../include/Treasure.h"
+#include "../../include/Treasure.h"
 
 Treasure::Treasure()
 {

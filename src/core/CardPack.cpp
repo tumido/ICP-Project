@@ -1,4 +1,4 @@
-#include "../include/CardPack.h"
+#include "../../include/CardPack.h"
 
 CardPack::CardPack(int maxSize, int initSize)
 {

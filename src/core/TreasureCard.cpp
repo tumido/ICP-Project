@@ -1,4 +1,4 @@
-#include "../include/TreasureCard.h"
+#include "../../include/TreasureCard.h"
 
 TreasureCard::TreasureCard(Treasure tr)
 {

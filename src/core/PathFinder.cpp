@@ -1,4 +1,4 @@
-#include "../include/PathFinder.h"
+#include "../../include/PathFinder.h"
 
 /**
  * Returns vector of all possible moves for the current player

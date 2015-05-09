@@ -1,4 +1,4 @@
-#include "../include/MazeCard.h"
+#include "../../include/MazeCard.h"
 #include <iostream>
 #include <stdio.h>
 

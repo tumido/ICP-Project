@@ -1,4 +1,4 @@
-#include "../include/MazeBoard.h"
+#include "../../include/MazeBoard.h"
 
 MazeBoard::MazeBoard()
 {

@@ -1,4 +1,4 @@
-#include "../include/GameGenerator.h"
+#include "../../include/GameGenerator.h"
 
 GameGenerator::GameGenerator()
 {
