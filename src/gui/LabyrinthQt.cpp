@@ -198,8 +198,8 @@ void LabyrinthQt::mousePressEvent(QMouseEvent *e)
             if (horizontalButtons[i]->contains(img_coord_pt))
             {
                 qDebug() << "Button " << i << " for adding a card pressed";
-                int r = i % 2 == 0 ? max-1 : 0;
-                int c = i % 2 == 0 ? i + 1 : i;
+                int r = i % 2 == 0 ? i + 1 : i;
+                int c = i % 2 == 0 ? max-1 : 0;
                 game->moveCard(r,c);
                 qDebug() << "Card moved to into row " << r << " " << c;
                 turnState = false;
@@ -212,8 +212,8 @@ void LabyrinthQt::mousePressEvent(QMouseEvent *e)
             if (verticalButtons[i]->contains(img_coord_pt))
             {
                 qDebug() << "Button " << i << " for adding a card pressed";
-                int r = i % 2 == 0 ? i + 1 : i;
-                int c = i % 2 == 0 ? max-1 : 0;
+                int r = i % 2 == 0 ? max-1 : 0;
+                int c = i % 2 == 0 ? i + 1 : i;
                 game->moveCard(r,c);
                 qDebug() << "Card moved to into column " << r << " " << c;
                 turnState = false;
