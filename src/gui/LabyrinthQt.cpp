@@ -235,6 +235,9 @@ void LabyrinthQt::drawBoard()
     QGraphicsScene * mainScene = ui->mainView->scene();
     this->clearVector(horizontalButtons, mainScene);
     this->clearVector(verticalButtons, mainScene);
+    this->clearVector(tiles, mainScene);
+    this->clearVector(treasures, mainScene);
+    this->clearVector(figures, mainScene);
     delete mainScene;
     mainScene = new QGraphicsScene;
     ui->mainView->setScene(mainScene);
@@ -365,7 +368,6 @@ void LabyrinthQt::movePlayer(QPointF &coord)
  */
 void LabyrinthQt::mousePressEvent(QMouseEvent *e)
 {
-    this->finishedGame();
     if (!game->isStarted() || game->isWon())
         return;
     qDebug() << "Mouse event";
@@ -399,13 +401,11 @@ void LabyrinthQt::mousePressEvent(QMouseEvent *e)
 void LabyrinthQt::startGame()
 {
     // Setup game Board
-    if(!game->isStarted())
-        this->game->startGame();
     this->setWindowState(Qt::WindowMaximized);
     this->drawBoard();
     this->turnState = true;
 
-    // Buid players List
+    // Build players List
     vector<std::string> players = game->getNames();
     for (unsigned i=0; i < players.size(); i++)
     {
@@ -415,7 +415,7 @@ void LabyrinthQt::startGame()
         ui->listWidget->addItem(entry);
     }
     // Set Active Player
-    ui->Hint->setText(QString("Game began!<br>It's player <b>%1</b>'s turn<br><br>Please place the spare card").arg(QString::fromStdString(game->getActive().getName())));
+    ui->Hint->setText(QString("Game begun!<br>It's player <b>%1</b>'s turn<br><br>Please place the spare card").arg(QString::fromStdString(game->getActive().getName())));
     QFont font; font.setBold(true);
     ui->listWidget->item(game->getActiveIndex())->setFont(font);
 }
@@ -438,15 +438,21 @@ void LabyrinthQt::onActionNewGame()
     // Shows the pregame setting window
     if (!this->prepareGame())
         return;
-    // removes the WelcomeText
+    // prepare UI
+    this->prepareUI();
+
+    // Starts game itself
+    this->game->startGame();
+    this->startGame();
+}
+
+void LabyrinthQt::prepareUI()
+{
     ui->gridLayout->removeWidget(ui->WelcomeText);
     ui->gridLayout->addWidget(ui->mainView,0,0, 0, 1);
     ui->gridLayout->addWidget(ui->rightPanelPlayers, 0,1);
     ui->gridLayout->addWidget(ui->rightPanelCurrentTurn, 1, 1);
     ui->gridLayout->addWidget(ui->cardView,2,1);
-
-    // Starts game itself
-    this->startGame();
 }
 
 /**
@@ -454,11 +460,17 @@ void LabyrinthQt::onActionNewGame()
  */
 void LabyrinthQt::onActionLoad()
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Load game");
+    QString filter = "Game map (*.map)";
+    QString filename = QFileDialog::getOpenFileName(this, "Load game", "", filter, &filter);
+    if (filename == "")
+        return;
     if (!game->load(filename.toStdString()))
         QMessageBox::critical(this, "Labyrint 2015", "Failed to load selected file");
     else
+    {
+        this->prepareUI();
         this->startGame();
+    }
 }
 
 /**
@@ -466,7 +478,8 @@ void LabyrinthQt::onActionLoad()
  */
 void LabyrinthQt::onActionSave()
 {
-    QString filename = QFileDialog::getSaveFileName(this, "Save game");
+    QString filter = "Game map (*.map)";
+    QString filename = QFileDialog::getSaveFileName(this, "Save game", "", filter, &filter);
     if (!game->save(filename.toStdString()))
         QMessageBox::critical(this, "Labyrint 2015", "Failed to save to selected file");
 }

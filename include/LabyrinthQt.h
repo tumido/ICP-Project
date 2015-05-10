@@ -69,6 +69,7 @@ private:
     vector<QGraphicsItem*> figures;
     bool turnState;
     void toggleArrows();
+    void prepareUI();
     void clearVector(vector<QGraphicsItem*> &vect, QGraphicsScene *&scene);
 };
 
