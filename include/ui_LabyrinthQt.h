@@ -31,6 +31,7 @@ public:
     QAction *actionSave_map;
     QAction *actionExit;
     QAction *actionUndo;
+    QAction *actionStats;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QGraphicsView *mainView;
@@ -64,6 +65,8 @@ public:
         actionExit->setObjectName(QString::fromUtf8("actionExit"));
         actionUndo = new QAction(LabyrinthQt);
         actionUndo->setObjectName(QString::fromUtf8("actionUndo"));
+        actionStats = new QAction(LabyrinthQt);
+        actionStats->setObjectName(QString::fromUtf8("actionStats"));
         centralWidget = new QWidget(LabyrinthQt);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -117,6 +120,7 @@ public:
         menuGame->addAction(actionExit);
 
         menuEdit->addAction(actionUndo);
+        menuEdit->addAction(actionStats);
 
         listWidget= new QListWidget(rightPanelPlayers);
 
@@ -139,6 +143,10 @@ public:
 
         rightPanelCurrentTurn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred );
 
+        actionStats->setDisabled(true);
+        actionUndo->setDisabled(true);
+        actionSave_map->setDisabled(true);
+
         retranslateUi(LabyrinthQt);
 
         QMetaObject::connectSlotsByName(LabyrinthQt);
@@ -152,6 +160,7 @@ public:
         actionSave_map->setText("Save map");
         actionExit->setText("Exit");
         actionUndo->setText("Undo");
+        actionStats->setText("Statistics pop-up");
         WelcomeText->setText("Welcome to the Labyrinth game\nTo start a new game press \"Game\" -> \"New game\"");
         menuGame->setTitle("Game");
         menuEdit->setTitle("Edit");

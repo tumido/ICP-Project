@@ -14,6 +14,7 @@ LabyrinthQt::LabyrinthQt(QWidget *parent) :
     connect(ui->actionSave_map, SIGNAL(triggered()), this, SLOT(onActionSave()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(onActionExit()));
     connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(onActionUndo()));
+    connect(ui->actionStats, SIGNAL(triggered()), this, SLOT(onActionStats()));
 
 }
 
@@ -122,19 +123,35 @@ void LabyrinthQt::finishedGame()
     done.setLayout(grid);
     QGroupBox box1(&done);
     QLabel header(&done);
-    header.setText(QString("You've won, %1").arg(QString::fromStdString(game->getActive().getName())));
+    if (game->isWon())
+        header.setText(QString("You've won, %1").arg(QString::fromStdString(game->getActive().getName())));
+    else
+        header.setText("In-game statistics monitor");
     header.setTextFormat(Qt::RichText);
     grid->addWidget(&header);
     grid->addWidget(&box1);
     box1.setTitle("Statistics");
     QGridLayout stat(&box1);
+    QTableWidget * scoreTable = new QTableWidget(0, 2);
+    stat.addWidget(scoreTable);
+    QStringList labels;
+    labels << tr("Player") << tr("Score");
+    scoreTable->setHorizontalHeaderLabels(labels);
+    scoreTable->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
+    scoreTable->verticalHeader()->hide();
+    scoreTable->setShowGrid(false);
 
     // Add player's settings
     foreach(Player player, game->getAllPlayers())
     {
-        QLabel * label = new QLabel(&box1);
-        label->setText(QString("Player: %1\t%2").arg(QString::fromStdString(player.getName())).arg(player.getScore()));
-        stat.addWidget(label);
+        QTableWidgetItem * name = new QTableWidgetItem;
+        QTableWidgetItem * score = new QTableWidgetItem;
+        name->setText(QString::fromStdString(player.getName()));
+        score->setText(QString("%1").arg(player.getScore()));
+        int row = scoreTable->rowCount();
+        scoreTable->insertRow(row);
+        scoreTable->setItem(row, 0, name);
+        scoreTable->setItem(row, 1, score);
     }
 
     // Add OK button
@@ -196,7 +213,7 @@ void LabyrinthQt::updateBoard()
         figures.push_back(tileItem);
     }
     // Draw players target
-    ui->treasureScene->addPixmap(QPixmap(QString(":/res/%1").arg(1)));//game->getActive().getTreasure())));
+    ui->treasureScene->addPixmap(QPixmap(QString(":/res/%1").arg(game->getActive().getTreasure())));
 
     // Draw spare card
     QPixmap freeCard = QPixmap(QString(":/res/%1").arg(QString::fromStdString(game->getFreeCard())));
@@ -400,6 +417,10 @@ void LabyrinthQt::mousePressEvent(QMouseEvent *e)
  */
 void LabyrinthQt::startGame()
 {
+    // Enable ingame menu actions
+    ui->actionStats->setEnabled(true);
+    ui->actionUndo->setEnabled(true);
+    ui->actionSave_map->setEnabled(true);
     // Setup game Board
     this->setWindowState(Qt::WindowMaximized);
     this->drawBoard();
@@ -493,4 +514,10 @@ void LabyrinthQt::onActionUndo()
         return;
     game->undo();
     this->updateBoard();
+}
+
+void LabyrinthQt::onActionStats()
+{
+    // fake that game is finished
+    this->finishedGame();
 }

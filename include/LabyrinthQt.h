@@ -18,6 +18,8 @@
 #include <QGraphicsPixmapItem>
 #include <QFileDialog>
 #include <QMouseEvent>
+#include <QTableWidget>
+#include <QTableWidgetItem>
 
 #include "MazeCard.h"
 #include "GameManager.h"
@@ -55,6 +57,7 @@ public slots:
     void onActionLoad();
     void onActionSave();
     void onActionUndo();
+    void onActionStats();
 
 protected:
     void mousePressEvent(QMouseEvent* e);
