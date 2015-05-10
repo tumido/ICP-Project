@@ -19,5 +19,6 @@
         <file alias=">">res/insertL.png</file>
         <file alias="&lt;">res/insertR.png</file>
         <file alias="v">res/insertU.png</file>
+        <file alias="rotate">res/rotate.png</file>
     </qresource>
 </RCC>

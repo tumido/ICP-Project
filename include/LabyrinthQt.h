@@ -67,6 +67,7 @@ private:
     vector<QGraphicsItem*> figures;
     bool turnState;
     void toggleArrows();
+    void clearVector(vector<QGraphicsItem*> &vect, QGraphicsScene *&scene);
 };
 
 #endif // LABYRINTHQT_H

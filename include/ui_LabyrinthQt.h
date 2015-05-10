@@ -29,6 +29,8 @@ public:
     QAction *actionLoad_map;
     QAction *actionSave_map;
     QAction *actionExit;
+    QAction *actionUndo;
+    QAction *actionRedo;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QGraphicsView *mainView;
@@ -38,8 +40,10 @@ public:
     QLabel *Hint;
     QMenuBar *menuBar;
     QMenu *menuGame;
+    QMenu *menuEdit;
     QStatusBar *statusBar;
     QListWidget * listWidget;
+    QGraphicsPixmapItem *rotateButton;
 
     void setupUi(QMainWindow *LabyrinthQt)
     {
@@ -54,6 +58,10 @@ public:
         actionSave_map->setObjectName(QString::fromUtf8("actionSave_map"));
         actionExit = new QAction(LabyrinthQt);
         actionExit->setObjectName(QString::fromUtf8("actionExit"));
+        actionUndo = new QAction(LabyrinthQt);
+        actionUndo->setObjectName(QString::fromUtf8("actionUndo"));
+        actionRedo = new QAction(LabyrinthQt);
+        actionRedo->setObjectName(QString::fromUtf8("actionUndo"));
         centralWidget = new QWidget(LabyrinthQt);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -71,6 +79,9 @@ public:
         cardView->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred );
         cardScene = new QGraphicsScene;
         cardView->setScene(cardScene);
+        QPixmap rotate = QPixmap(":/res/rotate");
+        rotateButton = cardScene->addPixmap(rotate);
+        rotateButton->setOffset(-rotate.width()/2, -rotate.height()/2);
 
         gridLayout->addWidget(WelcomeText, 0, 1, 1, 1);
 
@@ -80,17 +91,23 @@ public:
         menuBar->setGeometry(QRect(0, 0, 408, 24));
         menuGame = new QMenu(menuBar);
         menuGame->setObjectName(QString::fromUtf8("menuGame"));
+        menuEdit = new QMenu(menuBar);
+        menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
         LabyrinthQt->setMenuBar(menuBar);
         statusBar = new QStatusBar(LabyrinthQt);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
         LabyrinthQt->setStatusBar(statusBar);
 
         menuBar->addAction(menuGame->menuAction());
+        menuBar->addAction(menuEdit->menuAction());
         menuGame->addAction(actionNew_game);
         menuGame->addAction(actionLoad_map);
         menuGame->addAction(actionSave_map);
         menuGame->addSeparator();
         menuGame->addAction(actionExit);
+
+        menuEdit->addAction(actionUndo);
+        menuEdit->addAction(actionRedo);
 
         listWidget= new QListWidget;
         listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
@@ -112,8 +129,11 @@ public:
         actionLoad_map->setText("Load map");
         actionSave_map->setText("Save map");
         actionExit->setText("Exit");
+        actionUndo->setText("Undo");
+        actionRedo->setText("Redo");
         WelcomeText->setText("Welcome to the Labyrinth game\nTo start a new game press \"Game\" -> \"New game\"");
         menuGame->setTitle("Game");
+        menuEdit->setTitle("Edit");
     } // retranslateUi
 
 };

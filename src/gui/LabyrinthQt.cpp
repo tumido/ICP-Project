@@ -20,6 +20,10 @@ LabyrinthQt::~LabyrinthQt()
     delete ui;
 }
 
+/**
+ * @brief Prepare game dialog
+ * @return dialog closed correctly by OK button
+ */
 bool LabyrinthQt::prepareGame()
 {
     // Create dialog for entering settings for new game
@@ -100,19 +104,28 @@ bool LabyrinthQt::prepareGame()
     return true;
 }
 
+/**
+ * @brief Helper funciton for cleaning interal vector
+ * @param vect vector to be cleaned
+ * @param scene where the items where drawn
+ */
+void LabyrinthQt::clearVector(vector<QGraphicsItem *> &vect, QGraphicsScene *&scene)
+{
+    foreach (QGraphicsItem * item, vect)
+        scene->removeItem(item);
+    vect.clear();
+}
+
+/**
+ * @brief Function for board updating, destroys and recreates the scene (just tiles, treasures and figures)
+ */
 void LabyrinthQt::updateBoard()
 {
     QGraphicsScene * mainScene = ui->mainView->scene();
     // Cleanup of our scene
-    foreach (QGraphicsItem * tile, tiles)
-        mainScene->removeItem(tile);
-    tiles.clear();
-    foreach (QGraphicsItem * tr, treasures)
-        mainScene->removeItem(tr);
-    treasures.clear();
-    foreach (QGraphicsItem * fig, figures)
-        mainScene->removeItem(fig);
-    figures.clear();
+    this->clearVector(tiles, mainScene);
+    this->clearVector(treasures, mainScene);
+    this->clearVector(figures, mainScene);
 
     // Draw board again
     for (int r=0; r < game->getSize(); r++)
@@ -142,9 +155,13 @@ void LabyrinthQt::updateBoard()
         figures.push_back(tileItem);
     }
     QPixmap freeCard = QPixmap(QString(":/res/%1").arg(QString::fromStdString(game->getFreeCard())));
-    ui->cardScene->addPixmap(freeCard);
+    QGraphicsPixmapItem * freeCardItem = ui->cardScene->addPixmap(freeCard);
+    freeCardItem->setOffset(-(freeCard.width()/2), -(freeCard.height()/2));
 }
 
+/**
+ * @brief Simple funciton for toggling the arrows opacity (making them look disabled)
+ */
 void LabyrinthQt::toggleArrows()
 {
     bool toggle = horizontalButtons[0]->opacity() == 1;
@@ -156,12 +173,19 @@ void LabyrinthQt::toggleArrows()
     }
 }
 
+/**
+ * @brief Innitial board draw funciton, called only after new game start
+ *
+ * Builds arrows list
+ */
 void LabyrinthQt::drawBoard()
 {
     QGraphicsScene * mainScene = new QGraphicsScene;
     ui->mainView->setScene(mainScene);
     this->updateBoard();
     int r,c = game->getSize();
+    this->clearVector(horizontalButtons, mainScene);
+    this->clearVector(verticalButtons, mainScene);
     for (r=1; r < game->getSize(); r += 2)
     {
         QPixmap tile = QPixmap(QString(":/res/^"));
@@ -193,11 +217,16 @@ void LabyrinthQt::drawBoard()
     return;
 }
 
+/**
+ * @brief Innitiate placing of the spare card on main board
+ * @param coord where the click was done in coordinates relative to mainScene
+ */
 void LabyrinthQt::placeCard(QPointF &coord)
 {
     bool somethingHappened = false;
     int max = game->getSize();
-    for(int i=0; i< horizontalButtons.size(); i++)
+    // determine which buttos were clicked
+    for(unsigned i=0; i< horizontalButtons.size(); i++)
     {
         if (horizontalButtons[i]->contains(coord))
         {
@@ -210,7 +239,7 @@ void LabyrinthQt::placeCard(QPointF &coord)
             break;
         }
     }
-    for(int i=0; i< verticalButtons.size(); i++)
+    for(unsigned i=0; i< verticalButtons.size(); i++)
     {
         if (verticalButtons[i]->contains(coord))
         {
@@ -223,6 +252,7 @@ void LabyrinthQt::placeCard(QPointF &coord)
             break;
         }
     }
+    // change was recorede, we need to reload board and hide arrows
     if (somethingHappened)
     {
         turnState = false;
@@ -232,17 +262,24 @@ void LabyrinthQt::placeCard(QPointF &coord)
     }
 }
 
+/**
+ * @brief Moves player after user's click action
+ * @param coord where the click was done in coordinates relative to mainScene
+ */
 void LabyrinthQt::movePlayer(QPointF &coord)
 {
     int max = game->getSize();
+    // go through all tiles
     for (int r=0; r<max; r++ )
     {
         for (int c=0; c<max; c++)
         {
+            // was tile clicked?
             if (tiles[r * max + c]->contains(coord))
             {
                 int previousPlayer = game->getActiveIndex();
                 qDebug() << "Clicked tile" << r << " " << c;
+                // check if the player can move on this tile
                 if (game->movePlayer(r,c))
                 {
                     turnState = true;
@@ -260,12 +297,33 @@ void LabyrinthQt::movePlayer(QPointF &coord)
     }
 }
 
+
+/**
+ * @brief Users input -> mouse clicks
+ *
+ * Determines if the click was done in-game, on the rotate button of the spare card
+ * or in the main game board and iniciates appropriate action
+ * @param e the catched mouse event
+ */
 void LabyrinthQt::mousePressEvent(QMouseEvent *e)
 {
     if (!game->isStarted())
         return;
-    QPoint local_pt = ui->mainView->mapFromGlobal(e->globalPos());
-    QPointF img_coord_pt = ui->mainView->mapToScene(local_pt);
+    QPoint local_pt = ui->cardView->mapFromGlobal(e->globalPos());
+    QPointF img_coord_pt = ui->cardView->mapToScene(local_pt);
+
+    // If the click is for rotating the free card
+    if (ui->rotateButton->contains(img_coord_pt))
+    {
+        qDebug() << "Rotating free card";
+        game->turnFreeCard();
+        this->updateBoard();
+        return;
+    }
+
+    // else it's part of players's turn
+    local_pt = ui->mainView->mapFromGlobal(e->globalPos());
+    img_coord_pt = ui->mainView->mapToScene(local_pt);
     QString state = turnState ? "Place a card" : "Move player";
     qDebug() << "Current state of turn: " << state;
 
@@ -276,10 +334,14 @@ void LabyrinthQt::mousePressEvent(QMouseEvent *e)
 }
 
 
+/**
+ * @brief Start Game draws initial board and biulds players list (and sets first palyer as active)
+ */
 void LabyrinthQt::startGame()
 {
     // Setup game Board
-    this->game->startGame();
+    if(!game->isStarted())
+        this->game->startGame();
     this->setWindowState(Qt::WindowMaximized);
     this->drawBoard();
     this->turnState = true;
@@ -299,11 +361,19 @@ void LabyrinthQt::startGame()
     ui->listWidget->item(game->getActiveIndex())->setFont(font);
 }
 
+/**
+ * @brief Action Called after user's hit on Exit button in menu
+ */
 void LabyrinthQt::onActionExit()
 {
     this->close();
 }
 
+/**
+ * @brief Action Called after user's hit on New game button in menu
+ *
+ * Displays popup, prepares the layeot and starts the game
+ */
 void LabyrinthQt::onActionNewGame()
 {
     // Shows the pregame setting window
@@ -320,13 +390,21 @@ void LabyrinthQt::onActionNewGame()
     this->startGame();
 }
 
+/**
+ * @brief Action Called after user's hit on Load button in menu, loads map
+ */
 void LabyrinthQt::onActionLoad()
 {
     QString filename = QFileDialog::getOpenFileName(this, "Load game");
     if (!game->load(filename.toStdString()))
         QMessageBox::critical(this, "Labyrint 2015", "Failed to load selected file");
+    else
+        this->startGame();
 }
 
+/**
+ * @brief Action Called after user's hit on Save button in menu, saves map
+ */
 void LabyrinthQt::onActionSave()
 {
     QString filename = QFileDialog::getSaveFileName(this, "Save game");
