@@ -1,5 +1,5 @@
 #include "../../include/PathFinder.h"
-
+#include <iostream>
 /**
  * Returns vector of all possible moves for the current player
  *
@@ -40,18 +40,24 @@ vector<MazeField> PathFinder::possibleMoves(MazeField field,
 bool PathFinder::fieldsConnected(MazeField current,
                                  MazeField next)
 {
+    /*std::cout << "*** current ***" << std::endl;
+    std::cout << current.getCard().getStringPath() << " ";
+    std::cout << "Col: " << current.col() << "; Row: " << current.row() <<std::endl;
+    std::cout << "*** next ***" << std::endl;
+    std::cout << next.getCard().getStringPath() << " ";
+    std::cout << "Col: " << next.col() << "; Row: " << next.row() <<std::endl;*/
     if (current.col() + 1 == next.col()) {
-        return current.getCard().canGo(MazeCard::CANGO::LEFT) &&
-               next.getCard().canGo(MazeCard::CANGO::RIGHT);
-    } else if (current.col() - 1 == next.col()) {
         return current.getCard().canGo(MazeCard::CANGO::RIGHT) &&
                next.getCard().canGo(MazeCard::CANGO::LEFT);
+    } else if (current.col() - 1 == next.col()) {
+        return current.getCard().canGo(MazeCard::CANGO::LEFT) &&
+               next.getCard().canGo(MazeCard::CANGO::RIGHT);
     } else if (current.row() + 1 == next.row()) {
-        return current.getCard().canGo(MazeCard::CANGO::DOWN) &&
-               next.getCard().canGo(MazeCard::CANGO::UP);
-    } else if (current.row() - 1 == next.row()) {
         return current.getCard().canGo(MazeCard::CANGO::UP) &&
                next.getCard().canGo(MazeCard::CANGO::DOWN);
+    } else if (current.row() - 1 == next.row()) {
+        return current.getCard().canGo(MazeCard::CANGO::DOWN) &&
+               next.getCard().canGo(MazeCard::CANGO::UP);
     } else {
         return false;
     }

@@ -295,6 +295,33 @@ bool GameManager::isTreasure(int r, int c)
 }
 
 /**
+ * Returns treasure from specified card
+ *
+ * @param r Row index
+ * @param c Column index
+ */
+int GameManager::getTreasure(int r, int c)
+{
+    return this->_board.get(r, c).getCard().getTreasure();
+}
+
+/**
+ * Checks whether free card contains a treasure
+ */
+bool GameManager::isFreeTreasure()
+{
+    return this->_board.getFreeCard().isTreasure();
+}
+
+/**
+ * Returns treasure from free card
+ */
+int GameManager::getFreeTreasure()
+{
+    return this->_board.getFreeCard().getTreasure();
+}
+
+/**
  * Returns game board
  */
 MazeBoard GameManager::getBoard()

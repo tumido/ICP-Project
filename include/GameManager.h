@@ -37,6 +37,9 @@ class GameManager
         string getFreeCard();
         void turnFreeCard();
         bool isTreasure(int r, int c);
+        int getTreasure(int r, int c);
+        bool isFreeTreasure();
+        int getFreeTreasure();
     protected:
     private:
         MazeBoard _board;
