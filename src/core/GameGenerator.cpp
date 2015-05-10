@@ -29,7 +29,11 @@ MazeCard GameGenerator::generateCard()
     default:
         break;
     }
-    return MazeCard(s);
+    MazeCard card(s);
+    int rotates = rand() % 4;
+    for (int i = 0; i < rotates; i++)
+        card.turnRight();
+    return card;
 }
 
 /**
