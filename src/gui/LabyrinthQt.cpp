@@ -79,10 +79,13 @@ bool LabyrinthQt::prepareGame()
 
     delete game;
     game = new GameManager;
+    ui->rightPanelPlayers->layout()->removeWidget(ui->listWidget);
     delete ui->listWidget;
     ui->listWidget= new QListWidget;
     ui->listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
     ui->listWidget->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->rightPanelPlayers->layout()->addWidget(ui->listWidget);
+
     for(int i = 0; i < MAX_PLAYERS; i++)
     {
         if (i < MIN_PLAYERS && players[i]->text() == "")
@@ -127,7 +130,6 @@ void LabyrinthQt::finishedGame()
         QLabel label(&box1);
         label.setText(QString("Player: %1\t%2").arg(QString::fromStdString(player.getName())).arg(player.getScore()));
         stat.addWidget(&label);
-        qDebug() << "stat";
     }
 
     // Add OK button
@@ -188,6 +190,10 @@ void LabyrinthQt::updateBoard()
         qDebug() << "Player possition set " << players[i].row() << players[i].col();
         figures.push_back(tileItem);
     }
+    // Draw players target
+    ui->treasureScene->addPixmap(QPixmap(QString(":/res/%1").arg(1)));//game->getActive().getTreasure())));
+
+    // Draw spare card
     QPixmap freeCard = QPixmap(QString(":/res/%1").arg(QString::fromStdString(game->getFreeCard())));
     QGraphicsPixmapItem * freeCardItem = ui->cardScene->addPixmap(freeCard);
     freeCardItem->setOffset(-(freeCard.width()/2), -(freeCard.height()/2));
@@ -337,7 +343,9 @@ void LabyrinthQt::movePlayer(QPointF &coord)
         }
     }
     if (game->isWon())
-        this->finishedGame();
+    {
+
+    }
 }
 
 
@@ -352,7 +360,7 @@ void LabyrinthQt::mousePressEvent(QMouseEvent *e)
 {
     if (!game->isStarted() || game->isWon())
         return;
-    //this->finishedGame();
+    qDebug() << "Mouse event";
     QPoint local_pt = ui->cardView->mapFromGlobal(e->globalPos());
     QPointF img_coord_pt = ui->cardView->mapToScene(local_pt);
 
@@ -377,7 +385,6 @@ void LabyrinthQt::mousePressEvent(QMouseEvent *e)
         this->movePlayer(img_coord_pt);
 }
 
-
 /**
  * @brief Start Game draws initial board and biulds players list (and sets first palyer as active)
  */
@@ -391,22 +398,12 @@ void LabyrinthQt::startGame()
     this->turnState = true;
 
     // Buid players List
-    vector<Player> players = game->getAllPlayers();
+    vector<std::string> players = game->getNames();
     for (unsigned i=0; i < players.size(); i++)
     {
         QListWidgetItem * entry = new QListWidgetItem(ui->listWidget);
-        entry->setText(QString("Player%1: %2").arg(i + 1).arg(QString::fromStdString(players[i].getName())));
-        QIcon icon;
-        QPixmap combinedIcon(200 + SPACING, 100);
-        QPixmap playerIcon(QString(":/res/player%1").arg(i+1));
-        QPixmap wantedTreasure(QString(":/res/%1").arg(players[i].getTreasure()));
-        qDebug() << "Player " << i << " wants treasure: " << players[i].getTreasure();
-
-        QPainter painter(&combinedIcon);
-        painter.drawPixmap(0, 0, playerIcon);
-        painter.drawPixmap(playerIcon.width() + SPACING, 0, wantedTreasure);
-        icon.addPixmap(combinedIcon);
-        entry->setIcon(icon);
+        entry->setText(QString("Player%1: %2").arg(i + 1).arg(QString::fromStdString(players[i])));
+        entry->setIcon(QIcon(QString(":/res/player%1").arg(i+1)));
         ui->listWidget->addItem(entry);
     }
     // Set Active Player
@@ -436,8 +433,8 @@ void LabyrinthQt::onActionNewGame()
     // removes the WelcomeText
     ui->gridLayout->removeWidget(ui->WelcomeText);
     ui->gridLayout->addWidget(ui->mainView,0,0, 0, 1);
-    ui->gridLayout->addWidget(ui->listWidget, 0,1);
-    ui->gridLayout->addWidget(ui->Hint, 1, 1);
+    ui->gridLayout->addWidget(ui->rightPanelPlayers, 0,1);
+    ui->gridLayout->addWidget(ui->rightPanelCurrentTurn, 1, 1);
     ui->gridLayout->addWidget(ui->cardView,2,1);
 
     // Starts game itself

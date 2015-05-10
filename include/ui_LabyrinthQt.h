@@ -17,6 +17,7 @@
 #include <QGraphicsScene>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QGroupBox>
 
 
 
@@ -43,6 +44,10 @@ public:
     QStatusBar *statusBar;
     QListWidget * listWidget;
     QGraphicsPixmapItem *rotateButton;
+    QGroupBox * rightPanelPlayers;
+    QGroupBox * rightPanelCurrentTurn;
+    QGraphicsView *treasureView;
+    QGraphicsScene *treasureScene;
 
     void setupUi(QMainWindow *LabyrinthQt)
     {
@@ -71,7 +76,11 @@ public:
         WelcomeText->setFrameShape(QFrame::NoFrame);
         WelcomeText->setAlignment(Qt::AlignCenter);
         mainView = new QGraphicsView;
-        mainView->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
+        mainView->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred );
+        rightPanelPlayers = new QGroupBox;
+        QGridLayout * lp = new QGridLayout(rightPanelPlayers);
+        rightPanelCurrentTurn = new QGroupBox;
+        QGridLayout * lt = new QGridLayout(rightPanelCurrentTurn);
         cardView = new QGraphicsView;
         cardView->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred );
         cardScene = new QGraphicsScene;
@@ -79,6 +88,10 @@ public:
         QPixmap rotate = QPixmap(":/res/rotate");
         rotateButton = cardScene->addPixmap(rotate);
         rotateButton->setOffset(-rotate.width()/2, -rotate.height()/2);
+        treasureView = new QGraphicsView;
+        treasureView->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+        treasureScene = new QGraphicsScene;
+        treasureView->setScene(treasureScene);
 
         gridLayout->addWidget(WelcomeText, 0, 1, 1, 1);
 
@@ -105,14 +118,26 @@ public:
 
         menuEdit->addAction(actionUndo);
 
-        listWidget= new QListWidget;
-        listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
+        listWidget= new QListWidget(rightPanelPlayers);
 
-        Hint = new QLabel("Game began!");
+        Hint = new QLabel("Game began!", rightPanelCurrentTurn);
         Hint->setAlignment(Qt::AlignCenter);
         Hint->setTextFormat(Qt::RichText);
-        listWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred );
-        listWidget->setIconSize(QSize(200, 100));
+        Hint->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred );
+        QLabel * target = new QLabel("You are looking for: ", rightPanelCurrentTurn);
+        target->setAlignment(Qt::AlignCenter);
+        target->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+        rightPanelPlayers->setTitle("List of players");
+        lp->addWidget(listWidget);
+        rightPanelPlayers->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
+
+        rightPanelCurrentTurn->setTitle("Current turn");
+        lt->addWidget(Hint, 0, 0, 1, 0);
+        lt->addWidget(target, 1, 0);
+        lt->addWidget(treasureView, 1, 1);
+
+        rightPanelCurrentTurn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred );
 
         retranslateUi(LabyrinthQt);
 
