@@ -14,7 +14,7 @@ bool PathFinder::findPath(MazeField curr, MazeField dest, MazeBoard &board)
     int limit = board.getSize() - 1;
     vector<MazeField> coordinates;
     coordinates.push_back(curr);
-    while (added > counter || (added == 0 && counter == 0)) {
+    while (added >= counter || (added == 0 && counter == 0)) {
         curr = coordinates[counter];
         if (curr.col() == dest.col() && curr.row() == dest.row())
             return true;
