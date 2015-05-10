@@ -374,7 +374,7 @@ void GameManager::fixPlayerPositions(int r, int c)
  * @param c Column index
  * @param id Player's index
  */
-void GameManager::fixPlayerPosition(int c, int r, int id)
+void GameManager::fixPlayerPosition(int r, int c, int id)
 {
     int lim = this->_size - 1;
     int current_row = this->_players[id].row();
@@ -382,15 +382,18 @@ void GameManager::fixPlayerPosition(int c, int r, int id)
 
     if (this->_players[id].row() == r && r != 0 && r != lim) {
         if (c == 0) {
-            this->_players[id].setLocation(this->fixPositionBounds(current_row + 1), current_col);
+            this->_players[id].setLocation(current_row, this->fixPositionBounds(current_col + 1));
         } else if (c == lim) {
-            this->_players[id].setLocation(this->fixPositionBounds(current_row - 1), current_col);
+            this->_players[id].setLocation(current_row, this->fixPositionBounds(current_col - 1));
+            //this->_players[id].setLocation(this->fixPositionBounds(current_row - 1), current_col);
         }
     } else if (this->_players[id].col() == c && c != 0 && c != lim) {
         if (r == 0) {
-            this->_players[id].setLocation(current_row, this->fixPositionBounds(current_col + 1));
+            //this->_players[id].setLocation(current_row, this->fixPositionBounds(current_col + 1));
+            this->_players[id].setLocation(this->fixPositionBounds(current_row + 1), current_col);
         } else if (r == lim) {
-            this->_players[id].setLocation(current_row, this->fixPositionBounds(current_col - 1));
+            this->_players[id].setLocation(this->fixPositionBounds(current_row - 1), current_col);
+            //this->_players[id].setLocation(current_row, this->fixPositionBounds(current_col - 1));
         }
     }
 }
