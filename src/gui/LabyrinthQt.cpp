@@ -406,6 +406,7 @@ void LabyrinthQt::startGame()
     this->turnState = true;
 
     // Build players List
+    ui->listWidget->clear();
     vector<std::string> players = game->getNames();
     for (unsigned i=0; i < players.size(); i++)
     {
@@ -478,6 +479,8 @@ void LabyrinthQt::onActionLoad()
  */
 void LabyrinthQt::onActionSave()
 {
+    if (!game->isStarted())
+        return;
     QString filter = "Game map (*.map)";
     QString filename = QFileDialog::getSaveFileName(this, "Save game", "", filter, &filter);
     if (!game->save(filename.toStdString()))
@@ -486,6 +489,8 @@ void LabyrinthQt::onActionSave()
 
 void LabyrinthQt::onActionUndo()
 {
+    if (!game->isStarted())
+        return;
     game->undo();
     this->updateBoard();
 }
