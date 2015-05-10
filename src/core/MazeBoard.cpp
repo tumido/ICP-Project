@@ -217,7 +217,7 @@ void MazeBoard::putCard(int r, int c, MazeCard card)
  */
 void MazeBoard::placeTreasure(int r, int c, int id)
 {
-    this->getCard(r, c).setTreasure(id);
+    this->getCardP(r, c)->setTreasure(id);
 }
 
 /**

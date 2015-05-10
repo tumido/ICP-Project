@@ -68,6 +68,7 @@ bool GameManager::startGame()
     if (this->_players.size() >= 2) {
         this->_board = MazeBoard(this->_size);
         this->generateTreasures();
+        this->_board.placeTreasures(this->_treasureIds);
         this->playerAutoPlacement();
         this->_started = true;
     }
@@ -80,6 +81,8 @@ bool GameManager::startGame()
 void GameManager::restartGame()
 {
     this->_board.newGame();
+    this->generateTreasures();
+    this->_board.placeTreasures(this->_treasureIds);
     this->playerAutoPlacement();
 }
 
