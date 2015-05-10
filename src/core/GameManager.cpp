@@ -257,9 +257,6 @@ bool GameManager::load(string fname)
     myfile.open(fname);
     myfile >> content;
     auto props = split(content, ';');
-    for (int i = 0; i < props.size(); i++)
-        cerr << props[i] << endl;
-    cerr << "****** Loading ********" << endl;
     /* read players */
     int playerCount = atoi(props[index].c_str());
     for (index = 1; index <= playerCount; index++) {
@@ -526,7 +523,18 @@ void GameManager::playerAutoPlacement()
         this->_players[2].setLocation(0, lim);
     if (cnt > 3)
         this->_players[3].setLocation(lim, 0);
+    this->playerDefaultTreasures();
 }
+
+void GameManager::playerDefaultTreasures()
+{
+    for (unsigned int i = 0; i < this->_players.size(); i++)
+        this->_players[i].setNewTreasure(this->takeTreasure());
+}
+
+/**
+ * Checks whether the game has already started
+ */
 bool GameManager::isStarted()
 {
     return _started;

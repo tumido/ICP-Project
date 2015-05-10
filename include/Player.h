@@ -32,7 +32,7 @@ class Player
          int _treasureId;
          int _row;
          int _col;
-         unsigned int _score = 0;
+         unsigned int _score = -1;
 };
 
 #endif // PLAYER_H

@@ -61,6 +61,7 @@ class GameManager
         void revertCard(Action action);
         void revertPlayer(Action action);
         void playerAutoPlacement();
+        void playerDefaultTreasures();
 };
 
 #endif // GAMEMANAGER_H
