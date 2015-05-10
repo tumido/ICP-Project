@@ -193,79 +193,86 @@ void LabyrinthQt::drawBoard()
     return;
 }
 
+void LabyrinthQt::placeCard(QPointF &coord)
+{
+    bool somethingHappened = false;
+    int max = game->getSize();
+    for(int i=0; i< horizontalButtons.size(); i++)
+    {
+        if (horizontalButtons[i]->contains(coord))
+        {
+            qDebug() << "Button " << i << " for adding a card pressed";
+            int r = i % 2 == 0 ? i + 1 : i;
+            int c = i % 2 == 0 ? max-1 : 0;
+            game->moveCard(r,c);
+            qDebug() << "Card moved to into row " << r << " " << c;
+            somethingHappened = true;
+            break;
+        }
+    }
+    for(int i=0; i< verticalButtons.size(); i++)
+    {
+        if (verticalButtons[i]->contains(coord))
+        {
+            qDebug() << "Button " << i << " for adding a card pressed";
+            int r = i % 2 == 0 ? max-1 : 0;
+            int c = i % 2 == 0 ? i + 1 : i;
+            game->moveCard(r,c);
+            qDebug() << "Card moved to into column " << r << " " << c;
+            somethingHappened = true;
+            break;
+        }
+    }
+    if (somethingHappened)
+    {
+        turnState = false;
+        this->toggleArrows();
+        ui->Hint->setText(QString("It's player <b>%1</b>'s turn<br><br>Please move your figure").arg(QString::fromStdString(game->getActive().getName())));
+        this->updateBoard();
+    }
+}
+
+void LabyrinthQt::movePlayer(QPointF &coord)
+{
+    int max = game->getSize();
+    for (int r=0; r<max; r++ )
+    {
+        for (int c=0; c<max; c++)
+        {
+            if (tiles[r * max + c]->contains(coord))
+            {
+                int previousPlayer = game->getActiveIndex();
+                qDebug() << "Clicked tile" << r << " " << c;
+                if (game->movePlayer(r,c))
+                {
+                    turnState = true;
+                    this->toggleArrows();
+                    ui->Hint->setText(QString("It's player <b>%1</b>'s turn<br><br>Please place the spare card").arg(QString::fromStdString(game->getActive().getName())));
+                    QFont font; font.setBold(true);
+                    ui->listWidget->item(game->getActiveIndex())->setFont(font);
+                    font.setBold(false);
+                    ui->listWidget->item(previousPlayer)->setFont(font);
+                    this->updateBoard();
+                    return;
+                }
+            }
+        }
+    }
+}
+
 void LabyrinthQt::mousePressEvent(QMouseEvent *e)
 {
     if (!game->isStarted())
         return;
     QPoint local_pt = ui->mainView->mapFromGlobal(e->globalPos());
     QPointF img_coord_pt = ui->mainView->mapToScene(local_pt);
-    int max = game->getSize();
     QString state = turnState ? "Place a card" : "Move player";
     qDebug() << "Current state of turn: " << state;
-    bool somethingHappened = false;
+
     if (turnState)
-    {
-        for(int i=0; i< horizontalButtons.size(); i++)
-        {
-            if (horizontalButtons[i]->contains(img_coord_pt))
-            {
-                qDebug() << "Button " << i << " for adding a card pressed";
-                int r = i % 2 == 0 ? i + 1 : i;
-                int c = i % 2 == 0 ? max-1 : 0;
-                game->moveCard(r,c);
-                qDebug() << "Card moved to into row " << r << " " << c;
-                somethingHappened = true;
-                break;
-            }
-        }
-        for(int i=0; i< verticalButtons.size(); i++)
-        {
-            if (verticalButtons[i]->contains(img_coord_pt))
-            {
-                qDebug() << "Button " << i << " for adding a card pressed";
-                int r = i % 2 == 0 ? max-1 : 0;
-                int c = i % 2 == 0 ? i + 1 : i;
-                game->moveCard(r,c);
-                qDebug() << "Card moved to into column " << r << " " << c;
-                somethingHappened = true;
-                break;
-            }
-        }
-        if (somethingHappened)
-        {
-            turnState = false;
-            this->toggleArrows();
-            ui->Hint->setText(QString("It's player <b>%1</b>'s turn<br><br>Please move your figure").arg(QString::fromStdString(game->getActive().getName())));
-            this->updateBoard();
-        }
-    } else
-    {
-        for (int r=0; r<max; r++ )
-        {
-            if (turnState)
-                break;
-            for (int c=0; c<max; c++)
-            {
-                if (tiles[r * max + c]->contains(img_coord_pt))
-                {
-                    int previousPlayer = game->getActiveIndex();
-                    qDebug() << "Clicked tile" << r << " " << c;
-                    if (game->movePlayer(r,c))
-                    {
-                        turnState = true;
-                        this->toggleArrows();
-                        ui->Hint->setText(QString("It's player <b>%1</b>'s turn<br><br>Please place the spare card").arg(QString::fromStdString(game->getActive().getName())));
-                        QFont font; font.setBold(true);
-                        ui->listWidget->item(game->getActiveIndex())->setFont(font);
-                        font.setBold(false);
-                        ui->listWidget->item(previousPlayer)->setFont(font);
-                        this->updateBoard();
-                        break;
-                    }
-                }
-            }
-        }
-    }
+        this->placeCard(img_coord_pt);
+    else
+        this->movePlayer(img_coord_pt);
 }
 
 

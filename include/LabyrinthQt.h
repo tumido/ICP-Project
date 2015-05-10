@@ -46,6 +46,8 @@ public:
     bool prepareGame();
     void drawBoard();
     void updateBoard();
+    void placeCard(QPointF &coord);
+    void movePlayer(QPointF &coord);
 public slots:
     void onActionExit();
     void onActionNewGame();
