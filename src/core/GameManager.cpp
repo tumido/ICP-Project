@@ -347,7 +347,7 @@ void GameManager::fixPlayerPositions(int r, int c)
  * @param c Column index
  * @param id Player's index
  */
-void GameManager::fixPlayerPosition(int r, int c, int id)
+void GameManager::fixPlayerPosition(int c, int r, int id)
 {
     int lim = this->_size - 1;
     int current_row = this->_players[id].row();

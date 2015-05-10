@@ -103,10 +103,10 @@ void MazeBoard::shift(MazeField mf)
         shiftUp(mf.col());
     //right
     } else if (mf.col() == 0 && mf.row() % 2 == 1) {
-        shiftRight(mf.row());
-    //left
-    } else if (mf.row() == bound && mf.col() % 2 == 1) {
         shiftLeft(mf.row());
+    //left
+    } else if (mf.col() == bound && mf.row() % 2 == 1) {
+        shiftRight(mf.row());
     }
 }
 
