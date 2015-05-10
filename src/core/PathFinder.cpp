@@ -1,5 +1,64 @@
 #include "../../include/PathFinder.h"
 #include <iostream>
+
+/**
+ * Check whether path between current field and destination exists
+ *
+ * @param curr Current field
+ * @param dest Destination field
+ */
+bool PathFinder::findPath(MazeField curr, MazeField dest, MazeBoard &board)
+{
+    int counter = 0;
+    int added = 0;
+    int limit = board.getSize() - 1;
+    vector<MazeField> coordinates;
+    coordinates.push_back(curr);
+    while (added >= counter || (added == 0 && counter == 0)) {
+        curr = coordinates[counter];
+        if (curr.col() == dest.col() && curr.row() == dest.row())
+            return true;
+        MazeCard card = curr.getCard();
+        if (card.canGo(MazeCard::CANGO::UP)) {
+            if (curr.col() > 0) {
+                MazeCard card2 = board.get(curr.row(), curr.col() - 1).getCard();
+                if (card2.canGo(MazeCard::CANGO::DOWN)) {
+                    coordinates.push_back(board.get(curr.row(), curr.col() - 1));
+                    added++;
+                }
+            }
+        }
+        if (card.canGo(MazeCard::CANGO::DOWN)) {
+            if (curr.col() < limit) {
+                MazeCard card2 = board.get(curr.row(), curr.col() + 1).getCard();
+                if (card2.canGo(MazeCard::CANGO::UP)) {
+                    coordinates.push_back(board.get(curr.row(), curr.col() + 1));
+                    added++;
+                }
+            }
+        }
+        if (card.canGo(MazeCard::CANGO::LEFT)) {
+            if (curr.row() > 0) {
+                MazeCard card2 = board.get(curr.row() - 1, curr.col()).getCard();
+                if (card2.canGo(MazeCard::CANGO::RIGHT)) {
+                    coordinates.push_back(board.get(curr.row() - 1, curr.col()));
+                    added++;
+                }
+            }
+        }
+        if (card.canGo(MazeCard::CANGO::RIGHT)) {
+                if (curr.row() < limit) {
+                MazeCard card2 = board.get(curr.row() + 1, curr.col()).getCard();
+                if (card2.canGo(MazeCard::CANGO::LEFT)) {
+                    coordinates.push_back(board.get(curr.row() + 1, curr.col()));
+                    added++;
+                }
+            }
+        }
+        counter++;
+    }
+    return false;
+}
 /**
  * Returns vector of all possible moves for the current player
  *

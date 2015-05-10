@@ -8,6 +8,7 @@
 class PathFinder
 {
     public:
+        static bool findPath(MazeField curr, MazeField dest, MazeBoard &board);
         static vector<MazeField> possibleMoves(MazeField current,
                                                MazeBoard board);
         static bool containsField(MazeField field,
