@@ -44,6 +44,7 @@ public:
     ~LabyrinthQt();
     void startGame();
     bool prepareGame();
+    void finishedGame();
     void drawBoard();
     void updateBoard();
     void placeCard(QPointF &coord);

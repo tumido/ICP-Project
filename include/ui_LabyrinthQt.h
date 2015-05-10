@@ -111,7 +111,8 @@ public:
         Hint = new QLabel("Game began!");
         Hint->setAlignment(Qt::AlignCenter);
         Hint->setTextFormat(Qt::RichText);
-        listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
+        listWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred );
+        listWidget->setIconSize(QSize(200, 100));
 
         retranslateUi(LabyrinthQt);
 

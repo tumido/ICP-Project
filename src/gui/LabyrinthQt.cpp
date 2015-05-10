@@ -106,6 +106,38 @@ bool LabyrinthQt::prepareGame()
     return true;
 }
 
+void LabyrinthQt::finishedGame()
+{
+    // Create dialog for entering settings for new game
+    QDialog done(this);
+    QGridLayout * grid = new QGridLayout;
+    done.setLayout(grid);
+    QGroupBox box1(&done);
+    QLabel header(&done);
+    header.setText(QString("You've won, %1").arg(QString::fromStdString(game->getActive().getName())));
+    header.setTextFormat(Qt::RichText);
+    grid->addWidget(&header);
+    grid->addWidget(&box1);
+    box1.setTitle("Statistics");
+    QGridLayout stat(&box1);
+
+    // Add player's settings
+    foreach(Player player, game->getAllPlayers())
+    {
+        QLabel label(&box1);
+        label.setText(QString("Player: %1\t%2").arg(QString::fromStdString(player.getName())).arg(player.getScore()));
+        stat.addWidget(&label);
+        qDebug() << "stat";
+    }
+
+    // Add OK button
+    QDialogButtonBox buttonBox(QDialogButtonBox::Ok, Qt::Horizontal, &done);
+    QObject::connect(&buttonBox, SIGNAL(accepted()), &done, SLOT(accept()));
+    grid->addWidget(&buttonBox);
+    done.exec();
+    return;
+}
+
 /**
  * @brief Helper funciton for cleaning interal vector
  * @param vect vector to be cleaned
@@ -304,6 +336,8 @@ void LabyrinthQt::movePlayer(QPointF &coord)
             }
         }
     }
+    if (game->isWon())
+        this->finishedGame();
 }
 
 
@@ -316,8 +350,9 @@ void LabyrinthQt::movePlayer(QPointF &coord)
  */
 void LabyrinthQt::mousePressEvent(QMouseEvent *e)
 {
-    if (!game->isStarted())
+    if (!game->isStarted() || game->isWon())
         return;
+    //this->finishedGame();
     QPoint local_pt = ui->cardView->mapFromGlobal(e->globalPos());
     QPointF img_coord_pt = ui->cardView->mapToScene(local_pt);
 
@@ -356,12 +391,22 @@ void LabyrinthQt::startGame()
     this->turnState = true;
 
     // Buid players List
-    vector<std::string> players = game->getNames();
+    vector<Player> players = game->getAllPlayers();
     for (unsigned i=0; i < players.size(); i++)
     {
         QListWidgetItem * entry = new QListWidgetItem(ui->listWidget);
-        entry->setText(QString("Player%1: %2").arg(i + 1).arg(QString::fromStdString(players[i])));
-        entry->setIcon(QIcon(QString(":/res/player%1").arg(i+1)));
+        entry->setText(QString("Player%1: %2").arg(i + 1).arg(QString::fromStdString(players[i].getName())));
+        QIcon icon;
+        QPixmap combinedIcon(200 + SPACING, 100);
+        QPixmap playerIcon(QString(":/res/player%1").arg(i+1));
+        QPixmap wantedTreasure(QString(":/res/%1").arg(players[i].getTreasure()));
+        qDebug() << "Player " << i << " wants treasure: " << players[i].getTreasure();
+
+        QPainter painter(&combinedIcon);
+        painter.drawPixmap(0, 0, playerIcon);
+        painter.drawPixmap(playerIcon.width() + SPACING, 0, wantedTreasure);
+        icon.addPixmap(combinedIcon);
+        entry->setIcon(icon);
         ui->listWidget->addItem(entry);
     }
     // Set Active Player
