@@ -20,5 +20,30 @@
         <file alias="&lt;">res/insertR.png</file>
         <file alias="v">res/insertU.png</file>
         <file alias="rotate">res/rotate.png</file>
+        <file alias="0">res/treasure0.png</file>
+        <file>res/treasure.png</file>
+        <file alias="1">res/treasure1.png</file>
+        <file alias="2">res/treasure2.png</file>
+        <file alias="3">res/treasure3.png</file>
+        <file alias="4">res/treasure4.png</file>
+        <file alias="5">res/treasure5.png</file>
+        <file alias="6">res/treasure6.png</file>
+        <file alias="7">res/treasure7.png</file>
+        <file alias="8">res/treasure8.png</file>
+        <file alias="9">res/treasure9.png</file>
+        <file alias="10">res/treasure10.png</file>
+        <file alias="11">res/treasure11.png</file>
+        <file alias="12">res/treasure12.png</file>
+        <file alias="13">res/treasure13.png</file>
+        <file alias="14">res/treasure14.png</file>
+        <file alias="15">res/treasure15.png</file>
+        <file alias="16">res/treasure16.png</file>
+        <file alias="17">res/treasure17.png</file>
+        <file alias="18">res/treasure18.png</file>
+        <file alias="19">res/treasure19.png</file>
+        <file alias="20">res/treasure20.png</file>
+        <file alias="21">res/treasure21.png</file>
+        <file alias="22">res/treasure22.png</file>
+        <file alias="23">res/treasure23.png</file>
     </qresource>
 </RCC>

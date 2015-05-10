@@ -139,7 +139,7 @@ void LabyrinthQt::updateBoard()
             tiles.push_back(tileItem);
             if (game->isTreasure(r,c))
             {
-                QPixmap tile = QPixmap(QString(":/res/treasure"));
+                QPixmap tile = QPixmap(QString(":/res/%1").arg(game->getTreasure(r,c)));
                 QGraphicsPixmapItem * tileItem = mainScene->addPixmap(tile);
                 tileItem->setOffset(r * (tile.width() + SPACING),c * (tile.height() + SPACING));
                 treasures.push_back(tileItem);
@@ -159,10 +159,10 @@ void LabyrinthQt::updateBoard()
     QPixmap freeCard = QPixmap(QString(":/res/%1").arg(QString::fromStdString(game->getFreeCard())));
     QGraphicsPixmapItem * freeCardItem = ui->cardScene->addPixmap(freeCard);
     freeCardItem->setOffset(-(freeCard.width()/2), -(freeCard.height()/2));
-    if (game->getFreeTreasure())
+    if (game->isFreeTreasure())
     {
         qDebug() << "Spare card has a treasure!";
-        freeCard = QPixmap(QString(":/res/treasure"));
+        freeCard = QPixmap(QString(":/res/%1").arg(game->getFreeTreasure()));
         freeCardItem = ui->cardScene->addPixmap(freeCard);
         freeCardItem->setOffset(-(freeCard.width()/2), -(freeCard.height()/2));
     }
