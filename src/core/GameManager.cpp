@@ -271,6 +271,7 @@ bool GameManager::load(string fname)
     }
     /* read board */
     int boardSize = atoi(props[index].c_str());
+    this->_size = boardSize;
     this->_board = MazeBoard(boardSize);
     vector<MazeCard> cards;
     int boardLimit = boardSize * boardSize + (++index);
