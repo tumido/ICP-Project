@@ -13,6 +13,8 @@ LabyrinthQt::LabyrinthQt(QWidget *parent) :
     connect(ui->actionLoad_map, SIGNAL(triggered()), this, SLOT(onActionLoad()));
     connect(ui->actionSave_map, SIGNAL(triggered()), this, SLOT(onActionSave()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(onActionExit()));
+    connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(onActionUndo()));
+
 }
 
 LabyrinthQt::~LabyrinthQt()
@@ -157,6 +159,13 @@ void LabyrinthQt::updateBoard()
     QPixmap freeCard = QPixmap(QString(":/res/%1").arg(QString::fromStdString(game->getFreeCard())));
     QGraphicsPixmapItem * freeCardItem = ui->cardScene->addPixmap(freeCard);
     freeCardItem->setOffset(-(freeCard.width()/2), -(freeCard.height()/2));
+    if (game->getFreeTreasure())
+    {
+        qDebug() << "Spare card has a treasure!";
+        freeCard = QPixmap(QString(":/res/treasure"));
+        freeCardItem = ui->cardScene->addPixmap(freeCard);
+        freeCardItem->setOffset(-(freeCard.width()/2), -(freeCard.height()/2));
+    }
 }
 
 /**
@@ -410,4 +419,10 @@ void LabyrinthQt::onActionSave()
     QString filename = QFileDialog::getSaveFileName(this, "Save game");
     if (!game->save(filename.toStdString()))
         QMessageBox::critical(this, "Labyrint 2015", "Failed to save to selected file");
+}
+
+void LabyrinthQt::onActionUndo()
+{
+    game->undo();
+    this->updateBoard();
 }

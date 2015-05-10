@@ -30,7 +30,6 @@ public:
     QAction *actionSave_map;
     QAction *actionExit;
     QAction *actionUndo;
-    QAction *actionRedo;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QGraphicsView *mainView;
@@ -60,8 +59,6 @@ public:
         actionExit->setObjectName(QString::fromUtf8("actionExit"));
         actionUndo = new QAction(LabyrinthQt);
         actionUndo->setObjectName(QString::fromUtf8("actionUndo"));
-        actionRedo = new QAction(LabyrinthQt);
-        actionRedo->setObjectName(QString::fromUtf8("actionUndo"));
         centralWidget = new QWidget(LabyrinthQt);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -107,7 +104,6 @@ public:
         menuGame->addAction(actionExit);
 
         menuEdit->addAction(actionUndo);
-        menuEdit->addAction(actionRedo);
 
         listWidget= new QListWidget;
         listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
@@ -130,7 +126,6 @@ public:
         actionSave_map->setText("Save map");
         actionExit->setText("Exit");
         actionUndo->setText("Undo");
-        actionRedo->setText("Redo");
         WelcomeText->setText("Welcome to the Labyrinth game\nTo start a new game press \"Game\" -> \"New game\"");
         menuGame->setTitle("Game");
         menuEdit->setTitle("Edit");

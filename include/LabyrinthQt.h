@@ -53,6 +53,7 @@ public slots:
     void onActionNewGame();
     void onActionLoad();
     void onActionSave();
+    void onActionUndo();
 
 protected:
     void mousePressEvent(QMouseEvent* e);
