@@ -35,6 +35,7 @@ class GameManager
         vector<string> getNames();
         string getCardPath(int r, int c);
         string getFreeCard();
+        void turnFreeCard();
         bool isTreasure(int r, int c);
     protected:
     private:
