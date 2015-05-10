@@ -1,5 +1,7 @@
 #include "../../include/Player.h"
 
+using namespace std;
+
 Player::Player()
 {
     //ctor
@@ -98,4 +100,41 @@ void Player::setLocation(int r, int c)
 {
     this->_row = r;
     this->_col = c;
+}
+
+/**
+ * Serializes player
+ */
+string Player::toString()
+{
+    ostringstream serial;
+    serial << this->_name << "/";
+    serial << this->_treasureId << "/";
+    serial << this->_row << "/";
+    serial << this->_col << "/";
+    serial << this->_score << ";";
+    return serial.str();
+}
+
+/**
+ * Deserializes player
+ */
+Player Player::fromString(string s)
+{
+    auto values = split(s, '/');
+    Player player(values[0]);
+    player.setNewTreasure(atoi(values[1].c_str()));
+    player.setLocation(atoi(values[2].c_str()), atoi(values[3].c_str()));
+    player.setScore(atoi(values[4].c_str()));
+    return player;
+}
+
+/**
+ * Sets current player's score
+ *
+ * @param s Score
+ */
+void Player::setScore(int s)
+{
+    this->_score = s;
 }

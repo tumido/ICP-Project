@@ -1,6 +1,8 @@
 #ifndef MAZECARD_H
 #define MAZECARD_H
 
+#include "common.h"
+
 #include <string>
 
 using namespace std;
@@ -10,6 +12,7 @@ class MazeCard
     public:
         MazeCard();
         MazeCard(string type);
+        MazeCard(vector<string> props);
         virtual ~MazeCard();
         static MazeCard create(string type);
         enum CANGO { LEFT, UP, RIGHT, DOWN };
@@ -20,6 +23,8 @@ class MazeCard
         void setTreasure(int id);
         bool isTreasure();
         string getStringPath();
+        string toString();
+        static MazeCard fromString(string s);
     protected:
     private:
         string _type;

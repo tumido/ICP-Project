@@ -273,3 +273,27 @@ void MazeBoard::turnFreeCard()
 {
     this->_freeCard.turnRight();
 }
+
+/**
+ * Serializes board
+ */
+string MazeBoard::toString()
+{
+    ostringstream serial;
+    serial << this->rowLen << ";";
+    for (int r = 0; r < this->rowLen; r++) {
+        for (int c = 0; c < this->rowLen; c++) {
+            serial << this->getCard(r, c).toString();
+        }
+    }
+    serial << this->getFreeCard().toString();
+    return serial.str();
+}
+
+/**
+ * Sets free card
+ */
+void MazeBoard::setFreeCard(MazeCard card)
+{
+    this->_freeCard = card;
+}
