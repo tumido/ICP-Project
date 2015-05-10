@@ -145,6 +145,17 @@ void LabyrinthQt::updateBoard()
     ui->cardScene->addPixmap(freeCard);
 }
 
+void LabyrinthQt::toggleArrows()
+{
+    bool toggle = horizontalButtons[0]->opacity() == 1;
+    foreach (QGraphicsItem *arrow, horizontalButtons) {
+        arrow->setOpacity(toggle ? 0.5 : 1);
+    }
+    foreach (QGraphicsItem *arrow, verticalButtons) {
+        arrow->setOpacity(toggle ? 0.5 : 1);
+    }
+}
+
 void LabyrinthQt::drawBoard()
 {
     QGraphicsScene * mainScene = new QGraphicsScene;
@@ -191,6 +202,7 @@ void LabyrinthQt::mousePressEvent(QMouseEvent *e)
     int max = game->getSize();
     QString state = turnState ? "Place a card" : "Move player";
     qDebug() << "Current state of turn: " << state;
+    bool somethingHappened = false;
     if (turnState)
     {
         for(int i=0; i< horizontalButtons.size(); i++)
@@ -202,8 +214,7 @@ void LabyrinthQt::mousePressEvent(QMouseEvent *e)
                 int c = i % 2 == 0 ? max-1 : 0;
                 game->moveCard(r,c);
                 qDebug() << "Card moved to into row " << r << " " << c;
-                turnState = false;
-                this->updateBoard();
+                somethingHappened = true;
                 break;
             }
         }
@@ -216,10 +227,16 @@ void LabyrinthQt::mousePressEvent(QMouseEvent *e)
                 int c = i % 2 == 0 ? i + 1 : i;
                 game->moveCard(r,c);
                 qDebug() << "Card moved to into column " << r << " " << c;
-                turnState = false;
-                this->updateBoard();
+                somethingHappened = true;
                 break;
             }
+        }
+        if (somethingHappened)
+        {
+            turnState = false;
+            this->toggleArrows();
+            ui->Hint->setText(QString("It's player <b>%1</b>'s turn<br><br>Please move your figure").arg(QString::fromStdString(game->getActive().getName())));
+            this->updateBoard();
         }
     } else
     {
@@ -231,11 +248,17 @@ void LabyrinthQt::mousePressEvent(QMouseEvent *e)
             {
                 if (tiles[r * max + c]->contains(img_coord_pt))
                 {
+                    int previousPlayer = game->getActiveIndex();
                     qDebug() << "Clicked tile" << r << " " << c;
                     if (game->movePlayer(r,c))
                     {
                         turnState = true;
-                        qDebug() << "Player moved to position " << r << " " << c;
+                        this->toggleArrows();
+                        ui->Hint->setText(QString("It's player <b>%1</b>'s turn<br><br>Please place the spare card").arg(QString::fromStdString(game->getActive().getName())));
+                        QFont font; font.setBold(true);
+                        ui->listWidget->item(game->getActiveIndex())->setFont(font);
+                        font.setBold(false);
+                        ui->listWidget->item(previousPlayer)->setFont(font);
                         this->updateBoard();
                         break;
                     }
@@ -260,11 +283,13 @@ void LabyrinthQt::startGame()
     {
         QListWidgetItem * entry = new QListWidgetItem(ui->listWidget);
         entry->setText(QString("Player%1: %2").arg(i + 1).arg(QString::fromStdString(players[i])));
+        entry->setIcon(QIcon(QString(":/res/player%1").arg(i+1)));
         ui->listWidget->addItem(entry);
     }
     // Set Active Player
-
-
+    ui->Hint->setText(QString("Game began!<br>It's player <b>%1</b>'s turn<br><br>Please place the spare card").arg(QString::fromStdString(game->getActive().getName())));
+    QFont font; font.setBold(true);
+    ui->listWidget->item(game->getActiveIndex())->setFont(font);
 }
 
 void LabyrinthQt::onActionExit()
@@ -281,8 +306,8 @@ void LabyrinthQt::onActionNewGame()
     ui->gridLayout->removeWidget(ui->WelcomeText);
     ui->gridLayout->addWidget(ui->mainView,0,0, 0, 1);
     ui->gridLayout->addWidget(ui->listWidget, 0,1);
-    ui->gridLayout->addWidget(ui->cardView,1,1);
-    //ui->listWidget->installEventFilter(this);
+    ui->gridLayout->addWidget(ui->Hint, 1, 1);
+    ui->gridLayout->addWidget(ui->cardView,2,1);
 
     // Starts game itself
     this->startGame();
@@ -300,10 +325,4 @@ void LabyrinthQt::onActionSave()
     QString filename = QFileDialog::getSaveFileName(this, "Save game");
     if (!game->save(filename.toStdString()))
         QMessageBox::critical(this, "Labyrint 2015", "Failed to save to selected file");
-}
-
-void LabyrinthQt::DisableListClick(QEvent *event)
-{
-    if (event->type() == QEvent::MouseButtonPress)
-        return;
 }

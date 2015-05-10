@@ -54,7 +54,6 @@ public slots:
 
 protected:
     void mousePressEvent(QMouseEvent* e);
-    void DisableListClick(QEvent *event);
 
 private:
     Ui::LabyrinthQt *ui;
@@ -65,6 +64,7 @@ private:
     vector<QGraphicsItem*> treasures;
     vector<QGraphicsItem*> figures;
     bool turnState;
+    void toggleArrows();
 };
 
 #endif // LABYRINTHQT_H

@@ -35,6 +35,7 @@ public:
     QGraphicsView *cardView;
     QGraphicsScene *cardScene;
     QLabel *WelcomeText;
+    QLabel *Hint;
     QMenuBar *menuBar;
     QMenu *menuGame;
     QStatusBar *statusBar;
@@ -93,6 +94,12 @@ public:
 
         listWidget= new QListWidget;
         listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
+
+        Hint = new QLabel("Game began!");
+        Hint->setAlignment(Qt::AlignCenter);
+        Hint->setTextFormat(Qt::RichText);
+        listWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred );
+
         retranslateUi(LabyrinthQt);
 
         QMetaObject::connectSlotsByName(LabyrinthQt);
