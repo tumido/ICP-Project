@@ -297,3 +297,11 @@ void MazeBoard::setFreeCard(MazeCard card)
 {
     this->_freeCard = card;
 }
+
+/**
+ * Returns row length
+ */
+int MazeBoard::getSize()
+{
+    return this->rowLen;
+}

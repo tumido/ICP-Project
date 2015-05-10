@@ -26,6 +26,7 @@ class MazeBoard
         string toString();
         void setFreeCard(MazeCard card);
         void putCard(int r, int c, MazeCard card);
+        int getSize();
     protected:
     private:
         MazeCard _freeCard;

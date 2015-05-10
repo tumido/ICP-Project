@@ -130,10 +130,11 @@ bool GameManager::movePlayer(int r, int c)
 {
     MazeField mf = this->_board.get(r, c);
     if (mf.row() > -1) {
-        auto moves = this->getMoves();
-        if (PathFinder::containsField(mf, moves)) {
-            int p_row = this->_players[this->getActiveIndex()].row();
-            int p_col = this->_players[this->getActiveIndex()].col();
+        //auto moves = this->getMoves();
+        int p_row = this->_players[this->getActiveIndex()].row();
+        int p_col = this->_players[this->getActiveIndex()].col();
+        MazeField curr = this->_board.get(p_row, p_col);
+        if (PathFinder::findPath(curr, mf, this->_board)) {
             this->_actions.push_back(Action(Action::TYPE::MOVE_PLAYER, p_row, p_col));
             this->_players[this->getActiveIndex()].setLocation(mf.row(), mf.col());
             if(mf.getCard().getTreasure() == this->getActive().getTreasure()) {
@@ -262,7 +263,6 @@ bool GameManager::load(string fname)
     for (index = 1; index <= playerCount; index++) {
         this->_players.push_back(Player::fromString(props[index]));
     }
-    cerr << "Players loaded " << playerCount << endl;
     /* read treasures */
     int treasureCount = atoi(props[index].c_str()) + index;
     this->_treasureIds = vector<int>();
