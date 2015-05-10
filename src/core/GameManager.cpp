@@ -279,6 +279,14 @@ string GameManager::getFreeCard()
 }
 
 /**
+ * Turns free card to the right
+ */
+void GameManager::turnFreeCard()
+{
+    this->_board.turnFreeCard();
+}
+
+/**
  * Checks whether specified card contains treasure
  */
 bool GameManager::isTreasure(int r, int c)

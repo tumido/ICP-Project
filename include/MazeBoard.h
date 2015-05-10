@@ -21,6 +21,7 @@ class MazeBoard
         MazeCard getFreeCard();
         void shift(MazeField mf);
         void placeTreasures(vector<int> treasure);
+        void turnFreeCard();
     protected:
     private:
         MazeCard _freeCard;

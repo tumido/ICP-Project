@@ -265,3 +265,11 @@ void MazeBoard::placeTreasures(vector<int> treasures)
         this->placeTreasure(mf.row(), mf.col(), treasure);
     }
 }
+
+/**
+ * Turns free card to the right
+ */
+void MazeBoard::turnFreeCard()
+{
+    this->_freeCard.turnRight();
+}
