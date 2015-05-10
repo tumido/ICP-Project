@@ -122,13 +122,16 @@ void LabyrinthQt::finishedGame()
     QGridLayout * grid = new QGridLayout;
     done.setLayout(grid);
     QGroupBox box1(&done);
-    QLabel header(&done);
     if (game->isWon())
-        header.setText(QString("You've won, %1").arg(QString::fromStdString(game->getActive().getName())));
+    {
+        QLabel header(&done);
+        header.setText(QString("Congratulations! You've made it, <b>%1</b>! You're our hero!").arg(QString::fromStdString(game->getActive().getName())));
+        header.setAlignment(Qt::AlignCenter);
+        grid->addWidget(&header, 0, 0);
+        done.setWindowTitle(QString("%1 won this game!").arg(QString::fromStdString(game->getActive().getName())));
+    }
     else
-        header.setText("In-game statistics monitor");
-    header.setTextFormat(Qt::RichText);
-    grid->addWidget(&header);
+        done.setWindowTitle("In-game statistics monitor");
     grid->addWidget(&box1);
     box1.setTitle("Statistics");
     QGridLayout stat(&box1);
@@ -137,7 +140,6 @@ void LabyrinthQt::finishedGame()
     QStringList labels;
     labels << tr("Player") << tr("Score");
     scoreTable->setHorizontalHeaderLabels(labels);
-    scoreTable->horizontalHeader()->setResizeMode(0, QHeaderView::Stretch);
     scoreTable->verticalHeader()->hide();
     scoreTable->setShowGrid(false);
 
