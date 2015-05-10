@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <vector>
+#include <sstream>
 
 #include "GameGenerator.h"
 #include "MazeCard.h"
@@ -22,6 +23,9 @@ class MazeBoard
         void shift(MazeField mf);
         void placeTreasures(vector<int> treasure);
         void turnFreeCard();
+        string toString();
+        void setFreeCard(MazeCard card);
+        void putCard(int r, int c, MazeCard card);
     protected:
     private:
         MazeCard _freeCard;
@@ -29,7 +33,6 @@ class MazeBoard
         MazeCard *getCardP(int r, int c);
         void placeTreasure(int r, int c, int id);
         void defaultCards();
-        void putCard(int r, int c, MazeCard card);
         int rowLen;
         void shiftDown(int c);
         void shiftUp(int c);

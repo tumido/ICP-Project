@@ -1,5 +1,10 @@
 #include "../../include/GameManager.h"
 
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
 GameManager::GameManager()
 {
     //ctor
@@ -219,7 +224,23 @@ bool GameManager::setTreasureCount(int n)
  */
 bool GameManager::save(string fname)
 {
-    return false;
+    ofstream myfile;
+    myfile.open (fname, ios::out);
+    //Save players
+    myfile << this->_players.size() << ";";
+    for (unsigned int i = 0; i < this->_players.size(); i++)
+        myfile << this->_players[i].toString();
+
+    //Save treasures
+    myfile << this->_treasureIds.size() << ";";
+    for (unsigned int i = 0; i < this->_treasureIds.size(); i++)
+        myfile << this->_treasureIds[i] << ";";
+
+    //Save board
+    myfile << this->_board.toString();
+
+    myfile.close();
+    return true;
 }
 
 /**
@@ -229,7 +250,45 @@ bool GameManager::save(string fname)
  */
 bool GameManager::load(string fname)
 {
-    return false;
+    ifstream myfile;
+    string content = "";
+    int index = 0;
+    this->_players = vector<Player>();
+    myfile.open(fname);
+    myfile >> content;
+    auto props = split(content, ';');
+    for (int i = 0; i < props.size(); i++)
+        cerr << props[i] << endl;
+    cerr << "****** Loading ********" << endl;
+    /* read players */
+    int playerCount = atoi(props[index].c_str());
+    for (index = 1; index <= playerCount; index++) {
+        this->_players.push_back(Player::fromString(props[index]));
+    }
+    cerr << "Players loaded " << playerCount << endl;
+    /* read treasures */
+    int treasureCount = atoi(props[index].c_str()) + index;
+    this->_treasureIds = vector<int>();
+    for (++index; index <= treasureCount; index++) {
+        this->_treasureIds.push_back(atoi(props[index].c_str()));
+    }
+    /* read board */
+    int boardSize = atoi(props[index].c_str());
+    this->_board = MazeBoard(boardSize);
+    vector<MazeCard> cards;
+    int boardLimit = boardSize * boardSize + (++index);
+    for (; index <= boardLimit; index++) {
+        cards.push_back(MazeCard::fromString(props[index]));
+    }
+    /* store cards */
+    for (int r = 0; r < boardSize; r++) {
+        for (int c = 0; c < boardSize; c++) {
+            this->_board.putCard(r, c, cards[c + r * boardSize]);
+        }
+    }
+    this->_board.setFreeCard(cards.back());
+    this->_started = true;
+    return true;
 }
 
 /**

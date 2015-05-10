@@ -1,7 +1,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "common.h"
+
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -20,6 +23,9 @@ class Player
         int row();
         int col();
         void setLocation(int r, int c);
+        string toString();
+        static Player fromString(string s);
+        void setScore(int s);
     protected:
     private:
          string _name;

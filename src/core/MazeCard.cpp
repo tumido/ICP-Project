@@ -10,6 +10,22 @@ MazeCard::MazeCard()
 }
 
 /**
+ * Deserialization constructor
+ *
+ * @param props Properties expected vector of size 3
+ *              type|treasure|path
+ */
+MazeCard::MazeCard(vector<string> props)
+{
+    if (props.size() > 2) {
+        this->_type = props[0][0];
+        this->_treasureId = atoi(props[1].c_str());
+        for (int i = 0; i < 4; i++)
+            this->path[i] = (props[2][i] == '1');
+    }
+}
+
+/**
  * Constructor
  * @param type Type of the card
  */
@@ -132,4 +148,25 @@ void MazeCard::setPath(string type)
         this->path[UP] = true;
         this->path[RIGHT] = true;
     }
+}
+
+/**
+ * Serializes MazeCard
+ */
+string MazeCard::toString()
+{
+    ostringstream serial;
+    serial << this->_type << "/";
+    serial << this->_treasureId << "/";
+    serial << this->getStringPath() << ";";
+    return serial.str();
+}
+
+/**
+ * Deserializes MazeCard
+ */
+MazeCard MazeCard::fromString(string s)
+{
+    auto props = split(s, '/');
+    return MazeCard(props);
 }
