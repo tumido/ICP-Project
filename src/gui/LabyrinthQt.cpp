@@ -77,6 +77,11 @@ bool LabyrinthQt::prepareGame()
     if (settings.exec() != QDialog::Accepted)
         return false;
 
+
+    QGraphicsScene * mainScene = ui->mainView->scene();
+    this->clearVector(tiles, mainScene);
+    this->clearVector(treasures, mainScene);
+    this->clearVector(figures, mainScene);
     delete game;
     game = new GameManager;
     ui->rightPanelPlayers->layout()->removeWidget(ui->listWidget);
@@ -127,9 +132,9 @@ void LabyrinthQt::finishedGame()
     // Add player's settings
     foreach(Player player, game->getAllPlayers())
     {
-        QLabel label(&box1);
-        label.setText(QString("Player: %1\t%2").arg(QString::fromStdString(player.getName())).arg(player.getScore()));
-        stat.addWidget(&label);
+        QLabel * label = new QLabel(&box1);
+        label->setText(QString("Player: %1\t%2").arg(QString::fromStdString(player.getName())).arg(player.getScore()));
+        stat.addWidget(label);
     }
 
     // Add OK button
@@ -227,12 +232,14 @@ void LabyrinthQt::toggleArrows()
  */
 void LabyrinthQt::drawBoard()
 {
-    QGraphicsScene * mainScene = new QGraphicsScene;
+    QGraphicsScene * mainScene = ui->mainView->scene();
+    this->clearVector(horizontalButtons, mainScene);
+    this->clearVector(verticalButtons, mainScene);
+    delete mainScene;
+    mainScene = new QGraphicsScene;
     ui->mainView->setScene(mainScene);
     this->updateBoard();
     int r,c = game->getSize();
-    this->clearVector(horizontalButtons, mainScene);
-    this->clearVector(verticalButtons, mainScene);
     for (r=1; r < game->getSize(); r += 2)
     {
         QPixmap tile = QPixmap(QString(":/res/^"));
@@ -358,6 +365,7 @@ void LabyrinthQt::movePlayer(QPointF &coord)
  */
 void LabyrinthQt::mousePressEvent(QMouseEvent *e)
 {
+    this->finishedGame();
     if (!game->isStarted() || game->isWon())
         return;
     qDebug() << "Mouse event";
