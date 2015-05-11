@@ -115,7 +115,7 @@ bool MazeCard::isTreasure()
 string MazeCard::getStringPath()
 {
     string ret;
-    for (int i; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {
         ret += (this->path[i]) ? "1" : "0";
     }
     return ret;
