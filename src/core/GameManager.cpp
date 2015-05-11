@@ -509,6 +509,7 @@ void GameManager::revertPlayer(Action action)
         this->revertPlayer(this->_actions.back());
     } else {
         this->movePlayer(action.row(), action.col());
+        this->previousPlayer();
         this->_actions.pop_back();
         this->_actions.pop_back();
     }
