@@ -150,7 +150,7 @@ void MazeBoard::shiftUp(int c)
 void MazeBoard::shiftRight(int r)
 {
     int bound = this->rowLen - 1;
-    MazeCard tmpCard = this->getCard(r, bound);
+    MazeCard tmpCard = this->getCard(r, 0);
     for (int col = 0; col < bound; col++) {
         this->putCard(r, col, this->getCard(r, col + 1));
     }
@@ -166,7 +166,7 @@ void MazeBoard::shiftRight(int r)
 void MazeBoard::shiftLeft(int r)
 {
     int bound = this->rowLen - 1;
-    MazeCard tmpCard = this->getCard(r, 0);
+    MazeCard tmpCard = this->getCard(r, bound);
     for (int col = bound; col > 0; col--) {
         this->putCard(r, col, this->getCard(r, col - 1));
     }
