@@ -26,5 +26,6 @@ private:
     void ingame();
     GameManager * game;
     vector<std::string> command;
+    bool turnStatus;
 };
 #endif
