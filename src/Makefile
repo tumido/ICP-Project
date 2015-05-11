@@ -6,9 +6,12 @@ CPPFLAGS = -std=c++11 -fPIC #-pedantic -Wall -Werror
 SOURCE = $(shell ls core)
 OBJECTS = $(SOURCE:%.cpp=../build/%.o)
 
-all: $(OBJECTS)
+all: $(OBJECTS) LabyrinthCLI.o
 
 # RULES for objects
 #---------------------------------------------------------------------
+LabyrinthCLI.o: cli/LabyrinthCLI.cpp
+	$(CPP) $(CPPFLAGS) -c $^ -o ../build/$@
+
 ../build/%.o: core/%.cpp
 	$(CPP) $(CPPFLAGS) -c $^ -o $@

@@ -2,7 +2,7 @@
 #---------------------------------------------------------------------
 CPP = g++
 CPPFLAGS = -std=c++11 -fPIC # -pedantic -Wall -Werror -g
-PROGS = client_cli  client_gui
+PROGS = client_gui#cli  client_gui
 
 ifeq ($(shel hostname), merlin.fit.vutbr.cz)
 	QMAKE = /usr/local/share/Qt-5.2.1/5.2.1/gcc_64/bin/qmake
@@ -20,7 +20,7 @@ GUI_WORK_FOLDER = gui_build
 all: $(BUILD_FOLDER)/core.a $(PROGS)
 
 $(BUILD_FOLDER)/core.a:
-	mkdir $(BUILD_FOLDER)
+	mkdir -p $(BUILD_FOLDER)
 	$(MAKE) -C src
 	ar -rsc $@ $(BUILD_FOLDER)/*.o
 

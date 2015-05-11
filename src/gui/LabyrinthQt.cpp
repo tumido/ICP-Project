@@ -107,8 +107,10 @@ bool LabyrinthQt::prepareGame()
         }
     }
     // setup the game
-    game->setSize(size->value());
-    qDebug() << "Board size: input: " << size->value() << " internal: " << game->getSize();
+    int boardSize = size->value();
+    boardSize = boardSize % 2 == 0 ? boardSize-1 : boardSize;
+    game->setSize(boardSize);
+    qDebug() << "Board size: input: " << boardSize << " internal: " << game->getSize();
     game->setTreasureCount(treasure->itemData(treasure->currentIndex()).toInt());
     qDebug() << "Treasure count: input: " << treasure->itemData(treasure->currentIndex()).toInt();
 
