@@ -112,7 +112,12 @@ void OutputCLI::putPlayers()
     int len = this->game->getSize();
     auto players = this->game->getAllPlayers();
     for (unsigned int i = 0; i < players.size(); i++) {
-        cout << players[i].getName() << ": " << players[i].getScore() << endl;
+        if (i == game->getActiveIndex()) {
+            cout << "X ";
+        } else {
+            cout << "  ";
+        }
+        cout << players[i].getName() << ": " << players[i].getTreasure() + 'A' << endl;
         this->buffer[1 + 3 * players[i].col() + 3 *  players[i].row() * 3*len + 3*len] = ((char)i) + '0';
     }
 }
