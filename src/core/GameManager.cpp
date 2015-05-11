@@ -1,7 +1,9 @@
 /**
+ * @file GameManager.cpp
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Main Core interface accessible for front-end
  */
-#include "../../include/GameManager.h"
+#include "../include/GameManager.h"
 
 #include <iostream>
 #include <fstream>

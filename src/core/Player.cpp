@@ -1,7 +1,9 @@
 /**
+ * @file Player.cpp
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Player is decleared here
  */
-#include "../../include/Player.h"
+#include "../include/Player.h"
 
 using namespace std;
 

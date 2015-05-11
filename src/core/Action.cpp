@@ -1,7 +1,9 @@
 /**
+ * @file Action.cpp
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Defines the action done on one turn
  */
-#include "../../include/Action.h"
+#include "../include/Action.h"
 
 Action::Action(TYPE type, int r, int c)
 {
@@ -17,7 +19,7 @@ Action::~Action()
 }
 
 /**
- * Returns row index
+ * @brief Returns row index
  */
 int Action::row()
 {
@@ -25,7 +27,7 @@ int Action::row()
 }
 
 /**
- * Returns column index
+ * @brief Returns column index
  */
 int Action::col()
 {
@@ -33,7 +35,7 @@ int Action::col()
 }
 
 /**
- * Returns action type
+ * @brief Returns action type
  */
 Action::TYPE Action::type()
 {

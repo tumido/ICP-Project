@@ -1,10 +1,15 @@
-#include "../../include/io.h"
+/**
+ * @file io.cpp
+ * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Adds IO namespace for CLI front-end
+ */
+#include "../include/io.h"
 
 using namespace std;
 
 
 /**
- * Clears the screen
+ * @brief Clears the screen
  */
 void io::clear_screen()
 {
@@ -12,7 +17,7 @@ void io::clear_screen()
 }
 
 /**
- * Simple string to integer converter
+ * @brief Simple string to integer converter
  *
  * @param str string to convert
  */
@@ -25,7 +30,7 @@ int io::str_to_int(const string &str)
 }
 
 /**
- * Split the user's input into words using getline
+ * @brief Split the user's input into words using getline
  */
 vector<string> io::readCommand()
 {

@@ -1,7 +1,9 @@
 /**
+ * @file PathFinder.cpp
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Class containing the logic of the path finding for the player
  */
-#include "../../include/PathFinder.h"
+#include "../include/PathFinder.h"
 #include <iostream>
 
 /**

@@ -1,5 +1,7 @@
 /**
+ * @file LabyrinthQt.h
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Main Qt class declaration
  */
 #ifndef LABYRINTHQT_H
 #define LABYRINTHQT_H
@@ -33,9 +35,11 @@
 #define SPACING 5
 
 namespace Ui {
-class LabyrinthQt;
+    /// @brief Qt class that is guilty with all issues with GUI
+    class LabyrinthQt;
 }
 
+/// @brief Qt class that is guilty with all issues with GUI
 class LabyrinthQt : public QMainWindow
 {
     Q_OBJECT

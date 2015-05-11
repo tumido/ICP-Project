@@ -1,8 +1,10 @@
 /**
+ * @file LabyrinthQt.cpp
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Main Qt class declaration
  */
-#include "../../include/LabyrinthQt.h"
-#include "../../include/ui_LabyrinthQt.h"
+#include "../include/LabyrinthQt.h"
+#include "../include/ui_LabyrinthQt.h"
 
 
 LabyrinthQt::LabyrinthQt(QWidget *parent) :

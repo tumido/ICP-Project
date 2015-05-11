@@ -1,5 +1,7 @@
 /**
+ * @file MazeCard.h
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Class defining the the card on the board
  */
 #ifndef MAZECARD_H
 #define MAZECARD_H
@@ -10,6 +12,7 @@
 
 using namespace std;
 
+/// @brief This class defines what content has the current card
 class MazeCard
 {
     public:

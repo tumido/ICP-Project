@@ -1,5 +1,7 @@
 /**
+ * @file GameManager.h
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Main Core interface accessible for front-end
  */
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
@@ -11,6 +13,7 @@
 #include "PathFinder.h"
 #include "Player.h"
 
+/// @brief Game class that manages all the game logic
 class GameManager
 {
     public:

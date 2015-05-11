@@ -1,7 +1,9 @@
 /**
+ * @file MazeCard.cpp
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Class defining the the card on the board
  */
-#include "../../include/MazeCard.h"
+#include "../include/MazeCard.h"
 #include <iostream>
 #include <stdio.h>
 

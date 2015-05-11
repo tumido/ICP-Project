@@ -1,7 +1,9 @@
 /**
+ * @file GameGenerator.cpp
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Generates map for new game
  */
-#include "../../include/GameGenerator.h"
+#include "../include/GameGenerator.h"
 
 GameGenerator::GameGenerator()
 {

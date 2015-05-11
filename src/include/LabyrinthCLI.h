@@ -1,3 +1,8 @@
+/**
+ * @file LabyrinthCLI.h
+ * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Main CLI class declaration
+ */
 #ifndef LABYRINTHCLI_H
 #define LABYRINTHCLI_H
 
@@ -12,6 +17,7 @@
 #include "DEFAULT_VALUES.h"
 #include "io.h"
 
+/// @brief Class for game in CLI interface
 class LabyrinthCLI
 {
 

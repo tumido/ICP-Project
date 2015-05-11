@@ -1,5 +1,7 @@
 /**
+ * @file PathFinder.h
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Class containing the logic of the path finding for the player
  */
 #ifndef PATHFINDER_H
 #define PATHFINDER_H
@@ -8,6 +10,7 @@
 
 #include <vector>
 
+/// @brief PathFinder is class that handles the logic of the path finding
 class PathFinder
 {
     public:

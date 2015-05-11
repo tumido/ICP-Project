@@ -1,7 +1,9 @@
 /**
+ * @file common.cpp
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Common functions used by core
  */
-#include "../../include/common.h"
+#include "../include/common.h"
 
 /**
  * Splits string by specified delimiter

@@ -1,7 +1,9 @@
 /**
+ * @file client_gui.cpp
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Main function for Qt version of our program
  */
-#include "../../include/LabyrinthQt.h"
+#include "../include/LabyrinthQt.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

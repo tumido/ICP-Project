@@ -1,11 +1,14 @@
 /**
+ * @file MazeField.h
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Class defining the the field on the board
  */
 #ifndef MAZEFIELD_H
 #define MAZEFIELD_H
 
 #include "MazeCard.h"
 
+/// @brief Class containig the field data like card, and handles the neighborhood
 class MazeField
 {
     public:

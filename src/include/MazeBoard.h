@@ -1,5 +1,7 @@
 /**
+ * @file MazeBoard.h
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Class defining the board of the game
  */
 #ifndef MAZEBOARD_H
 #define MAZEBOARD_H
@@ -12,6 +14,7 @@
 #include "MazeCard.h"
 #include "MazeField.h"
 
+/// @brief Class definig the board layout and content
 class MazeBoard
 {
     public:

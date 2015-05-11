@@ -1,4 +1,9 @@
-#include "../../include/LabyrinthCLI.h"
+/**
+ * @file LabyrinthCLI.cpp
+ * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Main CLI class definition
+ */
+#include "../include/LabyrinthCLI.h"
 
 LabyrinthCLI::LabyrinthCLI()
 {
@@ -46,7 +51,7 @@ void LabyrinthCLI::pregame()
     {
         game->startGame();
         // draw board
-        std::cout << "Please place the spare card" << endl;
+        std::cout << "Game begun. Let the first player, please place the spare card" << endl;
         return;
     }
     if (command[0] == "set")

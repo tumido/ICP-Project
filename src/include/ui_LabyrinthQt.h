@@ -1,5 +1,7 @@
 /**
+ * @file Ui_LabyrinthQt.h
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Definition of layout of Qt's main window
  */
 #ifndef UI_LABYRINTHQT_H
 #define UI_LABYRINTHQT_H
@@ -26,6 +28,7 @@
 
 QT_BEGIN_NAMESPACE
 
+/// @brief Class defining the layout of Qt's front-end main window
 class Ui_LabyrinthQt
 {
 public:
@@ -171,6 +174,7 @@ public:
 
 };
 
+/// @brief Namespace for Qt GUI
 namespace Ui {
     class LabyrinthQt: public Ui_LabyrinthQt {};
 } // namespace Ui

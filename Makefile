@@ -2,9 +2,9 @@
 #---------------------------------------------------------------------
 CPP = g++
 CPPFLAGS = -std=c++11 -fPIC # -pedantic -Wall -Werror -g
-PROGS = client_cli client_gui
+PROGS = labyrint2015-cli labyrint2015
 
-ifeq ($(shel hostname), merlin.fit.vutbr.cz)
+ifeq ($(shell hostname), merlin.fit.vutbr.cz)
 	QMAKE = /usr/local/share/Qt-5.2.1/5.2.1/gcc_64/bin/qmake
 else
 	QMAKE = qmake-qt5
@@ -13,6 +13,7 @@ BUILD_FOLDER = build
 SRC_FOLDER = src
 GUI_FOLDER = gui
 CLI_FOLDER = cli
+DOC_FOLDER = docs
 GUI_WORK_FOLDER = gui_build
 
 # RULES for programs
@@ -24,21 +25,20 @@ $(BUILD_FOLDER)/core.a:
 	$(MAKE) -C src
 	ar -rsc $@ $(BUILD_FOLDER)/*.o
 
-client_cli: $(SRC_FOLDER)/$(CLI_FOLDER)/client_cli.cpp $(BUILD_FOLDER)/core.a
+labyrint2015-cli: $(SRC_FOLDER)/$(CLI_FOLDER)/client_cli.cpp $(BUILD_FOLDER)/core.a
 	$(CPP) $(CPPFLAGS) $^ -o $@
 
-client_gui: $(SRC_FOLDER)/$(GUI_FOLDER)/client_gui.cpp $(BUILD_FOLDER)/core.a
+labyrint2015: $(SRC_FOLDER)/$(GUI_FOLDER)/client_gui.cpp $(BUILD_FOLDER)/core.a
 	cd $(GUI_FOLDER) && $(QMAKE) Labyrinth2015.pro -r -spec linux-g++ CONFIG+=debug -o ../$(GUI_WORK_FOLDER)/Makefile
 	$(MAKE) CXX=$(CPP) -C $(GUI_WORK_FOLDER)
-	mv ./gui_build/labyrinth2015_gui client_gui
+#	mv ./gui_build/labyrinth2015_gui labyrint2015
 
 # PHONY
 #---------------------------------------------------------------------
 .PHONY: clean pack docs doxygen zip
 clean:
-	-rm -vf build/*.o build/*.a $(PROGS)
-	-rm -rv $(GUI_WORK_FOLDER) $(BUILD_FOLDER)
-	-rm -rf docs/*
+	-rm -vf $(PROGS)
+	-rm -rfv $(GUI_WORK_FOLDER) $(BUILD_FOLDER) $(DOC_FOLDER)
 doxygen: docs
 zip: pack
 

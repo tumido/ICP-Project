@@ -1,7 +1,9 @@
 /**
+ * @file MazeField.cpp
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Class defining the the field on the board
  */
-#include "../../include/MazeField.h"
+#include "../include/MazeField.h"
 
 MazeField::MazeField(int r, int c)
 {

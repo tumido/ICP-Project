@@ -1,7 +1,9 @@
 /**
+ * @file MazeBoard.cpp
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Class defining the board of the game
  */
-#include "../../include/MazeBoard.h"
+#include "../include/MazeBoard.h"
 
 #include <iostream>
 

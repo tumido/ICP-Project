@@ -1,5 +1,7 @@
 /**
+ * @file Player.h
  * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief Player is decleared here
  */
 #ifndef PLAYER_H
 #define PLAYER_H
@@ -11,6 +13,7 @@
 
 using namespace std;
 
+/// @brief Player class containinf the data about player
 class Player
 {
     public:
