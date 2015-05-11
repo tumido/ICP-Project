@@ -3,6 +3,7 @@
 LabyrinthCLI::LabyrinthCLI()
 {
     game = new GameManager;
+    turnStatus = true;
 }
 
 LabyrinthCLI::~LabyrinthCLI()
@@ -36,17 +37,64 @@ void LabyrinthCLI::print_help()
 
 void LabyrinthCLI::fail()
 {
-  cout << "Command not recognised" << endl;
+  cout << "Command not recognised or is not available right now" << endl;
 }
 
 void LabyrinthCLI::pregame()
 {
-  return;
+    if (command[0] == "start")
+    {
+        game->startGame();
+        return;
+    }
+    if (command[0] == "set")
+    {
+        if (command.size() == 3 && command[1] == "size")
+        {
+            if (!game->setSize(str_to_int(command[2])))
+               this->fail();
+        }
+        if (command.size() == 3 && command[1] == "treasure")
+        {
+            if (!game->setTreasureCount(str_to_int(command[2])))
+                this->fail();
+        }
+        else
+            this->fail();
+        return;
+    }
+    if (command.size() == 2 && command[0] == "player")
+        if(!game->addPlayer(command[2]))
+            this->fail();
+    this->fail();
+    return;
 }
 
 void LabyrinthCLI::ingame()
 {
-  return;
+    if (command[0] == "restart")
+    {
+        game->restartGame();
+        return;
+    }
+    if (command[0] == "move" && command.size() == 3)
+    {
+        if (!turnStatus && !game->movePlayer(str_to_int(command[1]), str_to_int(command[2])))
+            this->fail();
+        else
+            turnStatus = false;
+    }
+    else if (command[0] == "card" && command.size() == 3)
+    {
+        if (turnStatus && !game->moveCard(str_to_int(command[1]), str_to_int(command[2])))
+            this->fail();
+        else
+            turnStatus = true;
+    }
+    else
+        this->fail();
+
+    return;
 }
 
 void LabyrinthCLI::exec()
@@ -61,8 +109,20 @@ void LabyrinthCLI::exec()
         command = readCommand();
         if (command[0] == "quit" || command[0] == "q")
             return;
-        if (game->isStarted())
+        else if (command[0] == "load" && command.size() == 2)
+        {
+            if (!game->load(command[1]))
+                this->fail();
+        }
+        else if (command[0] == "save" && command.size() == 2)
+        {
+            if (!game->save(command[1]))
+                this->fail();
+        }
+        else if (game->isStarted())
+        {
             this->pregame();
+        }
         else
             this->ingame();
     }
