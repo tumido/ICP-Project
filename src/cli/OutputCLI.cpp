@@ -70,7 +70,7 @@ void OutputCLI::cardToBuffer(MazeField mf)
     for (int j = 0; j < 3; j++) {
         for (int i = 0; i < 3; i++) {
             //i + R * 3*len + 3*C + j * len
-            this->buffer[i + mf.row() * 3*len + 3*mf.col() + j * len] = card[i + j * 3];
+            this->buffer[i + 3*mf.row() * 3*len + 3*mf.col() + j * 3 * len] = card[i + j * 3];
         }
     }
     delete [] card;
@@ -85,18 +85,21 @@ char * OutputCLI::cardString(MazeCard &mc)
 {
     auto card = new char[9];
     //upper side
-    card[0] = '*';
-    card[1] = mc.canGo(MazeCard::CANGO::UP) ? ' ' : '*';
-    card[2] = '*';
-    //midthis->buffer[i + mf.row() * 3*len + 3*mf.col() + j * len] = card[i + j * 3];
-    card[3] = mc.canGo(MazeCard::CANGO::LEFT) ? ' ' : '*';
-    if (mc.isTreasure())
+    card[0] = '#';
+    card[1] = mc.canGo(MazeCard::CANGO::UP) ? ' ' : '#';
+    card[2] = '#';
+    //mid
+    card[3] = mc.canGo(MazeCard::CANGO::LEFT) ? ' ' : '#';
+    if (mc.isTreasure()) {
         card[4] = ((char)mc.getTreasure()) + 'A';
-    card[5] = mc.canGo(MazeCard::CANGO::RIGHT) ? ' ' : '*';
+    } else {
+        card[4] = ' ';
+    }
+    card[5] = mc.canGo(MazeCard::CANGO::RIGHT) ? ' ' : '#';
     //down
-    card[6] = '*';
-    card[1] = mc.canGo(MazeCard::CANGO::DOWN) ? ' ' : '*';
-    card[8] = '*';
+    card[6] = '#';
+    card[7] = mc.canGo(MazeCard::CANGO::DOWN) ? ' ' : '#';
+    card[8] = '#';
 
     return card;
 }
@@ -109,7 +112,8 @@ void OutputCLI::putPlayers()
     int len = this->game->getSize();
     auto players = this->game->getAllPlayers();
     for (unsigned int i = 0; i < players.size(); i++) {
-        this->buffer[1 + players[i].col() + players[i].row() * 3*len + 3*len] = ((char)i) + '0';
+        cout << players[i].getName() << ": " << players[i].getScore() << endl;
+        this->buffer[1 + 3 * players[i].col() + 3 *  players[i].row() * 3*len + 3*len] = ((char)i) + '0';
     }
 }
 
