@@ -4,7 +4,11 @@ CPP = g++
 CPPFLAGS = -std=c++11 -fPIC # -pedantic -Wall -Werror -g
 PROGS = client_cli  client_gui
 
-QMAKE = qmake-qt5
+ifeq ($(shel hostname), merlin.fit.vutbr.cz)
+	QMAKE = /usr/local/share/Qt-5.2.1/5.2.1/gcc_64/bin/qmake
+else
+	QMAKE = qmake-qt5
+endif
 BUILD_FOLDER = build
 SRC_FOLDER = src
 GUI_FOLDER = gui
@@ -16,6 +20,7 @@ GUI_WORK_FOLDER = gui_build
 all: $(BUILD_FOLDER)/core.a $(PROGS)
 
 $(BUILD_FOLDER)/core.a:
+	mkdir $(BUILD_FOLDER)
 	$(MAKE) -C src
 	ar -rsc $@ $(BUILD_FOLDER)/*.o
 
@@ -29,7 +34,15 @@ client_gui: $(SRC_FOLDER)/$(GUI_FOLDER)/client_gui.cpp $(BUILD_FOLDER)/core.a
 
 # PHONY
 #---------------------------------------------------------------------
-.PHONY: clean
+.PHONY: clean pack docs doxygen zip
 clean:
 	rm -vf build/*.o build/*.a $(PROGS)
-	rm -rv $(GUI_WORK_FOLDER)
+	rm -rv $(GUI_WORK_FOLDER) $(BUILD_FOLDER)
+
+doxygen: docs
+zip: pack
+
+docs:
+
+pack:
+	zip -r xcoufa09_xuchyt01.zip include src gui Makefile README.md

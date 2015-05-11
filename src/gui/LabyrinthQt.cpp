@@ -124,10 +124,10 @@ void LabyrinthQt::finishedGame()
     QGroupBox box1(&done);
     if (game->isWon())
     {
-        QLabel header(&done);
-        header.setText(QString("Congratulations! You've made it, <b>%1</b>! You're our hero!").arg(QString::fromStdString(game->getActive().getName())));
-        header.setAlignment(Qt::AlignCenter);
-        grid->addWidget(&header, 0, 0);
+        QLabel * header = new QLabel(&done);
+        header->setText(QString("Congratulations!<br>You've made it, <b>%1</b>! You're our hero!").arg(QString::fromStdString(game->getActive().getName())));
+        header->setAlignment(Qt::AlignCenter);
+        grid->addWidget(header, 0, 0);
         done.setWindowTitle(QString("%1 won this game!").arg(QString::fromStdString(game->getActive().getName())));
     }
     else
@@ -140,6 +140,7 @@ void LabyrinthQt::finishedGame()
     QStringList labels;
     labels << tr("Player") << tr("Score");
     scoreTable->setHorizontalHeaderLabels(labels);
+    scoreTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     scoreTable->verticalHeader()->hide();
     scoreTable->setShowGrid(false);
 
@@ -372,9 +373,7 @@ void LabyrinthQt::movePlayer(QPointF &coord)
         }
     }
     if (game->isWon())
-    {
-
-    }
+        this->finishedGame();
 }
 
 
