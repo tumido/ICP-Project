@@ -99,12 +99,13 @@ vector<MazeField> GameManager::getMoves()
  *
  * @param r Row index
  * @param c Column index
+ * @param undo Undo
  */
-bool GameManager::moveCard(int r, int c)
+bool GameManager::moveCard(int r, int c, bool undo)
 {
     MazeField field = this->_board.get(r, c);
     if (field.row() > -1) {
-        if (!this->_board.shift(field))
+        if (!this->_board.shift(field, undo))
             return false;
         this->fixPlayerPositions(r, c);
         this->_actions.push_back(Action(Action::TYPE::MOVE_CARD, r, c));
@@ -483,7 +484,7 @@ void GameManager::revertCard(Action action)
     } else if (r == lim) {
         r = 0;
     }
-    this->moveCard(r, c);
+    this->moveCard(r, c, true);
 
     this->_actions.pop_back();
     this->_actions.pop_back();
