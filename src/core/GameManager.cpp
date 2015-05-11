@@ -161,10 +161,10 @@ bool GameManager::undo()
 {
     if (this->_actions.size() > 0) {
         Action toRevert = this->_actions.back();
-        if (toRevert.type() == Action::TYPE::MOVE_PLAYER) {
-            this->revertPlayer(toRevert);
+        if (toRevert.type() == Action::TYPE::MOVE_CARD) {
+                this->revertCard(toRevert);
         } else {
-            this->revertCard(toRevert);
+            this->revertPlayer(toRevert);
         }
         return true;
     } else {
@@ -489,6 +489,7 @@ void GameManager::revertCard(Action action)
     } else if (r == lim) {
         r = 0;
     }
+    this->moveCard(r, c);
 
     this->_actions.pop_back();
     this->_actions.pop_back();
