@@ -22,7 +22,7 @@ class GameManager
         bool startGame();
         void restartGame();
         vector<MazeField> getMoves();
-        bool moveCard(int r, int c);
+        bool moveCard(int r, int c, bool undo = false);
         bool movePlayer(int r, int c);
         bool undo();
         int getActiveIndex();

@@ -94,12 +94,12 @@ MazeCard MazeBoard::getFreeCard()
  *
  * @param mf MazeCard to which the card will be inserted
  */
-bool MazeBoard::shift(MazeField mf)
+bool MazeBoard::shift(MazeField mf, bool undo)
 {
     MazeCard tmpCard = mf.getCard();
     //down
     int bound = this->rowLen - 1;
-    if (this->canPlay(mf)) {
+    if (undo || this->canPlay(mf)) {
         if (mf.row() == 0 && mf.col() % 2 == 1) {
             shiftDown(mf.col());
             this->_previous = mf;
@@ -270,7 +270,7 @@ void MazeBoard::defaultCards()
 void MazeBoard::placeTreasures(vector<int> treasures)
 {
     vector<MazeField> fields(this->_fields);
-    random_shuffle(fields.begin(), fields.end());
+    random_shuffle(fields.begin(), fields.end(), [](int i){ return rand() % i; });
     while(treasures.size() > 0) {
         auto treasure = treasures.back();
         treasures.pop_back();
