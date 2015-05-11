@@ -25,12 +25,8 @@
 #include "GameManager.h"
 #include "Player.h"
 #include "CANGO.h"
+#include "DEFAULT_VALUES.h"
 
-#define MAX_PLAYERS 4
-#define MIN_PLAYERS 2
-#define BOARD_MIN 5
-#define BOARD_MAX 11
-#define BOARD_DEFAULT 7
 #define SPACING 5
 
 namespace Ui {
