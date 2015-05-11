@@ -141,12 +141,13 @@ bool GameManager::movePlayer(int r, int c)
                 int oldId = mf.getCard().getTreasure();
                 int newId = this->takeTreasure();
                 this->_players[this->getActiveIndex()].setNewTreasure(newId);
-                if (this->getActive().getScore() >= this->_treasureCount / this->_players.size()) {
+                if (this->getActive().getScore() >= (this->_treasureCount / this->_players.size())) {
                     this->_won = true;
                 }
                 this->_actions.push_back(Action(Action::TYPE::TAKE_TREASURE, newId, oldId));
             }
-            this->nextPlayer();
+            if (!this->isWon())
+                this->nextPlayer();
             return true;
         }
     }
