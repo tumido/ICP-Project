@@ -1,3 +1,6 @@
+/**
+ * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ */
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 

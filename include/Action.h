@@ -1,3 +1,6 @@
+/**
+ * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ */
 #ifndef ACTION_H
 #define ACTION_H
 
