@@ -6,6 +6,7 @@
 #include "../include/LabyrinthQt.h"
 #include <QApplication>
 
+/// @brief Main for CLI variant of the game
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

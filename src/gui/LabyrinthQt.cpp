@@ -122,6 +122,9 @@ bool LabyrinthQt::prepareGame()
     return true;
 }
 
+/**
+ * @brief Shows the pop-up with statistics
+ */
 void LabyrinthQt::finishedGame()
 {
     // Create dialog for entering settings for new game
@@ -518,6 +521,9 @@ void LabyrinthQt::onActionSave()
         QMessageBox::critical(this, "Labyrint 2015", "Failed to save to selected file");
 }
 
+/**
+ * @brief Action Called after user's hit on Undo button in menu, undo player's action
+ */
 void LabyrinthQt::onActionUndo()
 {
     if (!game->isStarted())
@@ -544,6 +550,9 @@ void LabyrinthQt::onActionUndo()
     this->updateBoard();
 }
 
+/**
+ * @brief Action Called after user's hit on Statisctics, shows pop-up
+ */
 void LabyrinthQt::onActionStats()
 {
     // fake that game is finished
