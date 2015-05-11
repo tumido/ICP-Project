@@ -1,3 +1,8 @@
+/**
+ * @file OutputCLI.h
+ * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ * @brief CIL output drawing
+ */
 #ifndef OUTPUTCLI_H
 #define OUTPUTCLI_H
 

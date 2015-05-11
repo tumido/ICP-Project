@@ -31,7 +31,6 @@ labyrint2015-cli: $(SRC_FOLDER)/$(CLI_FOLDER)/client_cli.cpp $(BUILD_FOLDER)/cor
 labyrint2015: $(SRC_FOLDER)/$(GUI_FOLDER)/client_gui.cpp $(BUILD_FOLDER)/core.a
 	cd $(GUI_FOLDER) && $(QMAKE) Labyrinth2015.pro -r -spec linux-g++ CONFIG+=debug -o ../$(GUI_WORK_FOLDER)/Makefile
 	$(MAKE) CXX=$(CPP) -C $(GUI_WORK_FOLDER)
-#	mv ./gui_build/labyrinth2015_gui labyrint2015
 
 # PHONY
 #---------------------------------------------------------------------

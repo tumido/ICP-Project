@@ -16,6 +16,7 @@
 #include "CANGO.h"
 #include "DEFAULT_VALUES.h"
 #include "io.h"
+#include "OutputCLI.h"
 
 /// @brief Class for game in CLI interface
 class LabyrinthCLI
@@ -33,5 +34,6 @@ private:
     GameManager * game;
     vector<std::string> command;
     bool turnStatus;
+    OutputCLI * board;
 };
 #endif

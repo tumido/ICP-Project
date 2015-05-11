@@ -8,6 +8,7 @@
 LabyrinthCLI::LabyrinthCLI()
 {
     game = new GameManager;
+    board = new OutputCLI(game);
     turnStatus = true;
 }
 
@@ -50,7 +51,8 @@ void LabyrinthCLI::pregame()
     if (command[0] == "start")
     {
         game->startGame();
-        // draw board
+        board->load();
+        board->draw();
         std::cout << "Game begun. Let the first player, please place the spare card" << endl;
         return;
     }
@@ -85,6 +87,8 @@ void LabyrinthCLI::ingame()
     if (command[0] == "restart")
     {
         game->restartGame();
+        board->load();
+        board->draw();
         return;
     }
     if (command[0] == "move" && command.size() == 3)
@@ -102,9 +106,12 @@ void LabyrinthCLI::ingame()
             turnStatus = true;
     }
     else
+    {
         this->fail();
+        return;
+    }
     io::clear_screen();
-    //draw board
+    board->draw();
     string status = turnStatus ? "Please move your figure" : "Please place a card";
     std::cout << status << endl;
     return;
