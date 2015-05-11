@@ -394,7 +394,7 @@ void GameManager::generateTreasures()
     for (int i = 0; i < this->_treasureCount; i++) {
         this->_treasureIds.push_back(i);
     }
-    random_shuffle(this->_treasureIds.begin(), this->_treasureIds.end());
+    random_shuffle(this->_treasureIds.begin(), this->_treasureIds.end(), [](int i){ return rand() % i; });
 }
 
 /**

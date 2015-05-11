@@ -270,7 +270,7 @@ void MazeBoard::defaultCards()
 void MazeBoard::placeTreasures(vector<int> treasures)
 {
     vector<MazeField> fields(this->_fields);
-    random_shuffle(fields.begin(), fields.end());
+    random_shuffle(fields.begin(), fields.end(), [](int i){ return rand() % i; });
     while(treasures.size() > 0) {
         auto treasure = treasures.back();
         treasures.pop_back();
