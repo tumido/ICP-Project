@@ -14,7 +14,6 @@ class GameManager
         GameManager();
         virtual ~GameManager();
         bool addPlayer(string name);
-        bool remPlayer(string name);
         int  getSize();
         bool setSize(int n);
         bool startGame();

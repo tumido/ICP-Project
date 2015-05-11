@@ -32,16 +32,6 @@ bool GameManager::addPlayer(string name)
 }
 
 /**
- * Removes player from the game
- *
- * @param name Player's name
- */
-bool GameManager::remPlayer(string name)
-{
-    return false;
-}
-
-/**
  * Returns size of the board
  * default value is 7
  */
@@ -111,7 +101,8 @@ bool GameManager::moveCard(int r, int c)
 {
     MazeField field = this->_board.get(r, c);
     if (field.row() > -1) {
-        this->_board.shift(field);
+        if (!this->_board.shift(field))
+            return false;
         this->fixPlayerPositions(r, c);
         this->_actions.push_back(Action(Action::TYPE::MOVE_CARD, r, c));
         return true;

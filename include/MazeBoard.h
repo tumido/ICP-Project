@@ -20,7 +20,7 @@ class MazeBoard
         MazeField get(int r, int c);
         MazeField *getP(int r, int c);
         MazeCard getFreeCard();
-        void shift(MazeField mf);
+        bool shift(MazeField mf);
         void placeTreasures(vector<int> treasure);
         void turnFreeCard();
         string toString();
@@ -39,6 +39,8 @@ class MazeBoard
         void shiftUp(int c);
         void shiftRight(int r);
         void shiftLeft(int r);
+        MazeField _previous = MazeField(-1,-1);
+        bool canPlay(MazeField mf);
         vector<MazeField> _fields;
 };
 
