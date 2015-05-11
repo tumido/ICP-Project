@@ -3,7 +3,7 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TEMPLATE = app
-TARGET = labyrinth2015_gui
+TARGET = ../labyrint2015
 QMAKE_CXXFLAGS += -std=c++11 -fPIC
 
 DEPENDPATH += . ..
