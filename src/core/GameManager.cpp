@@ -232,7 +232,7 @@ bool GameManager::save(string fname)
     myfile << this->_players.size() << ";";
     for (unsigned int i = 0; i < this->_players.size(); i++)
         myfile << this->_players[i].toString();
-
+    myfile << this->getActiveIndex() << ";";
     //Save treasures
     myfile << this->_treasureIds.size() << ";";
     for (unsigned int i = 0; i < this->_treasureIds.size(); i++)
@@ -264,6 +264,8 @@ bool GameManager::load(string fname)
     for (index = 1; index <= playerCount; index++) {
         this->_players.push_back(Player::fromString(props[index]));
     }
+    this->_activePlayer = atoi(props[index].c_str());
+    index++;
     /* read treasures */
     int treasureCount = atoi(props[index].c_str()) + index;
     this->_treasureIds = vector<int>();
@@ -287,6 +289,7 @@ bool GameManager::load(string fname)
     }
     this->_board.setFreeCard(cards.back());
     this->_started = true;
+    myfile.close();
     return true;
 }
 
