@@ -45,4 +45,4 @@ zip: pack
 docs:
 	doxygen
 pack:
-	zip -r $(ZIP_NAME) $(SRC_FOLDER) $(GUI_FOLDER) Makefile Doxyfile README.md
+	zip -r $(ZIP_NAME) $(SRC_FOLDER) $(GUI_FOLDER) examples Makefile Doxyfile README.md
