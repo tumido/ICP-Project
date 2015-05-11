@@ -50,10 +50,14 @@ void LabyrinthCLI::pregame()
 {
     if (command[0] == "start")
     {
-        game->startGame();
+        if (!game->startGame())
+        {
+            this->fail();
+            return;
+        }
         board->load();
         board->draw();
-        std::cout << "Game begun. Let the first player place the spare card" << endl;
+        std::cout << "Let's play! The first player should place the spare card now" << endl;
         return;
     }
     if (command[0] == "set")
