@@ -367,13 +367,13 @@ void LabyrinthQt::movePlayer(QPointF &coord)
                     font.setBold(false);
                     ui->listWidget->item(previousPlayer)->setFont(font);
                     this->updateBoard();
+                    if (game->isWon())
+                        this->finishedGame();
                     return;
                 }
             }
         }
     }
-    if (game->isWon())
-        this->finishedGame();
 }
 
 
