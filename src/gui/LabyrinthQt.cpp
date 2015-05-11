@@ -516,23 +516,23 @@ void LabyrinthQt::onActionUndo()
     if (!game->isStarted())
         return;
     int previousPlayer = game->getActiveIndex();
+    qDebug() << "aktivni pred undo: " << previousPlayer;
     if(!game->undo())
         return;
     this->turnState = !this->turnState;
     if (turnState)
     {
         ui->Hint->setText(QString("It's player <b>%1</b>'s turn<br><br>Please place the spare card").arg(QString::fromStdString(game->getActive().getName())));
+    } else
+    {
+        ui->Hint->setText(QString("It's player <b>%1</b>'s turn<br><br>Please move your figure").arg(QString::fromStdString(game->getActive().getName())));
         QFont font;
         font.setBold(false);
         ui->listWidget->item(previousPlayer)->setFont(font);
         font.setBold(true);
         ui->listWidget->item(game->getActiveIndex())->setFont(font);
-
-    } else
-    {
-        ui->Hint->setText(QString("It's player <b>%1</b>'s turn<br><br>Please move your figure").arg(QString::fromStdString(game->getActive().getName())));
-
     }
+    qDebug() << "aktivni po undo: " << game->getActiveIndex();
     this->toggleArrows();
     this->updateBoard();
 }
