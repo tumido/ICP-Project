@@ -5,12 +5,15 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
 GameManager::GameManager()
 {
     //ctor
+    srand(time(NULL));
 }
 
 GameManager::~GameManager()
