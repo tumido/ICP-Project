@@ -48,7 +48,8 @@ void OutputCLI::draw()
     }
     cout << endl;
 
-    auto freeCard = this->cardString(game->getBoard().getFreeCard());
+    auto card = this->game->getBoard().getFreeCard();
+    auto freeCard = this->cardString(card);
     for (int j = 0; j < 3; j++) {
         for (int i = 0; i < 3; i++) {
             cout << freeCard[i + 3*j];
@@ -63,7 +64,8 @@ void OutputCLI::draw()
  */
 void OutputCLI::cardToBuffer(MazeField mf)
 {
-    auto card = this->cardString(mf.getCard());
+    auto currCard = mf.getCard();
+    auto card = this->cardString(currCard);
     auto len = this->game->getSize();
     for (int j = 0; j < 3; j++) {
         for (int i = 0; i < 3; i++) {
@@ -79,7 +81,7 @@ void OutputCLI::cardToBuffer(MazeField mf)
  *
  * @param mf Field to convert
  */
-char *cardString(MazeCard &mc)
+char * OutputCLI::cardString(MazeCard &mc)
 {
     auto card = new char[9];
     //upper side

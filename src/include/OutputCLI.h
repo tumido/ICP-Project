@@ -21,7 +21,7 @@ class OutputCLI
     private:
         GameManager *game = NULL;
         void cardToBuffer(MazeField mf);
-        char *cardString(MazeCard mc);
+        char *cardString(MazeCard &mc);
         void prep();
         void putPlayers();
         char *buffer = NULL;

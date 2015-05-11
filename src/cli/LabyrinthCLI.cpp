@@ -121,7 +121,7 @@ void LabyrinthCLI::exec()
 {
     io::clear_screen();
     std::cout << "Welcome to the Labyrinth game" << std::endl;
-    std:cout << "-----------------------------------------" << std::endl;
+    std::cout << "-----------------------------------------" << std::endl;
     this->print_help();
 
     while (true)
