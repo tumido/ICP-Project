@@ -1,3 +1,6 @@
+/**
+ * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ */
 #ifndef LABYRINTHQT_H
 #define LABYRINTHQT_H
 

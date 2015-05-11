@@ -1,3 +1,6 @@
+/**
+ * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ */
 #include "../../include/MazeBoard.h"
 
 #include <iostream>
@@ -91,23 +94,34 @@ MazeCard MazeBoard::getFreeCard()
  *
  * @param mf MazeCard to which the card will be inserted
  */
-void MazeBoard::shift(MazeField mf)
+bool MazeBoard::shift(MazeField mf)
 {
     MazeCard tmpCard = mf.getCard();
     //down
     int bound = this->rowLen - 1;
-    if (mf.row() == 0 && mf.col() % 2 == 1) {
-        shiftDown(mf.col());
-    //up
-    } else if (mf.row() == bound && mf.col() % 2 == 1) {
-        shiftUp(mf.col());
-    //right
-    } else if (mf.col() == 0 && mf.row() % 2 == 1) {
-        shiftLeft(mf.row());
-    //left
-    } else if (mf.col() == bound && mf.row() % 2 == 1) {
-        shiftRight(mf.row());
+    if (this->canPlay(mf)) {
+        if (mf.row() == 0 && mf.col() % 2 == 1) {
+            shiftDown(mf.col());
+            this->_previous = mf;
+            return true;
+        //up
+        } else if (mf.row() == bound && mf.col() % 2 == 1) {
+            shiftUp(mf.col());
+            this->_previous = mf;
+            return true;
+        //right
+        } else if (mf.col() == 0 && mf.row() % 2 == 1) {
+            shiftLeft(mf.row());
+            this->_previous = mf;
+            return true;
+        //left
+        } else if (mf.col() == bound && mf.row() % 2 == 1) {
+            shiftRight(mf.row());
+            this->_previous = mf;
+            return true;
+        }
     }
+    return false;
 }
 
 /**
@@ -304,4 +318,23 @@ void MazeBoard::setFreeCard(MazeCard card)
 int MazeBoard::getSize()
 {
     return this->rowLen;
+}
+
+/**
+ * Checks whether the card can be played
+ *
+ * @param mf Current MazeField
+ */
+bool MazeBoard::canPlay(MazeField mf)
+{
+    int bound = this->rowLen - 1;
+    if (mf.row() == this->_previous.row() &&
+        ((mf.col() == 0 && this->_previous.col() == bound) ||
+         (mf.col() == bound && this->_previous.col() == 0)))
+        return false;
+    if (mf.col() == this->_previous.col() &&
+        ((mf.row() == 0 && this->_previous.row() == bound) ||
+         (mf.row() == bound && this->_previous.row() == 0)))
+        return false;
+    return true;
 }

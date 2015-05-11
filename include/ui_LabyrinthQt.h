@@ -1,3 +1,6 @@
+/**
+ * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ */
 #ifndef UI_LABYRINTHQT_H
 #define UI_LABYRINTHQT_H
 

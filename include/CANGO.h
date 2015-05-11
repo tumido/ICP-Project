@@ -1,3 +1,6 @@
+/**
+ * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ */
 #ifndef CANGO_H_INCLUDED
 #define CANGO_H_INCLUDED
 

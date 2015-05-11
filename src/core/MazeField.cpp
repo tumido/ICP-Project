@@ -1,3 +1,6 @@
+/**
+ * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ */
 #include "../../include/MazeField.h"
 
 MazeField::MazeField(int r, int c)

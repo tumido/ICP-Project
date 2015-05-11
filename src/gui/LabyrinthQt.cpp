@@ -1,3 +1,6 @@
+/**
+ * @author Albert Uchytil (xuchyt03), Tomas Coufal (xcoufa09)
+ */
 #include "../../include/LabyrinthQt.h"
 #include "../../include/ui_LabyrinthQt.h"
 
