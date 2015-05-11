@@ -2,25 +2,13 @@
 
 using namespace std;
 
+
 /**
  * Clears the screen
  */
-void clear_screen()
+void io::clear_screen()
 {
   cout << string( 100, '\n' );
-}
-
-/**
- * Check if the command matches given string on desired index and has all arguments
- *
- * @param com Command vector containing user's input split by words
- * @param value Matching pattern
- * @param index Which member of vector the check is done against
- * @param count Number of word in command (how the command should be long)
- */
-bool check(vector<string> & com, const string value, int index, unsigned long count)
-{
-  return com[index] == value && com.size() == count;
 }
 
 /**
@@ -28,7 +16,7 @@ bool check(vector<string> & com, const string value, int index, unsigned long co
  *
  * @param str string to convert
  */
-int str_to_int(const string &str)
+int io::str_to_int(const string &str)
 {
   stringstream istrm(str);
   int value;
@@ -39,7 +27,7 @@ int str_to_int(const string &str)
 /**
  * Split the user's input into words using getline
  */
-vector<string> readCommand()
+vector<string> io::readCommand()
 {
     int retry = 0;
     string line, word;

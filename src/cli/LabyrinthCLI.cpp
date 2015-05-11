@@ -45,18 +45,20 @@ void LabyrinthCLI::pregame()
     if (command[0] == "start")
     {
         game->startGame();
+        // draw board
+        std::cout << "Please place the spare card" << endl;
         return;
     }
     if (command[0] == "set")
     {
         if (command.size() == 3 && command[1] == "size")
         {
-            if (!game->setSize(str_to_int(command[2])))
+            if (!game->setSize(io::str_to_int(command[2])))
                this->fail();
         }
-        if (command.size() == 3 && command[1] == "treasure")
+        else if (command.size() == 3 && command[1] == "treasure")
         {
-            if (!game->setTreasureCount(str_to_int(command[2])))
+            if (!game->setTreasureCount(io::str_to_int(command[2])))
                 this->fail();
         }
         else
@@ -64,8 +66,11 @@ void LabyrinthCLI::pregame()
         return;
     }
     if (command.size() == 2 && command[0] == "player")
-        if(!game->addPlayer(command[2]))
+    {
+        if(!game->addPlayer(command[1]))
             this->fail();
+        return;
+    }
     this->fail();
     return;
 }
@@ -79,34 +84,38 @@ void LabyrinthCLI::ingame()
     }
     if (command[0] == "move" && command.size() == 3)
     {
-        if (!turnStatus && !game->movePlayer(str_to_int(command[1]), str_to_int(command[2])))
+        if (!turnStatus && !game->movePlayer(io::str_to_int(command[1]), io::str_to_int(command[2])))
             this->fail();
         else
             turnStatus = false;
     }
     else if (command[0] == "card" && command.size() == 3)
     {
-        if (turnStatus && !game->moveCard(str_to_int(command[1]), str_to_int(command[2])))
+        if (turnStatus && !game->moveCard(io::str_to_int(command[1]), io::str_to_int(command[2])))
             this->fail();
         else
             turnStatus = true;
     }
     else
         this->fail();
-
+    io::clear_screen();
+    //draw board
+    string status = turnStatus ? "Please move your figure" : "Please place a card";
+    std::cout << status << endl;
     return;
 }
 
 void LabyrinthCLI::exec()
 {
-    clear_screen();
-    cout << "Welcome to the Labyrinth game" << endl;
-    cout << "-----------------------------------------" << endl;
+    io::clear_screen();
+    std::cout << "Welcome to the Labyrinth game" << std::endl;
+    std:cout << "-----------------------------------------" << std::endl;
     this->print_help();
 
     while (true)
     {
-        command = readCommand();
+        command = io::readCommand();
+        io::clear_screen();
         if (command[0] == "quit" || command[0] == "q")
             return;
         else if (command[0] == "load" && command.size() == 2)
@@ -119,7 +128,9 @@ void LabyrinthCLI::exec()
             if (!game->save(command[1]))
                 this->fail();
         }
-        else if (game->isStarted())
+        else if (command[0] == "help")
+            this->print_help();
+        else if (!game->isStarted())
         {
             this->pregame();
         }

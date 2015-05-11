@@ -8,9 +8,9 @@
 
 #define RETRY_LIMIT 100
 
-using namespace std;
+namespace io{
 void clear_screen();
-bool check(vector<string> & com, const string value, int index, unsigned long count);
-int str_to_int(const string &str);
-vector<string> readCommand();
+int str_to_int(const std::string &str);
+std::vector<std::string> readCommand();
+}
 #endif // IO_H
