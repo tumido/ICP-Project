@@ -47,7 +47,7 @@ void LabyrinthCLI::pregame()
         game->startGame();
         return;
     }
-    if (command[0] = "set")
+    if (command[0] == "set")
     {
         if (command.size() == 3 && command[1] == "size")
         {
@@ -109,12 +109,12 @@ void LabyrinthCLI::exec()
         command = readCommand();
         if (command[0] == "quit" || command[0] == "q")
             return;
-        else if (command(0) == "load" && command.size() == 2)
+        else if (command[0] == "load" && command.size() == 2)
         {
             if (!game->load(command[1]))
                 this->fail();
         }
-        else if (command(0) == "save" && command.size() == 2)
+        else if (command[0] == "save" && command.size() == 2)
         {
             if (!game->save(command[1]))
                 this->fail();
