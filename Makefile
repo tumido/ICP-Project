@@ -36,13 +36,13 @@ client_gui: $(SRC_FOLDER)/$(GUI_FOLDER)/client_gui.cpp $(BUILD_FOLDER)/core.a
 #---------------------------------------------------------------------
 .PHONY: clean pack docs doxygen zip
 clean:
-	rm -vf build/*.o build/*.a $(PROGS)
-	rm -rv $(GUI_WORK_FOLDER) $(BUILD_FOLDER)
-
+	rm -vf build/*.o build/*.a $(PROGS) | true
+	rm -rv $(GUI_WORK_FOLDER) $(BUILD_FOLDER) | true
+	rm -rf docs/* | true
 doxygen: docs
 zip: pack
 
 docs:
-
+	doxygen
 pack:
-	zip -r xcoufa09_xuchyt01.zip include src gui Makefile README.md
+	zip -r xcoufa09_xuchyt03.zip include src gui Makefile README.md
