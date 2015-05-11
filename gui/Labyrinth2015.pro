@@ -14,7 +14,7 @@ SOURCES += ../src/gui/client_gui.cpp \
         ../src/gui/LabyrinthQt.cpp \
     ../src/core/GameManager.cpp
 
-HEADERS += ../include/LabyrinthQt.h \
-         ../include/ui_LabyrinthQt.h
+HEADERS += ../src/include/LabyrinthQt.h \
+         ../src/include/ui_LabyrinthQt.h
 
 RESOURCES += ../gui/res.qrc
