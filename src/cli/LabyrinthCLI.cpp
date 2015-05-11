@@ -53,7 +53,7 @@ void LabyrinthCLI::pregame()
         game->startGame();
         board->load();
         board->draw();
-        std::cout << "Game begun. Let the first player, please place the spare card" << endl;
+        std::cout << "Game begun. Let the first player place the spare card" << endl;
         return;
     }
     if (command[0] == "set")

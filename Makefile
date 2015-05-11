@@ -13,8 +13,9 @@ BUILD_FOLDER = build
 SRC_FOLDER = src
 GUI_FOLDER = gui
 CLI_FOLDER = cli
-DOC_FOLDER = docs
+DOC_FOLDER = doc
 GUI_WORK_FOLDER = gui_build
+ZIP_NAME = xcoufa09_xuchyt03.zip
 
 # RULES for programs
 #---------------------------------------------------------------------
@@ -36,7 +37,7 @@ labyrint2015: $(SRC_FOLDER)/$(GUI_FOLDER)/client_gui.cpp $(BUILD_FOLDER)/core.a
 #---------------------------------------------------------------------
 .PHONY: clean pack docs doxygen zip
 clean:
-	-rm -vf $(PROGS)
+	-rm -vf $(PROGS) $(ZIP_NAME)
 	-rm -rfv $(GUI_WORK_FOLDER) $(BUILD_FOLDER) $(DOC_FOLDER)
 doxygen: docs
 zip: pack
@@ -44,4 +45,4 @@ zip: pack
 docs:
 	doxygen
 pack:
-	zip -r xcoufa09_xuchyt03.zip include src gui Makefile README.md
+	zip -r $(ZIP_NAME) $(SRC_FOLDER) $(GUI_FOLDER) Makefile Doxyfile README.md
