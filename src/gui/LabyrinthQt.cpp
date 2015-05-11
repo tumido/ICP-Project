@@ -505,6 +505,8 @@ void LabyrinthQt::onActionSave()
         return;
     QString filter = "Game map (*.map)";
     QString filename = QFileDialog::getSaveFileName(this, "Save game", "", filter, &filter);
+    if (!filename.endsWith(".map"))
+        filename += ".map";
     if (!game->save(filename.toStdString()))
         QMessageBox::critical(this, "Labyrint 2015", "Failed to save to selected file");
 }
